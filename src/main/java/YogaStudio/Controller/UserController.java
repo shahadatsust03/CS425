@@ -160,12 +160,15 @@ public class UserController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
-            Object object = auth.getCredentials();
-            //   UserEntity user=userService.findUser(name, password);     
-            UserEntity user = userService.findUser("devika", "devika");
+            Object object = auth.getPrincipal();
+            
+            String password=((UserDetails)object).getPassword();
+            System.out.println("User :" + name+"  Password:"+password);
+             UserEntity user=userService.findUser(name, password);     
+            //UserEntity user = userService.findUser("devika", "devika");
             System.out.println("User Found:" + user);
             if (user != null) {
-                //redirectAttributes.addAttribute("Profile", user);
+               // redirectAttributes.addAttribute("Profile", user);
                 //return "user/myaccount";
                 return new ModelAndView("/user/myaccount", "Profile", user);
             }
