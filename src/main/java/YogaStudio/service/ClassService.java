@@ -73,6 +73,10 @@ public class ClassService {
         return classdao.getClass(className);
     }
     
+     public ClassEntity getClass(Long id){
+        return classdao.get(id);
+    }
+    
     public void updateClass(Long classId, ClassEntity classEntity) {
         classdao.updateClass(classId, classEntity);
     }
