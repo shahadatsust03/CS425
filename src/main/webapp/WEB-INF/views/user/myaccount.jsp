@@ -8,8 +8,7 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
-        <div id="featureWrap">
-            
+        <div id="featureWrap">            
         <h1>My Profile!</h1>
         <table>
             <tr><td>Full Name</td>       <td>${Profile.fullname}</td> </tr>

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package YogaStudio.Controller;
 
 import YogaStudio.domain.ClassEntity;
@@ -40,65 +39,64 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 @Controller
 public class UserController {
-    
+
     @Autowired
-    private UserService userService; 
-    
+    private UserService userService;
+
     @Autowired
-    private ProductService productService; 
+    private ProductService productService;
     @Autowired
-    private ClassService classService; 
-    
+    private ClassService classService;
+
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
     public ModelAndView login(HttpServletRequest request) {
         String message = "Invalid credentials";
-            String name = request.getParameter("username");
-            String password = request.getParameter("password");
-        try
-        {        
-            if(userService.authenticateUser(name, password)){
+        String name = request.getParameter("username");
+        String password = request.getParameter("password");
+        try {
+            if (userService.authenticateUser(name, password)) {
                 message = "LoginSuccessFull";
-                return  new ModelAndView("results","message",message);
+                return new ModelAndView("results", "message", message);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return  new ModelAndView("results","message",message);
+        return new ModelAndView("results", "message", message);
     }
-    
+
     @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
     public ModelAndView loginFailed(HttpServletRequest request) {
-        return  new ModelAndView("index","message","Invalid username/password. Please try again.");
+        return new ModelAndView("index", "message", "Invalid username/password. Please try again.");
     }
-     
+
     @RequestMapping(value = "/user/customer", method = RequestMethod.GET)
     public ModelAndView getCustomerPage(HttpServletRequest request) {
-          List<ProductEntity> products = productService.getAll();
-          List<ClassEntity> classes = classService.getClassList();
-          
-          ModelAndView view = new ModelAndView("/user/customer");
-          view.addObject("products", products.isEmpty()?null:products);
-          view.addObject("classes", classes.isEmpty()? null: classes);
-          return view;
+        List<ProductEntity> products = productService.getAll();
+        List<ClassEntity> classes = classService.getClassList();
+
+        ModelAndView view = new ModelAndView("/user/customer");
+        view.addObject("products", products.isEmpty() ? null : products);
+        view.addObject("classes", classes.isEmpty() ? null : classes);
+        return view;
     }
-    
+
     @RequestMapping(value = "/user/administrator", method = RequestMethod.GET)
     public ModelAndView getAdministratorPage(HttpServletRequest request) {
-            List<ProductEntity> products = productService.getAll();
-            List<ClassEntity> classes = classService.getClassList();
-          
-            ModelAndView view = new ModelAndView("/user/administrator");
-            view.addObject("products", products.isEmpty()?null:products);
-            view.addObject("classes", classes.isEmpty()? null: classes);
-          
-            return  view;
+        List<ProductEntity> products = productService.getAll();
+        List<ClassEntity> classes = classService.getClassList();
+
+        ModelAndView view = new ModelAndView("/user/administrator");
+        view.addObject("products", products.isEmpty() ? null : products);
+        view.addObject("classes", classes.isEmpty() ? null : classes);
+
+        return view;
     }
-    
+
     @RequestMapping(value = "/user/faculty", method = RequestMethod.GET)
     public ModelAndView getFacultyPage(HttpServletRequest request) {
-        return  new ModelAndView("/user/faculty","message","nothing");
+        return new ModelAndView("/user/faculty", "message", "nothing");
     }
-    
+
     @RequestMapping(value = "/user/users", method = RequestMethod.GET)
     public String getAll(Model model) {
         model.addAttribute("users", userService.getAll());
@@ -107,7 +105,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/addUser", method = RequestMethod.GET)
     public String addUser(@ModelAttribute("user") UserEntity userentity) {
-        
+
         return "addUser";
     }
 
@@ -115,8 +113,8 @@ public class UserController {
     public String add(@Valid UserEntity userentity, BindingResult result, RedirectAttributes re) {
         String view = "redirect:/users";
         if (!result.hasErrors()) {
-          //  userService.add(userentity);
-            
+            //  userService.add(userentity);
+
         } else {
             view = "addUser";
         }
@@ -130,7 +128,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/users/{id}", method = RequestMethod.POST)
-    public String update(@Valid UserEntity user, BindingResult result, 
+    public String update(@Valid UserEntity user, BindingResult result,
             @PathVariable int id) {
         if (!result.hasErrors()) {
             userService.update(id, user); // car.id already set by binding
@@ -145,71 +143,80 @@ public class UserController {
         userService.delete(userId);
         return "redirect:/users";
     }
+
     //controller action for user registeration
-   @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public RedirectView register(HttpServletRequest request,final RedirectAttributes redirectAttributes) {    
-        String  message =  addUser(request);    
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+        String message = addUser(request);
         //RedirectView view = new RedirectView("redirect:/");
         //ModelAndView view = new ModelAndView(new RedirectView("/", true));
         //view.addObject("message", message);
         redirectAttributes.addFlashAttribute("message", message);
         return new RedirectView("/", true);//"redirect:/";
     }
-    
-    @RequestMapping(value = "/user/myacount", method = RequestMethod.GET)
-        public String viewProfile(HttpServletRequest request ,final RedirectAttributes redirectAttributes) {
-        try
-        {        
+
+    @RequestMapping(value = "/user/myaccount", method = RequestMethod.GET)
+    public ModelAndView viewProfile(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+        try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
             Object object = auth.getCredentials();
-//            UserEntity user=  userService.get(id);
-//            if(user != null){                
-//               redirectAttributes.addAttribute("Profile", currentuser);
-//               return "user/myaccount";
-//            }
-        }catch(Exception ex){
+            //   UserEntity user=userService.findUser(name, password);     
+            UserEntity user = userService.findUser("devika", "devika");
+            System.out.println("User Found:" + user);
+            if (user != null) {
+                //redirectAttributes.addAttribute("Profile", user);
+                //return "user/myaccount";
+                return new ModelAndView("/user/myaccount", "Profile", user);
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("message","Profile not found.");
-        return "redirect:/";//      
+        //redirectAttributes.addFlashAttribute("message", "Profile not found.");
+        return new ModelAndView("/user/myaccount", "Profile", "not found");
+        //return "redirect:/";
     }
-    
+
     //private method to add new and update users
-    private String addUser(HttpServletRequest request){
-              List message = new ArrayList();
-              String firstName = request.getParameter("firstName"),
-                     lastName = request.getParameter("lastName"),
-                     email = request.getParameter("email"),
-                     username = request.getParameter("username");
-                     
-                 if(firstName.isEmpty())
-                     message.add("First name is required");
-                 if(lastName.isEmpty())
-                     message.add("Last name is required");
-                 if(email.isEmpty())
-                     message.add("Email is required");
-                 if(username.isEmpty())
-                     message.add("Username is required");
-                   
-                 if(message.isEmpty()){
-                     String fullname = firstName.concat(" "+lastName);
-                     String authority = request.getParameter("authority");
-                     //set the role customer by default
-                     authority = (authority == null)? "ROLE_USER" : authority;
-                     boolean saved = userService.add(fullname,email,username,authority);
-                    
-                     if(saved)
-                       message.add("Registration successful saved");
-                     else
-                       message.add("Registration unsuccessful");
-                   }
-             return message.toString();
-    }   
-    
-    //get current context user
-    private UserDetails currentUser(){
-         return (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private String addUser(HttpServletRequest request) {
+        List message = new ArrayList();
+        String firstName = request.getParameter("firstName"),
+                lastName = request.getParameter("lastName"),
+                email = request.getParameter("email"),
+                username = request.getParameter("username");
+
+        if (firstName.isEmpty()) {
+            message.add("First name is required");
+        }
+        if (lastName.isEmpty()) {
+            message.add("Last name is required");
+        }
+        if (email.isEmpty()) {
+            message.add("Email is required");
+        }
+        if (username.isEmpty()) {
+            message.add("Username is required");
+        }
+
+        if (message.isEmpty()) {
+            String fullname = firstName.concat(" " + lastName);
+            String authority = request.getParameter("authority");
+            //set the role customer by default
+            authority = (authority == null) ? "ROLE_USER" : authority;
+            boolean saved = userService.add(fullname, email, username, authority);
+
+            if (saved) {
+                message.add("Registration successful saved");
+            } else {
+                message.add("Registration unsuccessful");
+            }
+        }
+        return message.toString();
     }
-    
+
+    //get current context user
+    private UserDetails currentUser() {
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
 }
