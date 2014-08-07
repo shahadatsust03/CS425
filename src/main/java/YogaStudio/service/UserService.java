@@ -78,7 +78,6 @@ public class UserService {
     public UserEntity getUser(int id) {     
         return userDao.get(id);      
     }
-
     
     public void update(int userId, UserEntity userentity) {     
         userDao.update(userId, userentity);    

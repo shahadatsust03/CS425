@@ -15,6 +15,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,6 +53,11 @@ public class ClassController {
          return new RedirectView("/classes/add", true);
     }
     
+     @RequestMapping(value = "/classes/{id}", method = RequestMethod.GET)
+    public String get(@PathVariable Long id, Model model) {
+        model.addAttribute("classes", classService.getClass(id));
+        return "classes/classDetail";
+    }    
       //private method to add add and update users
     private String addUpdateClass(HttpServletRequest request){
               List message = new ArrayList();
