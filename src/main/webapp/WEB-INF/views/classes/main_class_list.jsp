@@ -1,0 +1,22 @@
+<%-- 
+    Document   : main_product_list
+    Created on : Aug 6, 2014, 5:35:15 PM
+    Author     : eTunkara
+--%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<div>
+    <div>
+       <table class="table table-striped">    
+                     <td>Name</td>
+                     <td>Description</td>
+                     <td>Tution Fee</td>
+                <c:forEach items="${classes}" var="classes">
+                 <tr>      
+                     <td>${classes.className}</td>
+                     <td>${classes.description}</td>
+                     <td>${classes.fee}</td>
+                 </tr>
+               </c:forEach>
+        </table>
+    </div>
+</div>
