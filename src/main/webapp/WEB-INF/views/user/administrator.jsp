@@ -29,7 +29,10 @@
                             <div class="col-sm-4 text-center feature">
                                     <h4></h4>
                                     <p>
-                                       <%@include file="view_profile.jsp" %>
+                                      
+                                           <%@include file="userprofile.jsp" %>
+                                      
+                                   
                                     </p>
                             </div>
                     </div>
