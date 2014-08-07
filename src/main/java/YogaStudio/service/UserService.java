@@ -87,6 +87,10 @@ public class UserService {
     public void delete(int userId) {    
         userDao.delete(userId);   
     }   
+
+    public UserEntity findUser(String username, String password) {
+        return  userDao.findUser( username,password);
+    }
     
 
 }
