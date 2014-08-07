@@ -1,18 +1,15 @@
-<%-- 
-    Document   : profile
-    Created on : Aug 6, 2014, 3:12:24 PM
-    Author     : demodem
---%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Profile Page</title>
+        <title>JSP Page</title>
+        <%@include file="../header.jsp" %>
     </head>
     <body>
+        <div id="featureWrap">
+            
         <h1>My Profile!</h1>
         <table>
             <tr><td>Full Name</td>       <td>${Profile.fullname}</td> </tr>
@@ -29,5 +26,7 @@
             <tr><td>Country</td> <td>${Profile.country}</td> </tr>
             <tr><td>Zipcode</td> <td>${Profile.zipcode}</td> </tr>  
         </table>
+
+    </div> <!-- /featureWrap -->
     </body>
 </html>

@@ -51,6 +51,7 @@ public class UserDAO {
         return (UserEntity) sf.getCurrentSession().load(UserEntity.class, id);
     }
 
+    
     public void update(int userId, UserEntity userentity) {     
         UserEntity user=get(userId);
         user.setUsername(userentity.getUsername());

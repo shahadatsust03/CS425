@@ -20,6 +20,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -159,20 +160,14 @@ public class UserController {
         public String viewProfile(HttpServletRequest request ,final RedirectAttributes redirectAttributes) {
         try
         {        
-            UserDetails currentuser = currentUser();
-            List list = (List) currentuser.getAuthorities();
-            /*if(list != null){
-            String role =   (String)list.get(0);
-            
-            }
-            
-            String username = request.getUserPrincipal().getName(); //get username
-            */
-            //UserEntity user=  userService.findFirstBy("username", username);         
-            if(currentuser!=null){                
-               redirectAttributes.addAttribute("Profile", currentuser);
-               return "user/profile";
-            }
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            Object object = auth.getCredentials();
+//            UserEntity user=  userService.get(id);
+//            if(user != null){                
+//               redirectAttributes.addAttribute("Profile", currentuser);
+//               return "user/myaccount";
+//            }
         }catch(Exception ex){
             ex.printStackTrace();
         }
