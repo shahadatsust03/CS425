@@ -1,7 +1,7 @@
 <%-- 
     Document   : main_product_list
     Created on : Aug 6, 2014, 5:35:15 PM
-    Author     : eTunkara
+    Author     : Shahadat
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div>

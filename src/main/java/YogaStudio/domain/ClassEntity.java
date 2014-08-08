@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -34,15 +36,17 @@ public class ClassEntity {
     private String description;
     private Double fee;
     
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="prereq_id")
-    private ClassEntity prerequisite;
-    
-    @OneToMany(mappedBy="yogaClass")
+//    @ManyToMany(cascade={CascadeType.ALL})
+//    @JoinTable(name="Prerequestie_Class",  
+//    joinColumns={@JoinColumn(name="Class_Id", referencedColumnName="id")},  
+//    inverseJoinColumns={@JoinColumn(name="Prerequestie_Id", referencedColumnName="id")})
+//    private List<ClassEntity> prerequisite = new ArrayList<ClassEntity>();
+//    
+    @OneToMany(mappedBy="yogaClass",cascade={CascadeType.ALL})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
  
-    @OneToMany(mappedBy="prerequisite",cascade={CascadeType.ALL})
-    private Set<ClassEntity> prerequisteClasses = new HashSet<ClassEntity>();
+    @OneToMany(cascade={CascadeType.ALL})
+    private List<ClassEntity> prerequisteClasses = new ArrayList<ClassEntity>();
     
     @OneToMany(mappedBy="classEntity",cascade={CascadeType.ALL})
     private Set<SectionEntity> sections = new HashSet<SectionEntity>();
@@ -116,19 +120,19 @@ public class ClassEntity {
         this.fee = fee;
     }
 
-    public ClassEntity getPrerequisite() {
-        return prerequisite;
-    }
+//    public ClassEntity getPrerequisite() {
+//        return prerequisite;
+//    }
+//
+//    public void setPrerequisite(ClassEntity prerequisite) {
+//        this.prerequisite = prerequisite;
+//    }
 
-    public void setPrerequisite(ClassEntity prerequisite) {
-        this.prerequisite = prerequisite;
-    }
-
-    public Set<ClassEntity> getPrerequisteClasses() {
+    public List<ClassEntity> getPrerequisteClasses() {
         return prerequisteClasses;
     }
 
-    public void setPrerequisteClasses(Set<ClassEntity> prerequisteClasses) {
+    public void setPrerequisteClasses(List<ClassEntity> prerequisteClasses) {
         this.prerequisteClasses = prerequisteClasses;
     }
 
@@ -144,11 +148,11 @@ public class ClassEntity {
         this.id = id;
     }
     public void addPrerequisteClasse(ClassEntity classEntity){
-       classEntity.setPrerequisite(this);
+       //classEntity.setPrerequisite(this);
        prerequisteClasses.add(classEntity);
     }
     public void removePrerequisteClasse(ClassEntity classEntity){
-       classEntity.setPrerequisite(null);
+       //classEntity.setPrerequisite(null);
        prerequisteClasses.remove(classEntity);
     }
     

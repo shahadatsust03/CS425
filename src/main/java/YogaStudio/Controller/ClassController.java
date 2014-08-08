@@ -33,9 +33,18 @@ public class ClassController {
     private ClassService classService; 
     
     @RequestMapping(value = {"/classes","/user/classes"}, method = RequestMethod.GET)
-    public ModelAndView login(HttpServletRequest request) {
+    public ModelAndView getClasses(HttpServletRequest request) {
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/classes/class");
+        view.addObject("classes", classes);
+        view.addObject("pageTitle", "Classes");
+        return  view;
+    }
+    
+    @RequestMapping(value = {"classes/classes/classPopup"}, method = RequestMethod.GET)
+    public ModelAndView getClassesForPopup(HttpServletRequest request) {
+        List<ClassEntity> classes = classService.getClassList();
+        ModelAndView view = new ModelAndView("/classes/classPop");
         view.addObject("classes", classes);
         view.addObject("pageTitle", "Classes");
         return  view;
@@ -62,7 +71,8 @@ public class ClassController {
     private String addUpdateClass(HttpServletRequest request){
               List message = new ArrayList();
               String name = request.getParameter("name"),
-                     description = request.getParameter("descritpion"),
+                     description = request.getParameter("description"),
+                      prerequestie = request.getParameter("prerequestie"),
                      price = request.getParameter("price");                    
                      
                  if(name.isEmpty())
@@ -73,6 +83,16 @@ public class ClassController {
                    
                  if(message.isEmpty()){
                      ClassEntity classEntity = new ClassEntity(name,description,Double.parseDouble(price));
+                     String[] split = prerequestie.split(",");
+                     for(int i = 0; i < split.length; i++){
+                         if(split[i].trim().length() != 0)
+                         {
+                            Long id = Long.parseLong(split[i]);
+                            ClassEntity preReq = classService.getClass(id);
+                            classEntity.addPrerequisteClasse(preReq);
+                         }
+                     }
+                     
                      boolean saved = classService.saveClass(classEntity);
                     
                      if(saved)

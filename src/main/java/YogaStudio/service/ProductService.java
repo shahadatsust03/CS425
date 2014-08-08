@@ -10,7 +10,7 @@ import YogaStudio.dao.generic.ProductDAO;
 import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.UserEntity;
 import java.util.List;
-import org.apache.commons.lang.RandomStringUtils;
+//import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

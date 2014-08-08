@@ -1,7 +1,7 @@
 <%-- 
     Document   : addProduct
     Created on : Aug 6, 2014, 4:36:16 PM
-    Author     : eTunkara
+    Author     : Shahadat
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -26,6 +26,14 @@
                         <div class="panel-body">
                          <div>Description: ${classes.description}</div>
                          <div>Price: ${classes.fee}</div>
+                         <div>Price: ${classes.fee}</div>
+                         <div>Prerequesties: 
+                         <c:if test="${not empty classes.prerequisteClasses}">
+                             <c:forEach items="${classes.prerequisteClasses}" var="preReq">                                 
+                                 ${classes.prerequisteClasse.className} &nbsp;&nbsp;
+                             </c:forEach>
+                         </c:if>
+                         </div>
                         </div>
                     </div>
                 </div>

@@ -32,7 +32,8 @@ public class ClassDAO {
     }
     
     public ClassEntity get(Long id) {
-        return (ClassEntity) sf.getCurrentSession().get(ClassEntity.class, id);
+        ClassEntity classEntity =  (ClassEntity) sf.getCurrentSession().get(ClassEntity.class, id);
+        return classEntity;
     }
     
     
@@ -46,7 +47,7 @@ public class ClassDAO {
     
     public boolean saveClass(ClassEntity classEntity) {
         try{
-            sf.getCurrentSession().persist(classEntity);
+            sf.getCurrentSession().saveOrUpdate(classEntity);
             return true;
         }catch(Exception ex){
             return false;

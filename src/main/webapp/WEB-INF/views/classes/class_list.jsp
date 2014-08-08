@@ -1,7 +1,7 @@
 <%-- 
     Document   : product_list
     Created on : Jul 30, 2014, 2:14:09 PM
-    Author     : eTunkara
+    Author     : Shahadat
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
