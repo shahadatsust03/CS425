@@ -36,11 +36,23 @@ public class SectionDAO {
     public void setSf(SessionFactory sf) {
         this.sf = sf;
     }
-    
+    public boolean saveSection(SectionEntity sectionEntity){
+        try{
+            sf.getCurrentSession().saveOrUpdate(sectionEntity);
+            return true;
+        }catch(Exception ex){}
+        return false;
+    }
      public SectionEntity get(int id) {
         return (SectionEntity) sf.getCurrentSession().load(SectionEntity.class, id);
     }
      
+    public List<SectionEntity> getAllSections() {
+        
+        String hql = "From SectionEntity";
+        Query q = sf.getCurrentSession().createQuery(hql);
+        return q.list(); 
+    }
     public FacultyEntity getAssignedFaculty(Long sectionId) {
         SectionEntity sectionEntity = (SectionEntity) sf.getCurrentSession().load(SectionEntity.class, sectionId);
         return sectionEntity.getFaculty();

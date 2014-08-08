@@ -47,8 +47,6 @@
 function openpopup(anchor){ 
     var popurl="classes/classPopup"+"#"+anchor;
      popup_window = window.open(popurl,"","width=600,height=400,");
-     //popup_window.close();
-
 } 
 function updateValue(value)
 {    // this gets called from the popup window and updates the field with a new value
