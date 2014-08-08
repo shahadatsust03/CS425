@@ -30,7 +30,10 @@
                         </div>
                     </div>
                         <h5>
-                          
+                            <td><a href="${pageContext.request.contextPath}/product/edit_product/${product.id}">Edit Product</a></td>
+                            <td><a href="${pageContext.request.contextPath}/product/remove/${product.id}">Remove Product</a></td>
+                     
+                           
                 </div>
     </div> 
     </body>

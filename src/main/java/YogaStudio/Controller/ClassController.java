@@ -53,7 +53,7 @@ public class ClassController {
          return new RedirectView("/classes/add", true);
     }
     
-     @RequestMapping(value = "/classes/{id}", method = RequestMethod.GET)
+     @RequestMapping(value = {"/classes/{id}", "/user/classes/{id}"}, method = RequestMethod.GET)
     public String get(@PathVariable Long id, Model model) {
         model.addAttribute("classes", classService.getClass(id));
         return "classes/classDetail";

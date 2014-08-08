@@ -37,6 +37,14 @@ public class ProductEntity {
     private List<OrderEntity> orders = new ArrayList<OrderEntity>(); 
     
     public ProductEntity(){}
+
+    public ProductEntity(Long id, String name, String description, Double price, int numberOfProducts) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.numberOfProducts = numberOfProducts;
+    }
     
     public ProductEntity(String name,String description,double price, int numberOfProducts)
     {
@@ -75,6 +83,14 @@ public class ProductEntity {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public int getNumberOfProducts() {
+        return numberOfProducts;
+    }
+
+    public void setNumberOfProducts(int numberOfProducts) {
+        this.numberOfProducts = numberOfProducts;
     }
 
    

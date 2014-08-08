@@ -37,7 +37,7 @@ public class ProductDAO {
 
     public boolean add(ProductEntity product) {
         try{
-           sf.getCurrentSession().persist(product);
+           sf.getCurrentSession().saveOrUpdate (product);
            return true;
         }
         catch(Exception e){

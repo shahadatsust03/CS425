@@ -38,7 +38,13 @@ public class ProductService {
         //set the user authority      
         return productDao.add(product);    
     }
-    
+    public boolean add(Long id, String name, String description,int numberOfProducts,double price) 
+    {    
+        
+        ProductEntity product = new ProductEntity(id, name,description,price,numberOfProducts);
+        //set the user authority      
+        return productDao.add(product);    
+    }
     public List<ProductEntity> findBy(String fieldName,String value) 
     {           
       return productDao.findBy(fieldName, value);
