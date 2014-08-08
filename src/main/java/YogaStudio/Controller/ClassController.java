@@ -89,7 +89,9 @@ public class ClassController {
                          {
                             Long id = Long.parseLong(split[i]);
                             ClassEntity preReq = classService.getClass(id);
+                            preReq.addPrerequisteClass(classEntity);
                             classEntity.addPrerequisteClasse(preReq);
+                            
                          }
                      }
                      

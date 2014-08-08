@@ -36,20 +36,20 @@ public class ClassEntity {
     private String description;
     private Double fee;
     
-//    @ManyToMany(cascade={CascadeType.ALL})
-//    @JoinTable(name="Prerequestie_Class",  
-//    joinColumns={@JoinColumn(name="Class_Id", referencedColumnName="id")},  
-//    inverseJoinColumns={@JoinColumn(name="Prerequestie_Id", referencedColumnName="id")})
-//    private List<ClassEntity> prerequisite = new ArrayList<ClassEntity>();
-//    
+    @ManyToMany(mappedBy="prerequisteClasses",cascade={CascadeType.ALL})
+    private List<ClassEntity> prerequisite = new ArrayList<ClassEntity>();
+    
     @OneToMany(mappedBy="yogaClass",cascade={CascadeType.ALL})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
  
-    @OneToMany(cascade={CascadeType.ALL})
+    @ManyToMany(cascade={CascadeType.ALL})
+    @JoinTable(name="Prerequestie_Class",  
+    joinColumns={@JoinColumn(name="Class_Id", referencedColumnName="id")},  
+    inverseJoinColumns={@JoinColumn(name="Prerequestie_Id", referencedColumnName="id")})
     private List<ClassEntity> prerequisteClasses = new ArrayList<ClassEntity>();
     
     @OneToMany(mappedBy="classEntity",cascade={CascadeType.ALL})
-    private Set<SectionEntity> sections = new HashSet<SectionEntity>();
+    private List<SectionEntity> sections = new ArrayList<SectionEntity>();
 
     @OneToMany(mappedBy="classes",cascade={CascadeType.ALL})
     private Set<PaymentEntity> payments = new HashSet<PaymentEntity>();
@@ -136,11 +136,11 @@ public class ClassEntity {
         this.prerequisteClasses = prerequisteClasses;
     }
 
-    public Set<SectionEntity> getSections() {
+    public List<SectionEntity> getSections() {
         return sections;
     }
 
-    public void setSections(Set<SectionEntity> sections) {
+    public void setSections(List<SectionEntity> sections) {
         this.sections = sections;
     }
 
@@ -154,6 +154,13 @@ public class ClassEntity {
     public void removePrerequisteClasse(ClassEntity classEntity){
        //classEntity.setPrerequisite(null);
        prerequisteClasses.remove(classEntity);
+    }
+    
+    public void addPrerequisteClass(ClassEntity classEntity){
+       prerequisite.add(classEntity);
+    }
+    public void removePrerequisteClass(ClassEntity classEntity){
+       prerequisite.remove(classEntity);
     }
     
       public void addSection(SectionEntity section){
