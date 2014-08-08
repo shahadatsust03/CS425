@@ -38,6 +38,14 @@ public class ClassEntity {
     
     @ManyToMany(mappedBy="prerequisteClasses",cascade={CascadeType.ALL})
     private List<ClassEntity> prerequisite = new ArrayList<ClassEntity>();
+
+    public void setPrerequisite(List<ClassEntity> prerequisite) {
+        this.prerequisite = prerequisite;
+    }
+
+    public List<ClassEntity> getPrerequisite() {
+        return prerequisite;
+    }
     
     @OneToMany(mappedBy="yogaClass",cascade={CascadeType.ALL})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  

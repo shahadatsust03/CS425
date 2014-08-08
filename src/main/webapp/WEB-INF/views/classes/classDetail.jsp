@@ -25,17 +25,19 @@
                         </div>
                         <div class="panel-body">
                          <div>Description: ${classes.description}</div>
-                         <div>Price: ${classes.fee}</div>
-                         <div>Price: ${classes.fee}</div>
+                         <div>Price: ${classes.fee}</div>                         
                          <div>Prerequesties: 
                          <c:if test="${not empty classes.prerequisteClasses}">
                              <c:forEach items="${classes.prerequisteClasses}" var="preReq">                                 
-                                 ${classes.prerequisteClasse.className} &nbsp;&nbsp;
+                                 ${preReq.className} &nbsp;&nbsp;
                              </c:forEach>
                          </c:if>
                          </div>
                         </div>
+                         <td><a href="${pageContext.request.contextPath}/editclassform/${classes.id}"/>Edit </td>
+                         <td><a href="${pageContext.request.contextPath}/removeclass/${classes.id}"/> Remove</td>
                     </div>
+                         
                 </div>
     </div> 
     </body>

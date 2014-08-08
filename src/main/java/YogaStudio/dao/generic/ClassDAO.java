@@ -64,18 +64,13 @@ public class ClassDAO {
     }
     
     //TO DO
-    public void updateClass(Long classId, ClassEntity classEntity) {
-        String hql = "UPDATE ClassEntity set className = :className,description = :description,"  + 
-                "fee = :fee, " + 
-             "WHERE id = :classId";
-        Query query = sf.getCurrentSession().createQuery(hql);
-        query.setParameter("className", classEntity.getClass());
-        query.setParameter("description", classEntity.getDescription());
-        query.setParameter("fee", classEntity.getFee());
-        query.setParameter("classId", classId);
-        
-        int result = query.executeUpdate();
-        System.out.println("Rows affected: " + result);
+    public boolean updateClass(ClassEntity classEntity) {
+        try{
+            sf.getCurrentSession().update(classEntity);
+            return true;
+        }catch(Exception ex){
+            return false;
+        }
         
     }
     
