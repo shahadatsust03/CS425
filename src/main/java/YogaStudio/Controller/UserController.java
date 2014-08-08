@@ -164,7 +164,7 @@ public class UserController {
             
             String password=((UserDetails)object).getPassword();
             System.out.println("User :" + name+"  Password:"+password);
-             UserEntity user=userService.findUser(name, password);     
+            UserEntity user=userService.findUser(name, password);     
             //UserEntity user = userService.findUser("devika", "devika");
             System.out.println("User Found:" + user);
             if (user != null) {

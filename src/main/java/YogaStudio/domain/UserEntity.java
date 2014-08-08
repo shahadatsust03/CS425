@@ -43,7 +43,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name="USER_ID")
-    private int id;
+    private Long id;
      @Column(name="USERNAME")
     private String username;
     @Column(name="PASSWORD")
@@ -53,7 +53,7 @@ public class UserEntity {
     @Column(name="EMAIL")
     private String email;
    @Column(name="ENABLED")
-    private byte activests;
+    private Byte activests;
     
     @Column(table="user_roles")
     private String AUTHORITY;
@@ -62,9 +62,9 @@ public class UserEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date joinDate;
     @Column(name="RATING")
-    private int userrating;
+    private Byte userrating;
     @Column(name = "CONTACT_NUM")
-    private long contactNum;
+    private Long contactNum;
     @Column(name = "STREET")
     private String street;
     @Column(name = "CITY")
@@ -74,7 +74,7 @@ public class UserEntity {
     @Column(name = "COUNTRY")
     private String country;
     @Column(name = "ZIPCODE")
-    private long zipcode;
+    private Long zipcode;
      
      @OneToOne(mappedBy="user",cascade={CascadeType.ALL})
      @JoinColumn
@@ -84,7 +84,7 @@ public class UserEntity {
         return userrating;
     }
 
-    public void setUserrating(int userrating) {
+    public void setUserrating(Byte userrating) {
         this.userrating = userrating;
     }        
     
@@ -173,11 +173,11 @@ public class UserEntity {
     
     
     
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

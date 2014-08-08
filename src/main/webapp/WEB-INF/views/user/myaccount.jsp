@@ -16,14 +16,16 @@
         <c:if test="${not empty Profile}">
         <h1>My Profile!</h1>
         <table>
-            <tr><td>Full Name</td>       <td>${Profile.fullname}</td> </tr>
+            <tr><td>Full Name</td>       <td>${Profile.username}</td> </tr>
             <tr><td>Email</td>       <td>${Profile.email}</td> </tr>
             <tr><td>User Role</td>       <td>${Profile.AUTHORITY}</td> </tr>
             <tr><td>Username</td>       <td>${Profile.username}</td> </tr>
             <tr><td>Full Name</td>  <td>${Profile.password}</td></tr>
             <tr><td>Date Of Birth</td> <td>${Profile.dateOfBirth}</td> </tr>
             <tr><td>Joined Date</td>  <td>${Profile.joinDate}</td> </tr>
-            <tr><td>Contact Number</td>  <td>${Profile.contactNum}</td> </tr>
+            <c:if test="${not empty $(Profile.contactNum)}">
+                <tr><td>Contact Number</td>  <td>${Profile.contactNum}</td> </tr>
+            </c:if>
             <tr><td>Street</td>  <td>${Profile.street}</td> </tr>
             <tr><td>City</td>  <td>${Profile.city}</td> </tr>
             <tr><td>State</td>  <td>${Profile.state}</td> </tr>
