@@ -23,7 +23,7 @@
             <tr><td>Full Name</td>  <td>${Profile.password}</td></tr>
             <tr><td>Date Of Birth</td> <td>${Profile.dateOfBirth}</td> </tr>
             <tr><td>Joined Date</td>  <td>${Profile.joinDate}</td> </tr>
-            <c:if test="${not empty $(Profile.contactNum)}">
+            <c:if test="${not empty Profile.contactNum}">
                 <tr><td>Contact Number</td>  <td>${Profile.contactNum}</td> </tr>
             </c:if>
             <tr><td>Street</td>  <td>${Profile.street}</td> </tr>
