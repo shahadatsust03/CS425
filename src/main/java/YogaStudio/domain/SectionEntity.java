@@ -44,7 +44,7 @@ public class SectionEntity {
     ClassEntity classEntity;   
     
     @OneToMany(mappedBy="section",cascade={CascadeType.ALL})
-    Set<ScheduleEntity> scheduleList = new HashSet<ScheduleEntity>();
+    List<ScheduleEntity> scheduleList = new ArrayList<ScheduleEntity>();
      
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn
@@ -125,11 +125,14 @@ public class SectionEntity {
         this.classEntity = classEntity;
     }
 
-    public Set<ScheduleEntity> getScheduleList() {
+    public List<ScheduleEntity> getScheduleList() {
         return scheduleList;
     }
 
-    public void setScheduleList(Set<ScheduleEntity> scheduleList) {
+    public SectionEntity() {
+    }
+
+    public void setScheduleList(List<ScheduleEntity> scheduleList) {
         this.scheduleList = scheduleList;
     }
 
@@ -156,4 +159,12 @@ public class SectionEntity {
         schedule.setSection(null);
         scheduleList.remove(schedule);
     }
+
+    public SectionEntity(String sectionName, String descripton, String location, int classLimit) {
+        this.sectionName = sectionName;
+        this.descripton = descripton;
+        this.location = location;
+        this.classLimit = classLimit;
+    }
+    
 }

@@ -19,7 +19,7 @@
         </div>
         <button type="submit" class="btn btn-default">Search</button>
       </form>
-         <c:if test="${pageContext.request.userPrincipal != null}">
+         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <span class="caret"></span></a>
@@ -33,7 +33,7 @@
                       </ul>
                     </li>
               </ul>
-         </c:if>
+         </sec:authorize>>
      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

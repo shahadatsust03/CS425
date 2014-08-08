@@ -21,6 +21,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="${pageContext.request.contextPath}">Home</a></li>
                             <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li>
+                            <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li>
                             <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
                             <li><a href="${pageContext.request.contextPath}/contact">Contact Us</a></li>
                             <c:if test="${pageContext.request.userPrincipal.name == null}">
