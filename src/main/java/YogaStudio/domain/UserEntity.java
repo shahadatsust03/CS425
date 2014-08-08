@@ -38,7 +38,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @SecondaryTables(@SecondaryTable(name="user_roles",pkJoinColumns = {
 @PrimaryKeyJoinColumn(name="USER_ID",referencedColumnName = "USER_ID")}))
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class UserEntity {
+public class UserEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

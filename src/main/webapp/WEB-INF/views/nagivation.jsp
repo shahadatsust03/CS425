@@ -27,7 +27,7 @@
                               <li><a href="#testimonialsWrap">Login</a></li>
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                              <li><a href="${pageContext.request.contextPath}/myacount">My account</a></li>
+                              <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
                             </c:if>
                     </ul>
             </div><!--/.nav-collapse -->

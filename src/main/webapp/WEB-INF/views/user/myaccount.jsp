@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
 <html>
@@ -8,8 +9,11 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
-        <div id="featureWrap">
-            
+        <div id="featureWrap">   
+            <c:if test="${empty Profile}">
+        Profile Not Found.
+        </c:if>
+        <c:if test="${not empty Profile}">
         <h1>My Profile!</h1>
         <table>
             <tr><td>Full Name</td>       <td>${Profile.fullname}</td> </tr>
@@ -26,7 +30,7 @@
             <tr><td>Country</td> <td>${Profile.country}</td> </tr>
             <tr><td>Zipcode</td> <td>${Profile.zipcode}</td> </tr>  
         </table>
-
+        </c:if>
     </div> <!-- /featureWrap -->
     </body>
 </html>
