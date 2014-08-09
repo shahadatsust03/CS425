@@ -20,8 +20,8 @@
                 <div class="container">
                             <form role="form" method="post" action="${pageContext.request.contextPath}/updateclass">
                            <div class="form-group">
-                             <label for="price">Name:</label>
-                             <input typ="text" class="form-control" id="price" name="name" placeholder = "Name" value="${classes.className}"/>
+                             <label for="name">Name:</label>
+                             <input typ="text" class="form-control" id="name" name="name" placeholder = "Name" value="${classes.className}"/>
                            </div>
                            <div class="form-group">
                              <label for="price">Fee:</label>
@@ -46,7 +46,7 @@
                 </div>
                            <script language="JavaScript">
 function openpopup(anchor){ 
-    var popurl="classes/classPopup"+"#"+anchor;
+    var popurl="${pageContext.request.contextPath}/classes/classPopup"+"#"+anchor;
      popup_window = window.open(popurl,"","width=600,height=400,");
      //popup_window.close();
 

@@ -20,26 +20,21 @@
                 <div class="container">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="border:none;background:none;">
-                            <h4>${classes.className}
+                            <h4>${semester.semesterName}
                             </h4>
                         </div>
                         <div class="panel-body">
-                         <div>Description: ${classes.description}</div>
-                         <div>Price: ${classes.fee}</div>                         
-                         <div>Prerequesties: 
-                         <c:if test="${not empty classes.prerequisteClasses}">
-                             <c:forEach items="${classes.prerequisteClasses}" var="preReq">                                 
-                                 ${preReq.className} &nbsp;&nbsp;
-                             </c:forEach>
-                         </c:if>
-                         </div>
+                         <table>
+                             <tr><td>Start Date : </td><td>${semester.startDate}</td>
+                             <tr><td>End Date: </td><td>${semester.endDate}</div></td> 
+                         </table>
                         </div>
                          <table> 
                              <tr>
-                         <td><a href="${pageContext.request.contextPath}/editclassform/${classes.id}"/> Edit  </td>
-                         <td><a href="${pageContext.request.contextPath}/removeclass/${classes.id}"/> Remove</td>
-                            </tr>
-                         </table>
+                                 <td><a href="${pageContext.request.contextPath}/editsemesterform/${semester.id}"/>Edit &nbsp&nbsp </td>
+                                 <td><a href="${pageContext.request.contextPath}/removesemester/${semester.id}"/> Remove</td>
+                             </tr>
+                         </table>                         
                     </div>
                          
                 </div>

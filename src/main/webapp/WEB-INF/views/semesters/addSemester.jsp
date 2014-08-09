@@ -14,21 +14,20 @@
         <title>JSP Page</title>
         <%@include file="../header.jsp" %>
         
-              <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
         <link rel="stylesheet" href="/resources/demos/style.css">
         <script>
         $(function() {
-        $( "#startDate" ).datepicker({ dateFormat: "yyyy-mm-dd" });
+        $( "#startDate" ).datepicker({ dateFormat: "yy-mm-dd" });
         });
         </script>
         <script>
         $(function() {
-        $( "#endDate" ).datepicker({ dateFormat: "yyyy-mm-dd" });
+        $( "#endDate" ).datepicker({ dateFormat: "yy-mm-dd" });
         });
         </script>
-        
     </head>
     <body>
         <%@include file="../nagivation.jsp" %>
@@ -36,25 +35,17 @@
                 <div class="container">
                             <form role="form" method="post" action="save">
                            <div class="form-group">
-                             <label for="price">Name:</label>
-                             <input typ="text" class="form-control" id="price" name="name" placeholder = "Name" value=''/>
+                             <label for="semesterName">Name:</label>
+                             <input typ="text" class="form-control" id="semesterName" name="semesterName" placeholder = "Name" value=''/>
                            </div>
                            <div class="form-group">
-                             <label for="price">Fee:</label>
-                             <input type="text" class="form-control" id="price" placeholder="Price"  name="price"/>
-                           </div>
-                           <div class="form-group">
-                             <label for="prerequestie">Prerequestie:</label>
-                             <input type="text" class="form-control" id="prerequestie" placeholder="Prerequestie"  name="prerequestie" onclick="javascript:openpopup('classes/classPopup')"/>
-                           </div>
+                             <label for="startDate">Start Date :</label>
+                             <input type="date" class="form-control" id="startDate" placeholder=""  name="startDate"/>
+                           </div>                           
                             <div class="form-group">
-                             <label for="description">Description</label>
-                             <textarea class="form-control" id="description" placeholder="description"  name="description"></textarea>
-                           </div>
-
-                           <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
-                           <input type="hidden" name="idsPrereq" value="">
-                         
+                             <label for="endDate">End Date :</label>
+                             <input type="date" class="form-control" id="endDate" placeholder=""  name="endDate"/>
+                           </div>                        
                            <button type="submit" class="btn btn-primary">Cancel</button>
                            <button type="submit" class="btn btn-primary">Save</button>
                     </form>

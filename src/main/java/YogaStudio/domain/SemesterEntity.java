@@ -38,6 +38,16 @@ public class SemesterEntity {
 //    @JoinColumn
     Set<SectionEntity> sections = new HashSet<SectionEntity>();
 
+    public SemesterEntity(String semesterName, Date startDate, Date endDate) {
+        this.semesterName = semesterName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+    
+    public SemesterEntity(){
+        
+    }
+
     public String getSemesterName() {
         return semesterName;
     }

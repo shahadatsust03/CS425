@@ -89,6 +89,13 @@
          <constructor-arg ref="sectiondao"/> 
     </bean>
     
+    <bean id="semesterservice" class="YogaStudio.service.SemesterService">
+         <constructor-arg ref="enrollmentdao"/> 
+         <constructor-arg ref="customerdao"/>    
+         <constructor-arg ref="sectiondao"/> 
+         <constructor-arg ref="semesterdao"/> 
+    </bean>
+    
     <bean id="classdao" class="YogaStudio.dao.generic.ClassDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>

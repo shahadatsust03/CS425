@@ -41,7 +41,7 @@ public class ClassController {
         return  view;
     }
     
-    @RequestMapping(value = {"classes/classes/classPopup"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"classes/classes/classPopup", "classes/classPopup#classes/classPopup"}, method = RequestMethod.GET)
     public ModelAndView getClassesForPopup(HttpServletRequest request) {
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/classes/classPop");

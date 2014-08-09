@@ -37,11 +37,32 @@ public class SemesterDAO {
     }
     
     public SemesterEntity get(Long id) {
-        return (SemesterEntity) sf.getCurrentSession().load(SemesterEntity.class, id);
+        return (SemesterEntity) sf.getCurrentSession().get(SemesterEntity.class, id);
     }
     
-    public void saveSemester(SemesterEntity semesterEntity) {
-        sf.getCurrentSession().persist(semesterEntity);
+    public List<SemesterEntity> getSemesterList() {
+        String hql = "From SemesterEntity";       
+        //Query q = sf.getCurrentSession().createQuery(hql);    
+        Query q = sf.openSession().createQuery(hql);        
+        return q.list();
+    }
+    
+    public boolean saveSemester(SemesterEntity semesterEntity) {
+        try{
+            sf.getCurrentSession().saveOrUpdate(semesterEntity);
+            return true;
+        }catch(Exception ex){
+            return false;
+        }
+    }
+    
+    public boolean updateSemester(SemesterEntity semesterEntity) {
+        try{
+            sf.getCurrentSession().update(semesterEntity);
+            return true;
+        }catch(Exception ex){
+            return false;
+        }
     }
     
     public SemesterEntity getSemester(String semesterName, String startDate, String endDate) throws ParseException{
