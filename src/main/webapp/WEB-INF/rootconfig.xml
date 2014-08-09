@@ -75,7 +75,19 @@
            <constructor-arg ref="productDao"/>              
     </bean>
     
+    <bean id="semesterService" class="YogaStudio.service.SemesterService">
+            <constructor-arg ref="semesterdao"/>
+    </bean>
+    
+    
     <bean id="classservice" class="YogaStudio.service.ClassService">
+         <constructor-arg ref="classdao"/> 
+         <constructor-arg ref="enrollmentdao"/>    
+         <constructor-arg ref="customerdao"/> 
+         <constructor-arg ref="sectiondao"/> 
+    </bean>
+    
+    <bean id="sectionservice" class="YogaStudio.service.SectionService">
          <constructor-arg ref="classdao"/> 
          <constructor-arg ref="enrollmentdao"/>    
          <constructor-arg ref="customerdao"/> 

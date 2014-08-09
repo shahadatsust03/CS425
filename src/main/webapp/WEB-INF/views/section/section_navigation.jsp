@@ -19,21 +19,21 @@
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
-         <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <sec:authorize access="hasRole('ROLE_ADMIN')"> 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="classes/add">Add</a></li>
+            <li><a href="section/add">Add</a></li>
             <li class="divider"></li>
             <li><a href="#">Edit</a></li>
             <li class="divider"></li>
             <li><a href="#">Remove</a></li>
             <li class="divider"></li>
           </ul>
+          </sec:authorize>
         </li>
       </ul>
-         </sec:authorize>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

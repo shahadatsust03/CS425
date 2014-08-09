@@ -88,5 +88,11 @@ public class SemesterDAO {
     }
 
        
+    public List<SemesterEntity> getAllSemesters() {
+        
+        String hql = "From SemesterEntity";
+        Query q = sf.getCurrentSession().createQuery(hql);
+        return q.list(); 
+    }
     
 }
