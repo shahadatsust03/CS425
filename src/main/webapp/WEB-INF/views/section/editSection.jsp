@@ -21,43 +21,41 @@
                             <form role="form" method="post" action="save">
                            <div class="form-group">
                              <label for="name">Name:</label>
-                             <input type="text" class="form-control" id="name" name="name" placeholder = "Name" value=''/>
+                             <input type="text" class="form-control" id="name" name="name" placeholder = "Name" value="${section.sectionName}"/>
                            </div>
                            <div class="form-group">
                              <label for="descripton">Description:</label>
-                             <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton"/>
+                             <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton" value="${section.description}"/>
                            </div>
                            <div class="form-group">
                              <label for="classToAssign">Class: </label>
-                             <textarea class="form-control" id="classToAssign" placeholder="Class To Assign"  name="classToAssign" onclick="javascript:openpopup('section/sectionPopup')"></textarea>
+                             <textarea class="form-control" id="classToAssign" placeholder="Class To Assign"  name="classToAssign" value = "${section.classEntity.className}" onclick="javascript:openpopup('section/sectionPopup')"></textarea>
                            </div>
-                            
                            <div class="form-group">
                              <label for="semesterToAssign">Semester </label>
-                             <textarea class="form-control" id="semesterToAssign" placeholder="Semester To Assign"  name="semesterToAssign" onclick="javascript:openpopup('section/semesterPopup')"></textarea>
+                             <textarea class="form-control" id="semesterToAssign" placeholder="Semester To Assign"  name="semesterToAssign" value = "${section.sectionEntity.sectionName}" onclick="javascript:openpopup('section/semesterPopup')"></textarea>
                            </div>
-                                
                            <div class="form-group">
                              <label for="location">Location:</label>
-                             <input type="text" class="form-control" id="location" placeholder="Location"  name="location"/>
+                             <input type="text" class="form-control" id="location" placeholder="Location"  name="location" value = "${section.location}"/>
                            </div>
                             <div class="form-group">
                              <label for="classLimit">Class Limit </label>
-                             <input type="text" class="form-control" id="classLimit" placeholder="Class Limit"  name="classLimit"/>
+                             <input type="text" class="form-control" id="classLimit" placeholder="Class Limit"  name="classLimit" value = "${section.classLimit}"/>
                            </div>
                             <div class="form-group">
                              <label for="DayOfWeek">Day Of Week: </label>
-                             <input type="text" class="form-control" id="DayOfWeek" placeholder="Day of week"  name="DayOfWeek"/>
+                             <input type="text" class="form-control" id="DayOfWeek" placeholder="Day of week"  name="DayOfWeek" value = "${section.dayOfWeek}"/>
                            </div>
                            
                            <div class="form-group">
                              <label for="startTime">Start time: </label>
-                             <input type="time" class="form-control" id="startTime" placeholder="Start time"  name="startTime"/>
+                             <input type="time" class="form-control" id="startTime" placeholder="Start time"  name="startTime" value = "${section.getStartTime()}"/>
                            </div>
                            
                            <div class="form-group">
                              <label for="endTime">End time: </label>
-                             <input type="time" class="form-control" id="endTime" placeholder="End time"  name="endTime"/>
+                             <input type="time" class="form-control" id="endTime" placeholder="End time"  name="endTime" value = "${section.getEndTime()}"/>
                            </div>
    
                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
@@ -69,7 +67,7 @@
                 </div>
                            <script language="JavaScript">
 function openpopup(anchor){ 
-    var popurl = anchor;
+    var popurl="section/sectionPopup"+"#"+anchor;
     popup_window = window.open(popurl,"","width=600,height=400,");
 
 } 
@@ -83,7 +81,7 @@ function updateValueSemester(value)
 {    // this gets called from the popup window and updates the field with a new value
     var elem = document.getElementById("semesterToAssign");
     elem.value = value;
-}
+}             
                            </script>
     </div> 
     </body>

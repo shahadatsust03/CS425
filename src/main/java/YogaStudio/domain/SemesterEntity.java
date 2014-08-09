@@ -6,6 +6,7 @@
 
 package YogaStudio.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +42,19 @@ public class SemesterEntity {
     public String getSemesterName() {
         return semesterName;
     }
-
+    
+    public String getstartDate(){
+        SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/YYY");
+        String date = formatter.format(this.startDate);
+        return date;
+    } 
+    
+    public String getendDate(){
+        SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/YYY");
+        String date = formatter.format(this.endDate);
+        return date;
+    } 
+    
     public void setSemesterName(String semesterName) {
         this.semesterName = semesterName;
     }

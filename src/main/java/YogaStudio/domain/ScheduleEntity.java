@@ -6,6 +6,8 @@
 
 package YogaStudio.domain;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -67,6 +69,18 @@ public class ScheduleEntity {
 
     public Date getStartDate() {
         return startDate;
+    }
+    
+    public String getStartTime() {
+        SimpleDateFormat formatter=new SimpleDateFormat("hh:mm:ss");
+        String time = formatter.format(this.startDate);
+        return time;
+    }
+    
+    public String getEndTime() {
+        SimpleDateFormat formatter=new SimpleDateFormat("hh:mm:ss");
+        String time = formatter.format(this.endDate);
+        return time;
     }
 
     public void setStartDate(Date startDate) {

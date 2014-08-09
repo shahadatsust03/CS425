@@ -23,16 +23,12 @@
                      <td>${section.descripton}</td>
                      <td>${section.classEntity.className}</td>
                      <td>${section.location}</td>
-                     <td>${section.classLimit}</td>
-                     
-                     <c:forEach items="${section.scheduleList}" var="schedule">
-                     
+                     <td>${section.classLimit}</td>                     
+                     <c:forEach items="${section.scheduleList}" var="schedule">                     
                      <td>${schedule.dayOfWeek}</td>
-                     <td>${schedule.startDate}</td>
-                     <td>${schedule.endDate}</td>
+                     <td>${schedule.getStartTime()}</td>
+                     <td>${schedule.getEndTime()}</td>
                      </c:forEach>
-                     
-
                 </tr>
                </c:forEach>
         </table>

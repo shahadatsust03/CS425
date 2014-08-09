@@ -43,8 +43,19 @@ public class SectionDAO {
         }catch(Exception ex){}
         return false;
     }
-     public SectionEntity get(int id) {
+     public SectionEntity get(Long id) {
         return (SectionEntity) sf.getCurrentSession().load(SectionEntity.class, id);
+    }
+      public boolean removeSection(Long Id) {
+        try{
+            SectionEntity ce = get(Id);
+            sf.getCurrentSession().delete(ce);
+            return true;
+        }
+        catch(Exception e){
+         System.out.println("Remove section failed "+e.getMessage());
+        }
+        return false;
     }
      
     public List<SectionEntity> getAllSections() {

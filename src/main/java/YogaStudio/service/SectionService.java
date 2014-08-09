@@ -54,6 +54,15 @@ public class SectionService {
     public List<SectionEntity> getAllSections() {        
         return sectiondao.getAllSections();
     }
+    
+    public SectionEntity getSection(Long id) {        
+        return sectiondao.get(id);
+    }
+    
+    public boolean deleteSection(Long id) {        
+        return sectiondao.removeSection(id);
+    }
+    
     public void setClassdao(ClassDAO classdao) {
         this.classdao = classdao;
     }
