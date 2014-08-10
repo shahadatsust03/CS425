@@ -53,10 +53,22 @@ public class WaiverDAO {
         sf.getCurrentSession().delete(waiver);
     }
 
-    public List<WaiverEntity> getWaiversByFAId(int faId) {
+     public List<WaiverEntity> getWaiversByFAId(Long faId) {
         Query result = sf.getCurrentSession().getNamedQuery("submittedWaivers");
         result.setParameter("faculty", faId);
         result.setParameter("status", STATUS.SUBMITTED.name());
+        //result.setParameter("enabled", enabled);
+        if (result.list().isEmpty()) {
+            return null;
+        }
+        return result.list();
+    }
+    
+    public List<WaiverEntity> getWaiversByCustAndClass(Long custId, Long classId) {
+        Query result = sf.getCurrentSession().getNamedQuery("waiverByCustAndClass");
+        result.setParameter("customer", custId);
+        result.setParameter("yogaClass", classId);
+        result.setParameter("status", STATUS.INVALID.name());
         //result.setParameter("enabled", enabled);
         if (result.list().isEmpty()) {
             return null;

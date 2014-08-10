@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +23,9 @@ import javax.persistence.TemporalType;
  *
  * @author sMazumder
  */
+@NamedQueries({
+    @NamedQuery(name = "submittedWaivers", query = "select w from WaiverEntity w where w.faculty=:faculty and w.status=:status"),
+    @NamedQuery(name = "waiverByCustAndClass", query = "select w from WaiverEntity w where w.customer=:customer and w.yogaClass=:yogaClass and w.status <> :status")})
 @Entity
 @Table(name = "Waiver")
 public class WaiverEntity {
@@ -35,6 +40,9 @@ public class WaiverEntity {
     private Date submissionDate;
     @Temporal(TemporalType.DATE)
     private Date updateDate;
+
+    public WaiverEntity() {
+    }
 
     public WaiverEntity(CustomerEntity customer, String reason, ClassEntity yogaClass) {
         this.customer = customer;

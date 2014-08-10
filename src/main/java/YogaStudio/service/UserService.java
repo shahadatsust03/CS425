@@ -8,6 +8,7 @@ package YogaStudio.service;
 
 
 import YogaStudio.Controller.EmailController;
+import YogaStudio.dao.generic.CustomerDAO;
 import YogaStudio.dao.generic.UserDAO;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
@@ -25,6 +26,9 @@ public class UserService {
     
     @Autowired
     private UserDAO userDao;
+    
+     @Autowired
+    private CustomerDAO customerDao;
       
     
     public UserService(){}
@@ -96,6 +100,8 @@ public class UserService {
     public UserEntity findUser(String username, String password) {
         return  userDao.findUser( username,password);
     }
-    
+    public CustomerEntity getCustomer(Long id) {
+        return customerDao.get(id.intValue());
+    }
 
 }
