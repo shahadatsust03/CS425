@@ -117,7 +117,7 @@ public class SectionController {
          {
               redirectAttributes.addFlashAttribute("Remove not successfull", message);
          }
-         view.setUrl(request.getContextPath()+"/section");         
+         view.setUrl(request.getContextPath()+"/section/section");         
          return view;//"redirect:/";
     }
  
@@ -165,7 +165,12 @@ public class SectionController {
                      SectionEntity sectionEntity = new SectionEntity(name,description,location, Integer.parseInt(classLimit));
                      SimpleDateFormat df = new SimpleDateFormat("HH:mm");                     
                      SemesterEntity semesterEntity = semesterService.getSemester(Long.parseLong(semesterToAssign));
-                    
+                     
+                     ClassEntity classEnttiy = classService.getClass(Long.parseLong(classToAssign));
+                     
+                     sectionEntity.setClassEntity(classEnttiy);
+                     sectionEntity.setSemester(semesterEntity);
+                     
                      String[] splits = schedules.split(",");
                      for(String split: splits){
                          if(split.trim().length() != 0)
@@ -175,10 +180,7 @@ public class SectionController {
                            sectionEntity.addSchedule(schedule);
                          }
                      }
-                    
-                     ClassEntity classEnttiy = classService.getClass(Long.parseLong(classToAssign));
-                     sectionEntity.setClassEntity(classEnttiy);
-                     sectionEntity.setSemester(semesterEntity);
+                     
                      boolean saved = sectionService.saveSection(sectionEntity);
                      classEnttiy.addSection(sectionEntity);
                      saved = classService.saveClass(classEnttiy);

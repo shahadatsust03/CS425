@@ -11,6 +11,7 @@ import YogaStudio.domain.SectionEntity;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.FacultyService;
 import YogaStudio.service.ProductService;
+import YogaStudio.service.SectionService;
 import YogaStudio.service.UserService;
 import YogaStudio.util.Util;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
@@ -43,6 +44,9 @@ public class FacultyController {
     @Autowired
     private ClassService classService;
     
+    @Autowired
+    private SectionService sectionService; 
+    
     @RequestMapping(value = {"/faculty","/user/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
@@ -54,13 +58,21 @@ public class FacultyController {
    
     @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
     public String getFaculty(@PathVariable Long id,Model model) {        
-        model.addAttribute("faculty", facultyService.getFaculty(id));
+        model.addAttribute("faculty", facultyService.getFaculty(id));        
+        model.addAttribute("sections", sectionService.getAllSections());
         return "faculty/facultyDetail";        
     } 
     
     @RequestMapping(value = {"/faculty/editFaculty/{id}", "/user/faculty/editFaculty/{id}"}, method = RequestMethod.GET)
     public String editFaculty(@PathVariable Long id,Model model) {        
         model.addAttribute("faculty", facultyService.getFaculty(id));
+        return "faculty/editFaculty";        
+    } 
+    
+    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.GET)
+    public String assignFaculty(HttpServletRequest request) {     
+        String id = request.getParameter("id");
+        String value = request.getParameter("value");
         return "faculty/editFaculty";        
     } 
     

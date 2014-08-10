@@ -45,7 +45,7 @@ public class ScheduleDAO {
         return false;
     }
      public ScheduleEntity get(Long id) {
-        return (ScheduleEntity) sf.getCurrentSession().load(ScheduleEntity.class, id);
+        return (ScheduleEntity) sf.getCurrentSession().get(ScheduleEntity.class, id);
     }
       public boolean removeSchedule(Long Id) {
         try{

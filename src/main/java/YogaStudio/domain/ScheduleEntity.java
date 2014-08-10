@@ -38,7 +38,7 @@ public class ScheduleEntity {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate; 
-    @ManyToMany(cascade={CascadeType.PERSIST})
+    @ManyToMany
     @JoinColumn
     List<SectionEntity>  section;
 

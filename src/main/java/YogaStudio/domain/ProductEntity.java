@@ -33,7 +33,7 @@ public class ProductEntity {
     private String description;
     private Double price;
     private int numberOfProducts;
-    @ManyToMany(mappedBy="products",cascade={CascadeType.PERSIST})
+    @ManyToMany(mappedBy="products",cascade={CascadeType.ALL})
     private List<OrderEntity> orders = new ArrayList<OrderEntity>(); 
     
     public ProductEntity(){}

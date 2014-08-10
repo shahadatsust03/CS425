@@ -37,11 +37,11 @@ public class SemesterDAO {
     }
     
     public SemesterEntity get(Long id) {
-        return (SemesterEntity) sf.getCurrentSession().load(SemesterEntity.class, id);
+        return (SemesterEntity) sf.getCurrentSession().get(SemesterEntity.class, id);
     }
     
     public void saveSemester(SemesterEntity semesterEntity) {
-        sf.getCurrentSession().persist(semesterEntity);
+        sf.getCurrentSession().saveOrUpdate(semesterEntity);
     }
     
     public SemesterEntity getSemester(String semesterName, String startDate, String endDate) throws ParseException{

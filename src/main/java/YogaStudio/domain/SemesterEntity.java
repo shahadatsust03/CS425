@@ -7,10 +7,8 @@
 package YogaStudio.domain;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -37,8 +35,9 @@ public class SemesterEntity {
     private Date startDate; 
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @OneToMany(mappedBy="semester",cascade={CascadeType.PERSIST})
-    List<SectionEntity> sections = new ArrayList<SectionEntity>();
+    @OneToMany(mappedBy="semester")
+//    @JoinColumn
+    Set<SectionEntity> sections = new HashSet<SectionEntity>();
 
     public String getSemesterName() {
         return semesterName;
@@ -76,11 +75,11 @@ public class SemesterEntity {
         this.endDate = endDate;
     }
 
-    public List<SectionEntity> getSections() {
+    public Set<SectionEntity> getSections() {
         return sections;
     }
 
-    public void setSections(List<SectionEntity> sections) {
+    public void setSections(Set<SectionEntity> sections) {
         this.sections = sections;
     }
     

@@ -31,19 +31,19 @@ public class PaymentEntity {
     @Temporal(TemporalType.DATE)
     private Date paymentDate;    
 
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne(cascade={CascadeType.ALL})
     @JoinTable(name="Class_Payment",  
     joinColumns={@JoinColumn(name="Class_Id", referencedColumnName="id")},  
     inverseJoinColumns={@JoinColumn(name="Payment_Id", referencedColumnName="id")})
     ClassEntity classes;
 
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne(cascade={CascadeType.ALL})
     @JoinTable(name="Order_Payment",  
     joinColumns={@JoinColumn(name="Order_Id", referencedColumnName="id")},  
     inverseJoinColumns={@JoinColumn(name="Payment_Id", referencedColumnName="id")})  
     OrderEntity order;
     
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn
     CreditCardEntity creditcard;
 

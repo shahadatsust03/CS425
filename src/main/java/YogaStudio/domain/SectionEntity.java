@@ -41,18 +41,18 @@ public class SectionEntity {
     private int classLimit;
 
     
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn
     ClassEntity classEntity;   
     
-    @ManyToMany(cascade={CascadeType.PERSIST})
+    @ManyToMany(cascade=CascadeType.ALL)
     List<ScheduleEntity> scheduleList = new ArrayList<ScheduleEntity>();
      
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn
     SemesterEntity semester;
     
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn
     FacultyEntity faculty;
 

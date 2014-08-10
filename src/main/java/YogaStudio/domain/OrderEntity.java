@@ -38,10 +38,10 @@ public class OrderEntity {
     private Date dateOfOrder;
     private int totalAmount;
     
-    @ManyToMany(cascade={CascadeType.PERSIST})
+    @ManyToMany(cascade={CascadeType.ALL})
     List<ProductEntity> products = new ArrayList<ProductEntity>();         //////////////Have to throughly tested
     
-    @ManyToOne(cascade={CascadeType.PERSIST})
+    @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn
     CustomerEntity customer;
 

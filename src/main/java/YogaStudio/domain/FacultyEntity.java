@@ -26,13 +26,13 @@ import javax.persistence.Table;
 public class FacultyEntity extends UserEntity {
     private String specialization;
     private int yearsOfExperience;
-    @OneToMany(mappedBy="faculty",cascade={CascadeType.PERSIST})
+    @OneToMany(mappedBy="faculty")
     List<SectionEntity> sections = new ArrayList<SectionEntity>();
     
-    @OneToMany(mappedBy="faculty",cascade={CascadeType.PERSIST})
+    @OneToMany(mappedBy="faculty")
     List<CustomerEntity> customers = new ArrayList<CustomerEntity>();
     
-    @OneToMany(mappedBy="faculty",cascade={CascadeType.PERSIST})
+    @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
 
     public FacultyEntity() {
