@@ -8,6 +8,7 @@ package YogaStudio.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -22,17 +23,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Customer")
 public class CustomerEntity extends UserEntity{
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer",cascade={CascadeType.PERSIST})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
 
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer",cascade={CascadeType.PERSIST})
     List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();  
     
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer",cascade={CascadeType.PERSIST})
     List<OrderEntity> orders = new ArrayList<OrderEntity>();  
     
     
-    @ManyToOne
+    @ManyToOne(cascade={CascadeType.PERSIST})
     @JoinColumn
     FacultyEntity faculty;
 

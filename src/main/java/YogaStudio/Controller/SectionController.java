@@ -48,7 +48,7 @@ public class SectionController {
     @Autowired
     private ScheduleService scheduleService; 
     
-    @RequestMapping(value = {"/sections","/user/sections"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/sections","/user/sections","sections","../sections"}, method = RequestMethod.GET)
     public ModelAndView getAllSections(HttpServletRequest request) {
         List<SectionEntity> sections = sectionService.getAllSections();
         ModelAndView view = new ModelAndView("/section/section");
@@ -57,7 +57,7 @@ public class SectionController {
         return  view;
     }
     
-    @RequestMapping(value = "/section/add", method = RequestMethod.GET)
+    @RequestMapping(value = {"/section/add","../section/add","section/add"}, method = RequestMethod.GET)
     public ModelAndView addSectionPage(HttpServletRequest request) {        
         ModelAndView view = new ModelAndView("/section/addSection");   
         List<ClassEntity> classes = classService.getClassList();
@@ -70,13 +70,14 @@ public class SectionController {
         return  view;
     }    
     
-     @RequestMapping(value = "/section/addSchedule", method = RequestMethod.GET)
+     @RequestMapping(value = {"section/addSchedule","../section/addSchedule","/section/addSchedule", "/section/section/addSchedule"}, method = RequestMethod.GET)
     public ModelAndView addSchedulePage(HttpServletRequest request) {        
         ModelAndView view = new ModelAndView("/section/addSchedule"); 
+         view.addObject("pageTitle", "Schedule");
         return  view;
     }    
      
-    @RequestMapping(value = {"/section/save","/user/section/save"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"section/save","../section/save","/section/save","/user/section/save"}, method = RequestMethod.POST)
     public RedirectView saveSection(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
         try{
             String  message =  addUpdateSection(request);    
@@ -87,7 +88,7 @@ public class SectionController {
          return new RedirectView("/section/add", true);
     }
     
-    @RequestMapping(value = {"/section/saveSchedule","/user/section/saveSchedule"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"section/saveSchedule","../section/saveSchedule","/section/saveSchedule","/user/section/saveSchedule"}, method = RequestMethod.POST)
     public RedirectView saveSchedule(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
         try{
             String  message =  addUpdateSchedule(request);    
@@ -98,13 +99,13 @@ public class SectionController {
          return new RedirectView("/section/addSchedule", true);
     }
     
-    @RequestMapping(value = {"/section/{id}", "/user/section/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"section/{id}","../section/{id}","/section/{id}", "/user/section/{id}"}, method = RequestMethod.GET)
     public String get(@PathVariable Long id, Model model) {
         model.addAttribute("section", sectionService.getSection(id));
         return "section/sectionDetail";
     }    
    
-    @RequestMapping(value = {"/section/removeSection/{id}","/removeSection/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"section/removeSection/{id}","../section/removeSection/{id}","/section/removeSection/{id}","/removeSection/{id}"}, method = RequestMethod.GET)
      public RedirectView removeSection(HttpServletRequest request,@PathVariable Long id, final RedirectAttributes redirectAttributes) {
         Object message = null; 
          RedirectView view = new RedirectView();                
@@ -120,18 +121,12 @@ public class SectionController {
          return view;//"redirect:/";
     }
  
-    @RequestMapping(value = {"/faculty/editSection/{id}", "/user/faculty/editSection/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"faculty/editSection/{id}","../faculty/editSection/{id}","/faculty/editSection/{id}", "/user/faculty/editSection/{id}"}, method = RequestMethod.GET)
     public String editSection(@PathVariable Long id,Model model) {        
         model.addAttribute("faculty", sectionService.getSection(id));
         return "faculty/editFaculty";        
     } 
      
-//    @RequestMapping(value = {"/section/editSection/{id}","/user/section/editSection/{id}"}, method = RequestMethod.GET)
-//    public ModelAndView editSection(HttpServletRequest request) {
-//        Long Id = Long.parseLong(request.getParameter("id"));       
-//        return  new ModelAndView("section/editSection", "section", sectionService.getSection(Id));
-//    }
-    
        //private method to add add and update users
     private String addUpdateSection(HttpServletRequest request) throws ParseException{
               List message = new ArrayList();

@@ -28,9 +28,9 @@
                          <div>Price: ${classes.fee}</div>
                          <div>Price: ${classes.fee}</div>
                          <div>Prerequesties: 
-                         <c:if test="${not empty classes.prerequisteClasses}">
-                             <c:forEach items="${classes.prerequisteClasses}" var="preReq">                                 
-                                 ${classes.prerequisteClasse.className} &nbsp;&nbsp;
+                         <c:if test="${not empty classes.prerequiste}">
+                             <c:forEach items="${classes.prerequiste}" var="preReq">                                 
+                                 ${preReq.className} &nbsp;&nbsp;
                              </c:forEach>
                          </c:if>
                          </div>

@@ -19,7 +19,8 @@
             <div id="featureWrap">
             
                 <div class="container">
-                    <div class="form-group">Schedule</div>
+                      <%@include file="section_navigation.jsp" %>
+                    <div class="form-group"></div>
                           <form role="form" method="post" action="saveSchedule">                               
                            <div class="form-group">
                              <label for="DayOfWeek">Day Of Week: </label>

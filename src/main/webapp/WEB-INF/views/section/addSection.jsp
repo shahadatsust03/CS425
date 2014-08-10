@@ -52,6 +52,7 @@
             <div id="featureWrap">
             
                 <div class="container">
+                    <%@include file="section_navigation.jsp" %>
                      <c:forEach items="${message}" var="msg">
                         <td>${msg}</td>
                     </c:forEach>
