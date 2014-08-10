@@ -12,6 +12,7 @@ import YogaStudio.domain.UserEntity;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.UserService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ public class UserController {
     private ProductService productService;
     @Autowired
     private ClassService classService;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
     public ModelAndView login(HttpServletRequest request) {
@@ -123,7 +125,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/users/{id}", method = RequestMethod.GET)
     public String get(@PathVariable int id, Model model) {
-        model.addAttribute("user", userService.get(id));
+        model.addAttribute("user", userService.get(Long.valueOf(id)));
         return "userDetail";
     }
 
@@ -131,7 +133,7 @@ public class UserController {
     public String update(@Valid UserEntity user, BindingResult result,
             @PathVariable int id) {
         if (!result.hasErrors()) {
-            userService.update(id, user); // car.id already set by binding
+            userService.update(Long.valueOf(id), user); // car.id already set by binding
             return "redirect:/users";
         } else {
             return "userDetail";
@@ -140,7 +142,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/users/delete", method = RequestMethod.POST)
     public String delete(int userId) {
-        userService.delete(userId);
+        userService.delete(Long.valueOf(userId));
         return "redirect:/users";
     }
 
@@ -161,14 +163,14 @@ public class UserController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
             Object object = auth.getPrincipal();
-            
-            String password=((UserDetails)object).getPassword();
-            System.out.println("User :" + name+"  Password:"+password);
-            UserEntity user=userService.findUser(name, password);     
+
+            String password = ((UserDetails) object).getPassword();
+            System.out.println("User :" + name + "  Password:" + password);
+            UserEntity user = userService.findUser(name, password);
             //UserEntity user = userService.findUser("devika", "devika");
             System.out.println("User Found:" + user);
             if (user != null) {
-               // redirectAttributes.addAttribute("Profile", user);
+                // redirectAttributes.addAttribute("Profile", user);
                 //return "user/myaccount";
                 return new ModelAndView("/user/myaccount", "Profile", user);
             }
@@ -178,6 +180,59 @@ public class UserController {
         //redirectAttributes.addFlashAttribute("message", "Profile not found.");
         return new ModelAndView("/user/myaccount", "Profile", "not found");
         //return "redirect:/";
+    }
+
+    @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.GET)
+    public ModelAndView editProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        UserEntity user = userService.get(Long.valueOf(id));        
+        String message = "Update Profile";//updateProfile(request, view, id);
+        redirectAttributes.addFlashAttribute("message", message);
+         if (user != null) {                
+                return new ModelAndView("/user/editProfile", "Profile", user);
+            }
+        return new ModelAndView("/user/editProfile", "Profile", "not found");       
+    }
+    
+     @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.POST)
+    public RedirectView saveProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+
+        RedirectView view = new RedirectView();
+        String message=updateProfile(request, view, id);
+        redirectAttributes.addFlashAttribute("message", message);        
+        return view;//"redirect:/";       
+        //redirectAttributes.addFlashAttribute("message", "Profile not found.");
+        //return new ModelAndView("/user/editProfile", "Profile", "not found");
+        //return "redirect:/";
+    }
+
+    private String updateProfile(HttpServletRequest request, RedirectView view, int id) {
+        UserEntity user = userService.get(Long.valueOf(id));
+
+        user.setFullname(request.getParameter("fullname"));
+        user.setEmail(request.getParameter("email"));
+        user.setUsername(request.getParameter("username"));
+        user.setPassword(request.getParameter("password"));
+        try {
+            user.setDateOfBirth(sdf.parse(request.getParameter("dateOfBirth")));
+            user.setJoinDate(sdf.parse(request.getParameter("joinDate")));
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+        user.setContactNum(Long.valueOf(request.getParameter("contactNum")));
+        user.setStreet(request.getParameter("street"));
+        user.setCity(request.getParameter("city"));
+        user.setState(request.getParameter("state"));
+        user.setCountry(request.getParameter("country"));
+        user.setZipcode(Long.valueOf(request.getParameter("zipcode")));
+
+        UserEntity updatedUser = userService.update(Long.valueOf(id), user);
+        view.setUrl(request.getContextPath() + "/user/myaccount");
+        String message = "Profile Updated Successfully.";
+        // view.setUrl("add");
+        if (updatedUser == null) {
+            message = "Failed to Update the Profile";
+        }
+        return message;
     }
 
     //private method to add new and update users

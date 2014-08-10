@@ -71,19 +71,19 @@ public class UserService {
         return (!list.isEmpty())? list.get(0): null;
     }
 
-    public UserEntity get(int id) {     
+    public UserEntity get(Long id) {     
         return userDao.get(id);      
     }
 
-    public UserEntity getUser(int id) {     
+    public UserEntity getUser(Long id) {     
         return userDao.get(id);      
     }
     
-    public void update(int userId, UserEntity userentity) {     
-        userDao.update(userId, userentity);    
+    public UserEntity update(Long userId, UserEntity userentity) {     
+       return  userDao.update(userId, userentity);    
     }
 
-    public void delete(int userId) {    
+    public void delete(Long userId) {    
         userDao.delete(userId);   
     }   
 

@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
 <html>
@@ -8,25 +10,36 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
+        <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">
-            
-        <h1>My Profile!</h1>
-        <table>
-            <tr><td>Full Name</td>       <td>${Profile.fullname}</td> </tr>
-            <tr><td>Email</td>       <td>${Profile.email}</td> </tr>
-            <tr><td>User Role</td>       <td>${Profile.AUTHORITY}</td> </tr>
-            <tr><td>Username</td>       <td>${Profile.username}</td> </tr>
-            <tr><td>Full Name</td>  <td>${Profile.password}</td></tr>
-            <tr><td>Date Of Birth</td> <td>${Profile.dateOfBirth}</td> </tr>
-            <tr><td>Joined Date</td>  <td>${Profile.joinDate}</td> </tr>
-            <tr><td>Contact Number</td>  <td>${Profile.contactNum}</td> </tr>
-            <tr><td>Street</td>  <td>${Profile.street}</td> </tr>
-            <tr><td>City</td>  <td>${Profile.city}</td> </tr>
-            <tr><td>State</td>  <td>${Profile.state}</td> </tr>
-            <tr><td>Country</td> <td>${Profile.country}</td> </tr>
-            <tr><td>Zipcode</td> <td>${Profile.zipcode}</td> </tr>  
-        </table>
+            <c:if test="${empty Profile}">
+                Profile Not Found.
+            </c:if>
+            <c:if test="${not empty Profile}">
+                <form action="../../user/editProfile/${Profile.id}" method="post">
+                    <h1>My Profile!</h1>
+                    <table>
+                        <tr><td><b>Full Name:</b></td><td><input type="text" name="fullname" value="${Profile.fullname}"></td></tr>
 
-    </div> <!-- /featureWrap -->
+                        <tr><td><b>Email</b></td>     <td><input type="text" name="email" value="${Profile.email}"</td><td>(Use format name@company.com)</td> </tr>
+                       <!-- <tr><td>User Role</td>       <td><input type="label" name="AUTHORITY" value="${Profile.AUTHORITY}"</td> </tr> -->
+                        <tr><td><b>Username</b></td>      <td><input type="text" name="username" value="${Profile.username}"</td> </tr>
+                        <tr><td><b>Full Name</b></td>  <td><input type="text" name="password" value="${Profile.password}"</td></tr>
+                        <tr><td><b>Date Of Birth</b></td> <td><input type="text" name="dateOfBirth" value="${Profile.dateOfBirth}"</td><td>(Use format yyyy-mm-dd)</td> </tr>
+                        <tr><td><b>Joined Date</b></td>  <td><input type="text" name="joinDate" value="${Profile.joinDate}"</td><td>(Use format yyyy-mm-dd)</td> </tr>
+                        <tr><td><b>Contact Number</b></td>  <td><input type="text" name="contactNum" value="${Profile.contactNum}"</td> </tr>
+                        <tr><td><b>Street</b></td>  <td><input type="text" name="street" value="${Profile.street}"</td> </tr>
+                        <tr><td><b>City</b></td> <td><input type="text" name="city" value="${Profile.city}"</td> </tr>
+                        <tr><td><b>State</b></td>  <td><input type="text" name="state" value="${Profile.state}"</td> </tr>
+                        <tr><td><b>Country</b></td> <td><input type="text" name="country" value="${Profile.country}"</td> </tr>
+                        <tr><td><b>Zipcode</b></td> <td><input type="text" name="zipcode" value="${Profile.zipcode}"</td> </tr>  
+                    </table>
+                </c:if>
+                <div><br/><input type="submit" value="Save Profile">
+                    </form>
+                </div>
+        </div> <!-- /featureWrap -->
+        <!--    <h5>
+                                    <td><a href="${pageContext.request.contextPath}/user/myaccount/${Profile}">Save Profile</a></td>-->
     </body>
 </html>
