@@ -11,89 +11,31 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        
-                 <style>
-    .black_overlay{
-        display: none;
-        position: absolute;
-        top: 0%;
-        left: 0%;
-        width: 100%;
-        height: 100%;
-        background-color: black;
-        z-index:1001;
-        -moz-opacity: 0.8;
-        opacity:.80;
-        filter: alpha(opacity=80);
-    }
-    .white_content {
-        display: none;
-        position: absolute;
-        top: 25%;
-        left: 25%;
-        width: 50%;
-        height: 50%;
-        padding: 16px;
-        border: 16px solid orange;
-        background-color: white;
-        z-index:1002;
-        overflow: auto;
-    }
-</style>
-        
-        <%@include file="../header.jsp" %>
-         <%@include file="classPop.jsp" %>
-         <%@include file="semesterPop.jsp" %>
-          <%@include file="schedulePop.jsp" %>
+        <title>JSP Page</title>       
+        <%@include file="../header.jsp" %>        
     </head>
     <body>
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
             
                 <div class="container">
-                     <c:forEach items="${message}" var="msg">
-                        <td>${msg}</td>
-                    </c:forEach>
-                          <form role="form" method="post" action="save">
-                               
+                    <div class="form-group">Schedule</div>
+                          <form role="form" method="post" action="saveSchedule">                               
                            <div class="form-group">
-                             <label for="name">Name:</label>
-                             <input type="text" class="form-control" id="name" name="name" placeholder = "Name" value=''/>
+                             <label for="DayOfWeek">Day Of Week: </label>
+                             <input type="text" class="form-control" id="DayOfWeek" placeholder="Day of week"  name="DayOfWeek"/>
                            </div>
+                           
                            <div class="form-group">
-                             <label for="descripton">Description:</label>
-                             <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton"/>
+                             <label for="startTime">Start time: </label>
+                             <input type="time" class="form-control" id="startTime" placeholder="Start time"  name="startTime"/>
                            </div>
-                          
+                           
                            <div class="form-group">
-                             <label for="classToAssign">Class: </label>
-                             <textarea readonly class="form-control" id="classToAssign" placeholder="Class To Assign"  name="classToAssign"></textarea>
-                             <a href = "javascript:void(0)" onclick = "document.getElementById('classList').style.display='block';document.getElementById('fade').style.display='block'">Add Class</a>
-                           </div>
-                          
-                           <div class="form-group">
-                           <label for="semesterToAssign">Semester </label>
-                             <textarea readonly class="form-control" id="semesterToAssign" placeholder="Semester To Assign"  name="semesterToAssign"></textarea>
-                             <a href = "javascript:void(0)" onclick = "document.getElementById('semesterList').style.display='block';document.getElementById('fade').style.display='block'">Add semester</a>
-                           </div>
-                                
-                           <div class="form-group">
-                             <label for="location">Location:</label>
-                             <input type="text" class="form-control" id="location" placeholder="Location"  name="location"/>
-                           </div>
-                            <div class="form-group">
-                             <label for="classLimit">Class Limit </label>
-                             <input type="text" class="form-control" id="classLimit" placeholder="Class Limit"  name="classLimit"/>
-                           </div>
-                            <div class="form-group">
-                             <label for="schedules">Schedule List: </label>
-                             <input readonly type="text" class="form-control" id="schedules" placeholder="Schedule List"  name="schedules"/>
-                             <a href = "javascript:void(0)" onclick = "document.getElementById('scheduleList').style.display='block';document.getElementById('fade').style.display='block'">Add Schedules</a>
-                            </div>
-   
+                             <label for="endTime">End time: </label>
+                             <input type="time" class="form-control" id="endTime" placeholder="End time"  name="endTime"/>
+                           </div>                              
                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
-                           <input type="hidden" name="idsPrereq" value="">
                            <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>

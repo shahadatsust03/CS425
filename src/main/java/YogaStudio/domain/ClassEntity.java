@@ -66,7 +66,7 @@ public class ClassEntity {
         this.description = description;
         this.fee = fee;
     }
-
+    
     public ClassEntity() {
     }
     

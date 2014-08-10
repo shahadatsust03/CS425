@@ -19,13 +19,23 @@
             </div>
             <div class="collapse navbar-collapse appiNav">
                     <ul class="nav navbar-nav">
-                        <li><a href="${pageContext.request.contextPath}">Home</a></li>
+                        <li><a href="${pageContext.request.contextPath}/">Home</a></li>
                             <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li>
                             <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li>
                             <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
+                             <c:if test="${pageContext.request.userPrincipal.name != null}">
+                             
+                             <li>
+                                 <a href="${pageContext.request.contextPath}/faculty">Faulty</a>                               
+                             </li>  
+                            
+                            </c:if>
                             <li><a href="${pageContext.request.contextPath}/contact">Contact Us</a></li>
                             <c:if test="${pageContext.request.userPrincipal.name == null}">
                               <li><a href="#testimonialsWrap">Login</a></li>
+                            </c:if>
+                            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                              <li><a href="<c:url value="j_spring_security_logout"/>">Logout</a></li>
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>

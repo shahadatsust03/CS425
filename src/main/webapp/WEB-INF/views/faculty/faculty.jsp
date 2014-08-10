@@ -5,14 +5,18 @@
 
 <html>
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <%@include file="../header.jsp" %>
     </head>
     <body>
+        <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">
             <div class="container">
-                  <%@include file="sectionListPop.jsp" %>
+                  <%@include file="faculty_navigation.jsp" %>
+                  <%@include file="main_faculty_list.jsp" %>
+               
             </div>
     </div> 
     </body>

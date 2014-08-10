@@ -94,6 +94,28 @@
          <constructor-arg ref="sectiondao"/> 
     </bean>
     
+    
+    <bean id="scheduleservice" class="YogaStudio.service.ScheduleService">
+         <constructor-arg ref="classdao"/> 
+         <constructor-arg ref="enrollmentdao"/>    
+         <constructor-arg ref="customerdao"/> 
+         <constructor-arg ref="sectiondao"/> 
+         <constructor-arg ref="shceduledao"/> 
+    </bean>   
+    
+    <bean id="facultyservice" class="YogaStudio.service.FacultyService">
+         <constructor-arg ref="facultydao"/>         
+    </bean>   
+    
+    <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="shceduledao" class="YogaStudio.dao.generic.ScheduleDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    
     <bean id="classdao" class="YogaStudio.dao.generic.ClassDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>

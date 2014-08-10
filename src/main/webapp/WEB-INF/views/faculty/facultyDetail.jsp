@@ -20,23 +20,29 @@
                 <div class="container">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="border:none;background:none;">
-                            <h4>Section name: ${section.sectionName}
+                            <h4>Faculty name: ${faculty.fullname}
                             </h4>
                         </div>
-                        <%java.text.DateFormat df = new java.text.SimpleDateFormat("HH:mm:ss"); %> 
-                            
                         <div class="panel-body">
-                        <div>Description: ${section.descripton}</div>
-                        <div>Class: ${section.classEntity.className}</div>
-                        <div>Location: ${section.location}</div>
-                        <div>Limit: ${section.classLimit}</div> 
+                        <div>Years of Experience: ${faculty.getYearsOfExperience()}</div>
+                        <div>Specialization: ${faculty.getSpecialization()}</div>
+                        <div>Contact Number: ${faculty.contactNum}</div>                        
                          <br>
-                        <c:if test="${not empty section.scheduleList}"> <div>Schedule List: </div> </c:if>
-                        <c:forEach items="${section.scheduleList}" var="schedule">     
+                        <c:if test="${not empty faculty.sections}"> <div>Section List: </div> </c:if>
+                        <c:forEach items="${faculty.sections}" var="section">     
                         
-                        <div>Day of week: ${schedule.dayOfWeek}</div>
-                        <div>Start date: ${schedule.getStartTime()}</div>
-                        <div>End date: ${schedule.getEndTime()}</div>
+                        <div>Section name: ${section.sectionName}</div>
+                            
+                        <c:if test="${not empty section.classEntity}"><div>Day of week: ${section.classEntity.className}</div>
+                            </c:if>
+                        <c:if test="${not empty section.semester}"><div>Day of week: ${section.semester.semestertName}</div>
+                            </c:if>
+                            <c:if test="${not empty section.scheduleList}"> <div>Schedule List: </div> </c:if>
+                            <c:forEach items="${section.scheduleList}" var="schedule"> 
+                            <div>Day of week: ${schedule.dayOfWeek}</div>
+                            <div>Start date: ${schedule.getStartTime()}</div>
+                            <div>End date: ${schedule.getEndTime()}</div>
+                            </c:forEach>
                         </c:forEach>
                         </div>
                     </div>

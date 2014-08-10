@@ -11,6 +11,7 @@ import YogaStudio.domain.ScheduleEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.domain.SemesterEntity;
 import YogaStudio.service.ClassService;
+import YogaStudio.service.ScheduleService;
 import YogaStudio.service.SectionService;
 import YogaStudio.service.SemesterService;
 import java.text.ParseException;
@@ -44,6 +45,9 @@ public class SectionController {
     @Autowired
     private SemesterService semesterService; 
     
+    @Autowired
+    private ScheduleService scheduleService; 
+    
     @RequestMapping(value = {"/sections","/user/sections"}, method = RequestMethod.GET)
     public ModelAndView getAllSections(HttpServletRequest request) {
         List<SectionEntity> sections = sectionService.getAllSections();
@@ -55,36 +59,43 @@ public class SectionController {
     
     @RequestMapping(value = "/section/add", method = RequestMethod.GET)
     public ModelAndView addSectionPage(HttpServletRequest request) {        
-        ModelAndView view = new ModelAndView("/section/addSection");        
+        ModelAndView view = new ModelAndView("/section/addSection");   
+        List<ClassEntity> classes = classService.getClassList();
+        List<SemesterEntity> semesters = semesterService.getAllSemester();
+        List<ScheduleEntity> schedules = scheduleService.getAllSchedules();
+        view.addObject("classes", classes);
+        view.addObject("semesters", semesters);
+         view.addObject("schedules", schedules);
         view.addObject("pageTitle", "Sections");
         return  view;
-    }
+    }    
     
-     @RequestMapping(value = {"section/section/sectionPopup"}, method = RequestMethod.GET)
-    public ModelAndView getClassesForPopup(HttpServletRequest request) {
-        List<ClassEntity> classes = classService.getClassList();
-        ModelAndView view = new ModelAndView("/section/sectionPop");
-        view.addObject("classes", classes);
-        view.addObject("pageTitle", "Classes");
+     @RequestMapping(value = "/section/addSchedule", method = RequestMethod.GET)
+    public ModelAndView addSchedulePage(HttpServletRequest request) {        
+        ModelAndView view = new ModelAndView("/section/addSchedule"); 
         return  view;
-    }
-        
-    @RequestMapping(value = {"section/section/semesterPopup"}, method = RequestMethod.GET)
-    public ModelAndView getSemestersForPopup(HttpServletRequest request) {
-        List<SemesterEntity> semesters = semesterService.getAllSemester();
-        ModelAndView view = new ModelAndView("/section/semesterPop");
-        view.addObject("semesters", semesters);
-        view.addObject("pageTitle", "Semesters");
-        return  view;
-    }
-    
+    }    
+     
     @RequestMapping(value = {"/section/save","/user/section/save"}, method = RequestMethod.POST)
     public RedirectView saveSection(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
         try{
-         String  message =  addUpdateSection(request);    
-         redirectAttributes.addFlashAttribute("message", message);
-        }catch(Exception ex){}
+            String  message =  addUpdateSection(request);    
+            redirectAttributes.addFlashAttribute("message", message);
+           }catch(Exception ex){
+                redirectAttributes.addFlashAttribute("message", ex.toString());
+           }
          return new RedirectView("/section/add", true);
+    }
+    
+    @RequestMapping(value = {"/section/saveSchedule","/user/section/saveSchedule"}, method = RequestMethod.POST)
+    public RedirectView saveSchedule(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
+        try{
+            String  message =  addUpdateSchedule(request);    
+            redirectAttributes.addFlashAttribute("message", message);
+           }catch(Exception ex){
+                redirectAttributes.addFlashAttribute("message", ex.toString());
+           }
+         return new RedirectView("/section/addSchedule", true);
     }
     
     @RequestMapping(value = {"/section/{id}", "/user/section/{id}"}, method = RequestMethod.GET)
@@ -92,20 +103,21 @@ public class SectionController {
         model.addAttribute("section", sectionService.getSection(id));
         return "section/sectionDetail";
     }    
-    @RequestMapping(value = {"../section/remove_section/{id}","/section/remove_section/{id}","/user/section/remove_section/{id}"}, method = RequestMethod.GET)
-    public RedirectView removeSection(HttpServletRequest request,@PathVariable Long Id, final RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = {"/section/remove_section","/remove_section"}, method = RequestMethod.POST)
+    public ModelAndView removeSection(HttpServletRequest request) {
         try{
+         Long Id = Long.parseLong(request.getParameter("id"));
          Boolean  message =  sectionService.deleteSection(Id);
          if(message)             
-            redirectAttributes.addFlashAttribute("Remove successfull", message);
+            return new ModelAndView("/section/","message","Remove succesfful");
         }catch(Exception ex){}
-         return new RedirectView("/section/", true);
+         return new ModelAndView("/section/","message","Remove not successfull");
     }
     
-    @RequestMapping(value = {"/section/edit_section/{id}","/user/section/edit_section/{id}"}, method = RequestMethod.GET)
-    public String editSection(HttpServletRequest request,@PathVariable Long Id, Model model) {
-        model.addAttribute("section", sectionService.getSection(Id));
-        return "section/editSection";
+    @RequestMapping(value = {"/section/edit_section","/user/section/edit_section"}, method = RequestMethod.POST)
+    public ModelAndView editSection(HttpServletRequest request) {
+        Long Id = Long.parseLong(request.getParameter("id"));       
+        return  new ModelAndView("section/editSection", "section", sectionService.getSection(Id));
     }
     
        //private method to add add and update users
@@ -117,31 +129,46 @@ public class SectionController {
                       semesterToAssign = request.getParameter("semesterToAssign"),
                       location = request.getParameter("location"),
                       classLimit = request.getParameter("classLimit"),
-                      DayOfWeek = request.getParameter("DayOfWeek"),
-                      startTime = request.getParameter("startTime"),
-                      endTime = request.getParameter("endTime");                    
+                      schedules = request.getParameter("schedules")
+                     ;                    
                      
                  if(name.isEmpty())
-                     message.add("Product name is required");
+                     message.add("Product name is required. ");
                  if(classToAssign.isEmpty())
                      message.add("Class is required");
+                 if(classToAssign.isEmpty())
+                     message.add("Semester is required. ");
                 
                  if(location.isEmpty())
-                     message.add("Location is required");
-                
-                  if(location.isEmpty())
-                     message.add("Location is required");
+                     message.add("Location is required. ");               
+                 
+                  if(classLimit.trim().length() == 0 ){
+                      message.add("Class limit is required. ");
+                  }
+                  try{
+                      Integer.parseInt(classLimit);
+                  }
+                  catch(Exception ex){
+                       message.add("Invalid class limit. ");
+                  }
                 
                    
-                 if(message.isEmpty()){
-                     SectionEntity sectionEntity = new SectionEntity(name,description,location, Integer.parseInt(classLimit));
-                     SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-                     Date ds = df.parse(startTime); 
-                     Date de = df.parse(endTime); 
+                 if(message.isEmpty()){                     
                      
+                     SectionEntity sectionEntity = new SectionEntity(name,description,location, Integer.parseInt(classLimit));
+                     SimpleDateFormat df = new SimpleDateFormat("HH:mm");                     
                      SemesterEntity semesterEntity = semesterService.getSemester(Long.parseLong(semesterToAssign));
-                     ScheduleEntity scheduleEntity = new ScheduleEntity(Integer.parseInt(DayOfWeek),ds,de);
-                     sectionEntity.addSchedule(scheduleEntity);
+                    
+                     String[] splits = schedules.split(",");
+                     for(String split: splits){
+                         if(split.trim().length() != 0)
+                         {
+                           ScheduleEntity schedule = scheduleService.getSchedule(Long.parseLong(split));
+                           schedule.addSection(sectionEntity);
+                           sectionEntity.addSchedule(schedule);
+                         }
+                     }
+                    
                      ClassEntity classEnttiy = classService.getClass(Long.parseLong(classToAssign));
                      sectionEntity.setClassEntity(classEnttiy);
                      sectionEntity.setSemester(semesterEntity);
@@ -149,11 +176,39 @@ public class SectionController {
                      classEnttiy.addSection(sectionEntity);
                      saved = classService.saveClass(classEnttiy);
                      if(saved)
-                       message.add("Successfully saved");
+                       message.add("Successfully saved ");
                      else
                        message.add("Section saving unsuccessful");
                    }
              return message.toString();
-    }   
+    }  
+    
+     private String addUpdateSchedule(HttpServletRequest request) throws ParseException{
+          List message = new ArrayList();
+                String DayOfWeek = request.getParameter("DayOfWeek"),
+                      startTime = request.getParameter("startTime"),
+                      endTime = request.getParameter("endTime");
+                 if(DayOfWeek.isEmpty())
+                     message.add("Product name is required. ");
+                 if(startTime.isEmpty())
+                     message.add("Class is required");
+                 if(DayOfWeek.isEmpty())
+                     message.add("Semester is required. ");
+                   
+                 if(message.isEmpty()){                     
+                     
+                    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+                     Date ds = df.parse(startTime); 
+                     Date de = df.parse(endTime); 
+                    
+                     ScheduleEntity scheduleEntity = new ScheduleEntity(Integer.parseInt(DayOfWeek),ds,de);
+                     Boolean saved = scheduleService.saveSchedule(scheduleEntity);
+                     if(saved)
+                       message.add("Successfully saved ");
+                     else
+                       message.add("Section saving unsuccessful");
+                   }
+             return message.toString();
+    }  
     
 }

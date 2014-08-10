@@ -12,11 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -35,7 +37,7 @@ public class SectionEntity {
     private Long id;
     private String sectionName;
     private String descripton;
-    private String location;
+    private String location;       
     private int classLimit;
 
     
@@ -43,7 +45,7 @@ public class SectionEntity {
     @JoinColumn
     ClassEntity classEntity;   
     
-    @OneToMany(mappedBy="section",cascade={CascadeType.ALL})
+    @ManyToMany(cascade={CascadeType.ALL})
     List<ScheduleEntity> scheduleList = new ArrayList<ScheduleEntity>();
      
     @ManyToOne(cascade={CascadeType.ALL})
@@ -56,6 +58,22 @@ public class SectionEntity {
 
     public FacultyEntity getFaculty() {
         return faculty;
+    }
+    
+    public String getWeekDays(){
+        String ret = "";
+        for(ScheduleEntity schedule : scheduleList ){
+            ret += schedule.getDayOfWeek() + ",";
+        }
+        return ret;
+    }
+    
+     public String getSchedules(){
+        String ret = "";
+        for(ScheduleEntity schedule : scheduleList ){
+            ret += schedule.getId() + ",";
+        }
+        return ret;
     }
 
     public void setFaculty(FacultyEntity faculty) {
@@ -151,12 +169,10 @@ public class SectionEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    public void addSchedule(ScheduleEntity schedule){
-        schedule.setSection(this);
+    public void addSchedule(ScheduleEntity schedule){        
         scheduleList.add(schedule);
     }
-    public void removeSchedule(ScheduleEntity schedule){
-        schedule.setSection(null);
+    public void removeSchedule(ScheduleEntity schedule){        
         scheduleList.remove(schedule);
     }
 
