@@ -75,4 +75,15 @@ public class WaiverDAO {
         }
         return result.list();
     }
+
+    public List<WaiverEntity> getWaiversByCustAndClass(Long custId) {
+         Query result = sf.getCurrentSession().getNamedQuery("waiverByCust");
+        result.setParameter("customer", custId);        
+        result.setParameter("status", STATUS.INVALID.name());
+        //result.setParameter("enabled", enabled);
+        if (result.list().isEmpty()) {
+            return null;
+        }
+        return result.list();
+    }
 }

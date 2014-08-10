@@ -12,7 +12,9 @@ import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.EnrollmentEntity;
 import YogaStudio.domain.WaiverEntity;
 import YogaStudio.util.STATUS;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -90,6 +92,12 @@ public class WaiverService {
     public void getWaiversByCustAndClass(Long custId, Long classId) {
 
         waiverDAO.getWaiversByCustAndClass(custId, classId);
+    }
+
+    public List<WaiverEntity> getWaiversByCust(int id) {
+        List<WaiverEntity> waiverList = new ArrayList<WaiverEntity>();
+        waiverList=waiverDAO.getWaiversByCustAndClass(Long.valueOf(id));
+        return waiverList;
     }
 
 }

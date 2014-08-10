@@ -238,14 +238,14 @@ public class UserController {
         return message;
     }
 
-    @RequestMapping(value = "/user/requestWaiver/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/waiver/requestWaiver/{id}", method = RequestMethod.GET)
     public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.get(Long.valueOf(id));
+        UserEntity user = userService.get(Long.valueOf(1));
         List<ClassEntity> classes = classService.getClassList();
-        ModelAndView view = new ModelAndView("/user/requestWaiver");
+        ModelAndView view = new ModelAndView("/waiver/requestWaiver");
         view.addObject("classes", classes);
         view.addObject("user", user);
-        view.addObject("pageTitle", "Classes");
+        view.addObject("pageTitle", "Waivers");
         String message = "Waiver Request:";//updateProfile(request, view, id);
         redirectAttributes.addFlashAttribute("message", message);
 //         if (user != null) {                
@@ -255,7 +255,7 @@ public class UserController {
         return view;
     }
 
-    @RequestMapping(value = "/user/submitWaiver/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/waiver/submitWaiver/{id}", method = RequestMethod.POST)
     public RedirectView submitRequest(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
 
         RedirectView view = new RedirectView();
@@ -328,6 +328,22 @@ public class UserController {
             }
         }
         return message;
+    }
+    
+    @RequestMapping(value = "/waiver/viewWaivers/{id}", method = RequestMethod.GET)
+    public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+            List<WaiverEntity> waivers=waiverService.getWaiversByCust(id);
+        
+        ModelAndView view = new ModelAndView("/waiver/viewWaivers");
+        view.addObject("waivers", waivers);        
+        view.addObject("pageTitle", "Waivers");
+        String message = "Waiver Request:";//updateProfile(request, view, id);
+        redirectAttributes.addFlashAttribute("message", message);
+//         if (user != null) {                
+//                return new ModelAndView("/user/requestWaiver", "user", user);
+//            }
+//        return new ModelAndView("/user/requestWaiver", "user", "not found");  
+        return view;
     }
 
 }
