@@ -11,6 +11,7 @@ import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
 import YogaStudio.service.ClassService;
+import YogaStudio.service.CustomerService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.UserService;
 import YogaStudio.service.WaiverService;
@@ -43,7 +44,9 @@ public class UserController {
     
     @Autowired
     private UserService userService;
-    
+     
+    @Autowired
+    private CustomerService customerService;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -306,7 +309,7 @@ public class UserController {
     
     private String submitWaiver(HttpServletRequest request, RedirectView view, int id) {
         System.out.println("Id:" +Long.valueOf(id) + "  Class_Id:" + request.getParameter("class_id"));
-        CustomerEntity customer = userService.getCustomer(Long.valueOf(id));
+        CustomerEntity customer = customerService.getCustomer(Long.valueOf(id));
         ClassEntity yogaClass = classService.getClass(Long.valueOf(request.getParameter("class_id")));
         String message = "Failed to submit waiver request.";
         if (yogaClass != null && customer != null) {

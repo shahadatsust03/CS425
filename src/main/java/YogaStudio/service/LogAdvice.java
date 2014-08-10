@@ -37,6 +37,19 @@ public class LogAdvice {
          System.out.println("Error sending email "+e.getMessage());
         }
 
-    }
+    }  
+    
+     @After("execution(* YogaStudio.service.UserService.add(..))&& args( id)")
+    public void sendEmail1(JoinPoint joinpoint, Long id) {
+        try{
+           
+            //System.out.println("khanuser");        
+           // emailController.generateEmailForNewAppRegistration(email);
+        }
+        catch(Exception e){
+         System.out.println("Error sending email "+e.getMessage());
+        }
+
+    } 
 
 }
