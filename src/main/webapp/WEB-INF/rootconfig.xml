@@ -106,6 +106,12 @@
     <bean id="facultyservice" class="YogaStudio.service.FacultyService">
          <constructor-arg ref="facultydao"/>         
     </bean>   
+    
+    <bean id="waiverService" class="YogaStudio.service.WaiverService">
+         <constructor-arg ref="customerdao"/>         
+         <constructor-arg ref="waiverDAO"/>
+    </bean>  
+    
     <bean id="emailController" class="YogaStudio.Controller.EmailController">
                   
     </bean>   
@@ -145,6 +151,10 @@
     
     <!--product Dao bean -->
     <bean id="productDao" class="YogaStudio.dao.generic.ProductDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="waiverDAO" class="YogaStudio.dao.generic.WaiverDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>
 </beans>

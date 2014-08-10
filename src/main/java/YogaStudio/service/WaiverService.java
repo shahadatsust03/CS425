@@ -24,15 +24,18 @@ public class WaiverService {
     @Autowired
     private WaiverDAO waiverDAO;
     @Autowired
-    private CustomerDAO customerDao;
+    private CustomerDAO customerdao;
 
     public WaiverService() {
     }
 
     public WaiverService(WaiverDAO waiverDAO) {
-
         this.waiverDAO = waiverDAO;
+    }
 
+    public WaiverService(WaiverDAO waiverDAO, CustomerDAO customerDao) {
+        this.waiverDAO = waiverDAO;
+        this.customerdao = customerDao;
     }
 
     public WaiverDAO getWaiterdao() {
@@ -47,7 +50,7 @@ public class WaiverService {
         if (waiver == null) {
             return false;
         }
-        CustomerEntity customer = customerDao.get(custId);
+        CustomerEntity customer = customerdao.get(custId);
         if (customer != null) {
             waiver.setFaculty(customer.getFaculty());
         }
@@ -79,8 +82,8 @@ public class WaiverService {
         waiverDAO.update(waiver);
 
     }
-    
-     public void getWaiversByFaId(Long faId) {
+
+    public void getWaiversByFaId(Long faId) {
         waiverDAO.getWaiversByFAId(faId);
     }
 

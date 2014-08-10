@@ -21,18 +21,18 @@
                     <table>
                         <tr><td><b>Full Name:</b></td><td><input type="text" name="fullname" value="${Profile.fullname}"></td></tr>
 
-                        <tr><td><b>Email</b></td>     <td><input type="text" name="email" value="${Profile.email}"</td><td>(Use format name@company.com)</td> </tr>
+                        <tr><td><b>Email</b></td>     <td><input type="text" name="email" value="${Profile.email}"></td><td>(Use format name@company.com)</td> </tr>
                        <!-- <tr><td>User Role</td>       <td><input type="label" name="AUTHORITY" value="${Profile.AUTHORITY}"</td> </tr> -->
-                        <tr><td><b>Username</b></td>      <td><input type="text" name="username" value="${Profile.username}"</td> </tr>
-                        <tr><td><b>Full Name</b></td>  <td><input type="text" name="password" value="${Profile.password}"</td></tr>
-                        <tr><td><b>Date Of Birth</b></td> <td><input type="text" name="dateOfBirth" value="${Profile.dateOfBirth}"</td><td>(Use format yyyy-mm-dd)</td> </tr>
-                        <tr><td><b>Joined Date</b></td>  <td><input type="text" name="joinDate" value="${Profile.joinDate}"</td><td>(Use format yyyy-mm-dd)</td> </tr>
-                        <tr><td><b>Contact Number</b></td>  <td><input type="text" name="contactNum" value="${Profile.contactNum}"</td> </tr>
-                        <tr><td><b>Street</b></td>  <td><input type="text" name="street" value="${Profile.street}"</td> </tr>
-                        <tr><td><b>City</b></td> <td><input type="text" name="city" value="${Profile.city}"</td> </tr>
-                        <tr><td><b>State</b></td>  <td><input type="text" name="state" value="${Profile.state}"</td> </tr>
-                        <tr><td><b>Country</b></td> <td><input type="text" name="country" value="${Profile.country}"</td> </tr>
-                        <tr><td><b>Zipcode</b></td> <td><input type="text" name="zipcode" value="${Profile.zipcode}"</td> </tr>  
+                        <tr><td><b>Username</b></td>      <td><input type="text" name="username" value="${Profile.username}"></td> </tr>
+                        <tr><td><b>Full Name</b></td>  <td><input type="text" name="password" value="${Profile.password}"></td></tr>
+                        <tr><td><b>Date Of Birth</b></td> <td><input type="text" name="dateOfBirth" value="${Profile.dateOfBirth}"></td><td>(Use format yyyy-mm-dd)</td> </tr>
+                        <tr><td><b>Joined Date</b></td>  <td><input type="text" name="joinDate" value="${Profile.joinDate}"></td><td>(Use format yyyy-mm-dd)</td> </tr>
+                        <tr><td><b>Contact Number</b></td>  <td><input type="text" name="contactNum" value="${Profile.contactNum}"></td> </tr>
+                        <tr><td><b>Street</b></td>  <td><input type="text" name="street" value="${Profile.street}"></td> </tr>
+                        <tr><td><b>City</b></td> <td><input type="text" name="city" value="${Profile.city}"></td> </tr>
+                        <tr><td><b>State</b></td>  <td><input type="text" name="state" value="${Profile.state}"></td> </tr>
+                        <tr><td><b>Country</b></td> <td><input type="text" name="country" value="${Profile.country}"></td> </tr>
+                        <tr><td><b>Zipcode</b></td> <td><input type="text" name="zipcode" value="${Profile.zipcode}"></td> </tr>  
                     </table>
                 </c:if>
                 <div><br/><input type="submit" value="Save Profile">
