@@ -255,7 +255,7 @@ public class UserController {
         return view;
     }
 
-    @RequestMapping(value = "/user/requestWaiver/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/submitWaiver/{id}", method = RequestMethod.POST)
     public RedirectView submitRequest(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
 
         RedirectView view = new RedirectView();

@@ -36,6 +36,9 @@ public class CustomerEntity extends UserEntity{
     @JoinColumn
     FacultyEntity faculty;
 
+    public CustomerEntity() {
+    }
+
     public CustomerEntity(String userName,String password, String fullname, String email) {
         super(userName,password, fullname, email);
     }
