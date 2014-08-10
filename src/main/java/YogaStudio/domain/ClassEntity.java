@@ -48,7 +48,7 @@ public class ClassEntity {
     inverseJoinColumns={@JoinColumn(name="Prerequestie_Id", referencedColumnName="id")})
     private List<ClassEntity> prerequisteClasses = new ArrayList<ClassEntity>();
     
-    @OneToMany(mappedBy="classEntity",cascade={CascadeType.ALL})
+    @OneToMany(mappedBy="classEntity")
     private List<SectionEntity> sections = new ArrayList<SectionEntity>();
 
     @OneToMany(mappedBy="classes",cascade={CascadeType.ALL})

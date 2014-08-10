@@ -57,13 +57,29 @@ public class FacultyController {
         model.addAttribute("faculty", facultyService.getFaculty(id));
         return "faculty/facultyDetail";        
     } 
-    @RequestMapping(value = {"/faculty/remove_faculty/", "/user/faculty/remove_faculty/"}, method = RequestMethod.POST)
-    public String removeFaculty(HttpServletRequest request) { 
-        Long id = Long.parseLong(request.getParameter("id"));
-         
-        boolean flg = facultyService.removeFaculty(id);
-        return "/faculty";        
+    
+    @RequestMapping(value = {"/faculty/editFaculty/{id}", "/user/faculty/editFaculty/{id}"}, method = RequestMethod.GET)
+    public String editFaculty(@PathVariable Long id,Model model) {        
+        model.addAttribute("faculty", facultyService.getFaculty(id));
+        return "faculty/editFaculty";        
     } 
+    
+    
+    @RequestMapping(value = {"/removeFaculty/{id}","/YogaStudio/faculty/removeFaculty/{id}","/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
+    public RedirectView removeFaculty(HttpServletRequest request,@PathVariable Long id, final RedirectAttributes redirectAttributes) {
+        Object message = null; 
+         RedirectView view = new RedirectView();                
+         if(facultyService.removeFaculty(id))
+         {
+              redirectAttributes.addFlashAttribute("Remove successfull", message);
+         }
+         else
+         {
+              redirectAttributes.addFlashAttribute("Remove not successfull", message);
+         }
+         view.setUrl(request.getContextPath()+"/faculty");         
+         return view;//"redirect:/";
+    }
     
     @RequestMapping(value = {"/faculty/add","/user/faculty/add"}, method = RequestMethod.GET)
     public String faculty(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
@@ -74,10 +90,7 @@ public class FacultyController {
     
     @RequestMapping(value = {"faculty/save","/userfaculty/save"}, method = RequestMethod.POST)
     public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
-        String message = addFaculty(request);
-        //RedirectView view = new RedirectView("redirect:/");
-        //ModelAndView view = new ModelAndView(new RedirectView("/", true));
-        //view.addObject("message", message);
+        String message = addFaculty(request);       
         redirectAttributes.addFlashAttribute("message", message);
         return new RedirectView("/faculty", true);//"redirect:/";
     }

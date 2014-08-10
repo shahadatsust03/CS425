@@ -44,18 +44,9 @@
                         <sec:authorize access="hasRole('ROLE_ADMIN')"> 
                         <h5>
                             <div>
-                            <form role="form" method="post" action="edit_section">
-                                 <input type="hidden" name="id" value="${section.id}">
-                                 <button type="submit" class="btn btn-primary">Edit section</button>                          
-                            </form>
-                                 </div>
-                                 &nbsp;
-                                 <div>
-                                     
-                            <form role="form" method="post" action="remove_section">
-                                 <input type="hidden" name="id" value="${section.id}">
-                                 <button type="submit" class="btn btn-primary">Remove Section</button>                          
-                            </form>  
+                             <td><a href="${pageContext.request.contextPath}/section/editSection/${section.id}">Edit Section</a></td>
+                            <td><a href="${pageContext.request.contextPath}/section/removeSection/${section.id}">Remove Section</a></td>
+                       
                                  </div>
                         </h5>
                         </sec:authorize>

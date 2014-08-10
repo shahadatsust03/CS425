@@ -103,22 +103,34 @@ public class SectionController {
         model.addAttribute("section", sectionService.getSection(id));
         return "section/sectionDetail";
     }    
-    @RequestMapping(value = {"/section/remove_section","/remove_section"}, method = RequestMethod.POST)
-    public ModelAndView removeSection(HttpServletRequest request) {
-        try{
-         Long Id = Long.parseLong(request.getParameter("id"));
-         Boolean  message =  sectionService.deleteSection(Id);
-         if(message)             
-            return new ModelAndView("/section/","message","Remove succesfful");
-        }catch(Exception ex){}
-         return new ModelAndView("/section/","message","Remove not successfull");
+   
+    @RequestMapping(value = {"/section/removeSection/{id}","/removeSection/{id}"}, method = RequestMethod.GET)
+     public RedirectView removeSection(HttpServletRequest request,@PathVariable Long id, final RedirectAttributes redirectAttributes) {
+        Object message = null; 
+         RedirectView view = new RedirectView();                
+         if(sectionService.deleteSection(id))
+         {
+              redirectAttributes.addFlashAttribute("Remove successfull", message);
+         }
+         else
+         {
+              redirectAttributes.addFlashAttribute("Remove not successfull", message);
+         }
+         view.setUrl(request.getContextPath()+"/section");         
+         return view;//"redirect:/";
     }
-    
-    @RequestMapping(value = {"/section/edit_section","/user/section/edit_section"}, method = RequestMethod.POST)
-    public ModelAndView editSection(HttpServletRequest request) {
-        Long Id = Long.parseLong(request.getParameter("id"));       
-        return  new ModelAndView("section/editSection", "section", sectionService.getSection(Id));
-    }
+ 
+    @RequestMapping(value = {"/faculty/editSection/{id}", "/user/faculty/editSection/{id}"}, method = RequestMethod.GET)
+    public String editSection(@PathVariable Long id,Model model) {        
+        model.addAttribute("faculty", sectionService.getSection(id));
+        return "faculty/editFaculty";        
+    } 
+     
+//    @RequestMapping(value = {"/section/editSection/{id}","/user/section/editSection/{id}"}, method = RequestMethod.GET)
+//    public ModelAndView editSection(HttpServletRequest request) {
+//        Long Id = Long.parseLong(request.getParameter("id"));       
+//        return  new ModelAndView("section/editSection", "section", sectionService.getSection(Id));
+//    }
     
        //private method to add add and update users
     private String addUpdateSection(HttpServletRequest request) throws ParseException{
