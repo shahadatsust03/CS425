@@ -39,7 +39,7 @@ public class EmailController {
      */
     public void generateEmailForNewAppRegistration(String strTo) {
         String strSubject = "Confirmation Email for registration";
-        String strMessage = "Welcome to Blog World. " + "Your registration is confirmed.\n"
+        String strMessage = "Welcome to YogaStudio. " + "Your registration is confirmed.\n"
                 + "Do not reply this is system generated email.";
 
         sendEmail(strTo, strSubject, strMessage);

@@ -26,12 +26,12 @@ public class LogAdvice {
         this.emailController = emailController;
     }
     
-    @After("execution(* YogaStudio.service.UserService.add(..))&& args(userentity)")
-    public void sendEmail(JoinPoint joinpoint, UserEntity userentity) {
+    @After("execution(* YogaStudio.service.UserService.add(..))&& args( fullname,  email, userName,  authority)")
+    public void sendEmail(JoinPoint joinpoint, String fullname, String email,String userName, String authority) {
         try{
-            String email1=userentity.getEmail();
+           
             //System.out.println("khanuser");        
-            emailController.generateEmailForNewAppRegistration(email1);
+            emailController.generateEmailForNewAppRegistration(email);
         }
         catch(Exception e){
          System.out.println("Error sending email "+e.getMessage());

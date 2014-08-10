@@ -111,7 +111,7 @@
     </bean>   
     
     <bean id="logAdvice" class="YogaStudio.service.LogAdvice">
-              <constructor-arg ref="logAdvice"/>     
+              <constructor-arg ref="emailController"/>     
     </bean>   
     
     <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">
@@ -147,7 +147,4 @@
     <bean id="productDao" class="YogaStudio.dao.generic.ProductDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>
-   
-    <bean id="logAdvice" class="YogaStudio.service.LogAdvice" />
-    
 </beans>
