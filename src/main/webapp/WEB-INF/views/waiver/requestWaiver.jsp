@@ -17,14 +17,14 @@
     <body><%@include file="../nagivation.jsp" %>
         <div id="featureWrap"> 
             <c:if test="${empty User}">
-                Profile Not Found.
+                User Not Found.
             </c:if>
             <c:if test="${not empty User}">
-            <form action="../../waiver/submitWaiver/${User.id}" method="post">
+            <form action="../waiver/submitWaiver/${User.id}" method="post">
         <h1>Request Waiver Form:</h1>
         <div><b>Select Class:</b>
         <div class="container">
-                  <%@include file="classListPop.jsp" %>
+                  <%@include file="../classes/classListPop.jsp" %>
             </div>
         </div>
         <div> <form input="text" name="reason"> Reason: </form></div>

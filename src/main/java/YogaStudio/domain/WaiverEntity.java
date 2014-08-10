@@ -25,7 +25,8 @@ import javax.persistence.TemporalType;
  */
 @NamedQueries({
     @NamedQuery(name = "submittedWaivers", query = "select w from WaiverEntity w where w.faculty=:faculty and w.status=:status"),
-    @NamedQuery(name = "waiverByCustAndClass", query = "select w from WaiverEntity w where w.customer=:customer and w.yogaClass=:yogaClass and w.status <> :status")})
+    @NamedQuery(name = "waiverByCustAndClass", query = "select w from WaiverEntity w where w.customer=:customer and w.yogaClass=:yogaClass and w.status <> :status"),
+@NamedQuery(name = "waiverByCust", query = "select w from WaiverEntity w where w.customer=:customer and w.status <> :status")})
 @Entity
 @Table(name = "Waiver")
 public class WaiverEntity {
@@ -40,17 +41,6 @@ public class WaiverEntity {
     private Date submissionDate;
     @Temporal(TemporalType.DATE)
     private Date updateDate;
-
-    public WaiverEntity() {
-    }
-
-    public WaiverEntity(CustomerEntity customer, String reason, ClassEntity yogaClass) {
-        this.customer = customer;
-        this.reason = reason;
-        this.yogaClass = yogaClass;
-        this.submissionDate = new Date();
-        this.status = STATUS.SUBMITTED.name();
-    }
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn
     private CustomerEntity customer;
@@ -63,6 +53,17 @@ public class WaiverEntity {
     @JoinColumn
     private FacultyEntity faculty;
 
+
+    public WaiverEntity() {
+    }
+
+    public WaiverEntity(CustomerEntity customer, String reason, ClassEntity yogaClass) {
+        this.customer = customer;
+        this.reason = reason;
+        this.yogaClass = yogaClass;
+        this.submissionDate = new Date();
+        this.status = STATUS.SUBMITTED.name();
+    }    
     public WaiverEntity(CustomerEntity customer, FacultyEntity faculty, String reason, ClassEntity yogaClass) {
         this.customer = customer;
         this.faculty = faculty;
