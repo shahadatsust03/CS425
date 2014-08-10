@@ -35,7 +35,7 @@ public class SemesterEntity {
     private Date startDate; 
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @OneToMany(mappedBy="semester",cascade={CascadeType.ALL})
+    @OneToMany(mappedBy="semester")
 //    @JoinColumn
     Set<SectionEntity> sections = new HashSet<SectionEntity>();
 
