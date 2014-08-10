@@ -28,7 +28,7 @@ public class UserService {
     private UserDAO userDao;
     
      @Autowired
-    private CustomerDAO customerDao;
+    private CustomerDAO customerdao;
       
     
     public UserService(){}
@@ -101,7 +101,7 @@ public class UserService {
         return  userDao.findUser( username,password);
     }
     public CustomerEntity getCustomer(Long id) {
-        return customerDao.get(id.intValue());
+        return customerdao.get(id);
     }
 
 }

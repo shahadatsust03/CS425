@@ -40,19 +40,19 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 @Controller
 public class UserController {
-
+    
     @Autowired
     private UserService userService;
-
+    
     @Autowired
     private ProductService productService;
     @Autowired
     private ClassService classService;
     @Autowired
     private WaiverService waiverService;
-
+    
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+    
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
     public ModelAndView login(HttpServletRequest request) {
         String message = "Invalid credentials";
@@ -68,52 +68,52 @@ public class UserController {
         }
         return new ModelAndView("results", "message", message);
     }
-
+    
     @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
     public ModelAndView loginFailed(HttpServletRequest request) {
         return new ModelAndView("index", "message", "Invalid username/password. Please try again.");
     }
-
+    
     @RequestMapping(value = "/user/customer", method = RequestMethod.GET)
     public ModelAndView getCustomerPage(HttpServletRequest request) {
         List<ProductEntity> products = productService.getAll();
         List<ClassEntity> classes = classService.getClassList();
-
+        
         ModelAndView view = new ModelAndView("/user/customer");
         view.addObject("products", products.isEmpty() ? null : products);
         view.addObject("classes", classes.isEmpty() ? null : classes);
         return view;
     }
-
+    
     @RequestMapping(value = "/user/administrator", method = RequestMethod.GET)
     public ModelAndView getAdministratorPage(HttpServletRequest request) {
         List<ProductEntity> products = productService.getAll();
         List<ClassEntity> classes = classService.getClassList();
-
+        
         ModelAndView view = new ModelAndView("/user/administrator");
         view.addObject("products", products.isEmpty() ? null : products);
         view.addObject("classes", classes.isEmpty() ? null : classes);
-
+        
         return view;
     }
-
+    
     @RequestMapping(value = "/user/faculty", method = RequestMethod.GET)
     public ModelAndView getFacultyPage(HttpServletRequest request) {
         return new ModelAndView("/user/faculty", "message", "nothing");
     }
-
+    
     @RequestMapping(value = "/user/users", method = RequestMethod.GET)
     public String getAll(Model model) {
         model.addAttribute("users", userService.getAll());
         return "userList";
     }
-
+    
     @RequestMapping(value = "/user/addUser", method = RequestMethod.GET)
     public String addUser(@ModelAttribute("user") UserEntity userentity) {
-
+        
         return "addUser";
     }
-
+    
     @RequestMapping(value = "/user/addUser", method = RequestMethod.POST)
     public String add(@Valid UserEntity userentity, BindingResult result, RedirectAttributes re) {
         String view = "redirect:/users";
@@ -125,13 +125,13 @@ public class UserController {
         }
         return view;
     }
-
+    
     @RequestMapping(value = "/user/users/{id}", method = RequestMethod.GET)
     public String get(@PathVariable int id, Model model) {
         model.addAttribute("user", userService.get(Long.valueOf(id)));
         return "userDetail";
     }
-
+    
     @RequestMapping(value = "/user/users/{id}", method = RequestMethod.POST)
     public String update(@Valid UserEntity user, BindingResult result,
             @PathVariable int id) {
@@ -142,7 +142,7 @@ public class UserController {
             return "userDetail";
         }
     }
-
+    
     @RequestMapping(value = "/user/users/delete", method = RequestMethod.POST)
     public String delete(int userId) {
         userService.delete(Long.valueOf(userId));
@@ -159,14 +159,14 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", message);
         return new RedirectView("/", true);//"redirect:/";
     }
-
+    
     @RequestMapping(value = "/user/myaccount", method = RequestMethod.GET)
     public ModelAndView viewProfile(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
             Object object = auth.getPrincipal();
-
+            
             String password = ((UserDetails) object).getPassword();
             System.out.println("User :" + name + "  Password:" + password);
             UserEntity user = userService.findUser(name, password);
@@ -184,7 +184,7 @@ public class UserController {
         return new ModelAndView("/user/myaccount", "Profile", "not found");
         //return "redirect:/";
     }
-
+    
     @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.GET)
     public ModelAndView editProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         UserEntity user = userService.get(Long.valueOf(id));
@@ -195,10 +195,10 @@ public class UserController {
         }
         return new ModelAndView("/user/editProfile", "Profile", "not found");
     }
-
+    
     @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.POST)
     public RedirectView saveProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-
+        
         RedirectView view = new RedirectView();
         String message = updateProfile(request, view, id);
         redirectAttributes.addFlashAttribute("message", message);
@@ -207,10 +207,10 @@ public class UserController {
         //return new ModelAndView("/user/editProfile", "Profile", "not found");
         //return "redirect:/";
     }
-
+    
     private String updateProfile(HttpServletRequest request, RedirectView view, int id) {
         UserEntity user = userService.get(Long.valueOf(id));
-
+        
         user.setFullname(request.getParameter("fullname"));
         user.setEmail(request.getParameter("email"));
         user.setUsername(request.getParameter("username"));
@@ -227,7 +227,7 @@ public class UserController {
         user.setState(request.getParameter("state"));
         user.setCountry(request.getParameter("country"));
         user.setZipcode(Long.valueOf(request.getParameter("zipcode")));
-
+        
         UserEntity updatedUser = userService.update(Long.valueOf(id), user);
         view.setUrl(request.getContextPath() + "/user/myaccount");
         String message = "Profile Updated Successfully.";
@@ -237,7 +237,7 @@ public class UserController {
         }
         return message;
     }
-
+    
     @RequestMapping(value = "/waiver/requestWaiver/{id}", method = RequestMethod.GET)
     public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         UserEntity user = userService.get(Long.valueOf(1));
@@ -245,19 +245,15 @@ public class UserController {
         ModelAndView view = new ModelAndView("/waiver/requestWaiver");
         view.addObject("classes", classes);
         view.addObject("user", user);
-        view.addObject("pageTitle", "Waivers");
-        String message = "Waiver Request:";//updateProfile(request, view, id);
+        // view.addObject("pageTitle", "Waivers");
+        String message = "Waiver Request:";
         redirectAttributes.addFlashAttribute("message", message);
-//         if (user != null) {                
-//                return new ModelAndView("/user/requestWaiver", "user", user);
-//            }
-//        return new ModelAndView("/user/requestWaiver", "user", "not found");  
         return view;
     }
-
+    
     @RequestMapping(value = "/waiver/submitWaiver/{id}", method = RequestMethod.POST)
     public RedirectView submitRequest(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-
+        
         RedirectView view = new RedirectView();
         String message = submitWaiver(request, view, id);
         redirectAttributes.addFlashAttribute("message", message);
@@ -266,14 +262,14 @@ public class UserController {
         //return new ModelAndView("/user/editProfile", "Profile", "not found");
         //return "redirect:/";
     }
-
+    
     private String addUser(HttpServletRequest request) {
         List message = new ArrayList();
         String firstName = request.getParameter("firstName"),
                 lastName = request.getParameter("lastName"),
                 email = request.getParameter("email"),
                 username = request.getParameter("username");
-
+        
         if (firstName.isEmpty()) {
             message.add("First name is required");
         }
@@ -286,14 +282,14 @@ public class UserController {
         if (username.isEmpty()) {
             message.add("Username is required");
         }
-
+        
         if (message.isEmpty()) {
             String fullname = firstName.concat(" " + lastName);
             String authority = request.getParameter("authority");
             //set the role customer by default
             authority = (authority == null) ? "ROLE_USER" : authority;
             boolean saved = userService.add(fullname, email, username, authority);
-
+            
             if (saved) {
                 message.add("Registration successful saved");
             } else {
@@ -307,24 +303,29 @@ public class UserController {
     private UserDetails currentUser() {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-
+    
     private String submitWaiver(HttpServletRequest request, RedirectView view, int id) {
+        System.out.println("Id:" +Long.valueOf(id) + "  Class_Id:" + request.getParameter("class_id"));
         CustomerEntity customer = userService.getCustomer(Long.valueOf(id));
-        ClassEntity yogaClass = classService.getClass(request.getParameter("class"));
-        String message = "Failed to submit waiver request.Class Not Found.";
+        ClassEntity yogaClass = classService.getClass(Long.valueOf(request.getParameter("class_id")));
+        String message = "Failed to submit waiver request.";
         if (yogaClass != null && customer != null) {
-
-            waiverService.getWaiversByCustAndClass(customer.getId(), yogaClass.getId());
-
-            WaiverEntity waiver = new WaiverEntity(customer, request.getParameter("reason"), yogaClass);
-
-            boolean submitStatus = waiverService.submitWaiverRequest(waiver, id);
-            //UserEntity updatedUser = userService.update(Long.valueOf(id), user);
-            view.setUrl(request.getContextPath() + "/waiver/viewWaivers");
-            message = "Waiver Request Submitted Successfully.";
-            // view.setUrl("add");
-            if (submitStatus == false) {
-                message = "Failed to submit waiver request.";
+            
+            List<WaiverEntity> waiverList = waiverService.getWaiversByCustAndClass(customer.getId(), yogaClass.getId());
+            if (waiverList == null || waiverList.isEmpty()) {
+                
+                WaiverEntity waiver = new WaiverEntity(customer, request.getParameter("reason"), yogaClass);
+                
+                boolean submitStatus = waiverService.submitWaiverRequest(waiver, Long.valueOf(id));
+                //UserEntity updatedUser = userService.update(Long.valueOf(id), user);
+                view.setUrl(request.getContextPath() + "/waiver/viewWaivers");
+                message = "Waiver Request Submitted Successfully.";
+                // view.setUrl("add");
+                if (submitStatus == false) {
+                    message = "Failed to submit waiver request.";
+                }
+            } else {
+                message = message + "Request for waiver is already submitted.";
             }
         }
         return message;
@@ -332,10 +333,10 @@ public class UserController {
     
     @RequestMapping(value = "/waiver/viewWaivers/{id}", method = RequestMethod.GET)
     public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-            List<WaiverEntity> waivers=waiverService.getWaiversByCust(id);
+        List<WaiverEntity> waivers = waiverService.getWaiversByCust(id);
         
         ModelAndView view = new ModelAndView("/waiver/viewWaivers");
-        view.addObject("waivers", waivers);        
+        view.addObject("waivers", waivers);
         view.addObject("pageTitle", "Waivers");
         String message = "Waiver Request:";//updateProfile(request, view, id);
         redirectAttributes.addFlashAttribute("message", message);
@@ -345,5 +346,5 @@ public class UserController {
 //        return new ModelAndView("/user/requestWaiver", "user", "not found");  
         return view;
     }
-
+    
 }

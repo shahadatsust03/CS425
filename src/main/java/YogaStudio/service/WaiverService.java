@@ -48,7 +48,7 @@ public class WaiverService {
         this.waiverDAO = waiverDAO;
     }
 
-    public boolean submitWaiverRequest(WaiverEntity waiver, int custId) {
+    public boolean submitWaiverRequest(WaiverEntity waiver, Long custId) {
         if (waiver == null) {
             return false;
         }
@@ -89,14 +89,14 @@ public class WaiverService {
         waiverDAO.getWaiversByFAId(faId);
     }
 
-    public void getWaiversByCustAndClass(Long custId, Long classId) {
+    public List<WaiverEntity> getWaiversByCustAndClass(Long custId, Long classId) {
 
-        waiverDAO.getWaiversByCustAndClass(custId, classId);
+        return waiverDAO.getWaiversByCustAndClass(custId, classId);
     }
 
     public List<WaiverEntity> getWaiversByCust(int id) {
         List<WaiverEntity> waiverList = new ArrayList<WaiverEntity>();
-        waiverList=waiverDAO.getWaiversByCustAndClass(Long.valueOf(id));
+        waiverList = waiverDAO.getWaiversByCustAndClass(Long.valueOf(id));
         return waiverList;
     }
 

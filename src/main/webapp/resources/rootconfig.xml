@@ -62,7 +62,8 @@
     
     <!--user service bean -->
     <bean id="userService" class="YogaStudio.service.UserService">
-           <constructor-arg ref="userDao"/>              
+           <constructor-arg ref="userDao"/>    
+            <constructor-arg ref="customerdao"/>             
     </bean>
     
     <!--user Dao bean -->

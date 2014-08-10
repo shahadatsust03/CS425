@@ -39,8 +39,9 @@ public class CustomerDAO {
         return (CustomerEntity) q.uniqueResult();    //ClassEntity)(q.list().get(0));
     }
     
-    public CustomerEntity get(int id) {
-        return (CustomerEntity) sf.getCurrentSession().load(CustomerEntity.class, id);
+    public CustomerEntity get(Long id) {
+        CustomerEntity ret = (CustomerEntity) sf.getCurrentSession().get(CustomerEntity.class, id);
+        return ret;
 
     }
 }
