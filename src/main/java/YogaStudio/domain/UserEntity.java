@@ -59,8 +59,7 @@ public class UserEntity {
     private String AUTHORITY;
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
-    @Temporal(TemporalType.DATE)
-    @Column(columnDefinition = "date default sysdate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date joinDate;
     @Column(name="RATING")
     private Byte userrating;

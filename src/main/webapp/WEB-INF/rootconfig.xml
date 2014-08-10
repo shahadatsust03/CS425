@@ -106,6 +106,13 @@
     <bean id="facultyservice" class="YogaStudio.service.FacultyService">
          <constructor-arg ref="facultydao"/>         
     </bean>   
+    <bean id="emailController" class="YogaStudio.Controller.EmailController">
+                  
+    </bean>   
+    
+    <bean id="logAdvice" class="YogaStudio.service.LogAdvice">
+              <constructor-arg ref="logAdvice"/>     
+    </bean>   
     
     <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">
         <property name="sf" ref="sessionFactory"/>

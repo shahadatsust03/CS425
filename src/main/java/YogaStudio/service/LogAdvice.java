@@ -19,16 +19,19 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Aspect
 public class LogAdvice {
+    @Autowired
+    private EmailController emailController;
 
-    private EmailController email=new EmailController();
-
+    public LogAdvice(EmailController emailController) {
+        this.emailController = emailController;
+    }
+    
     @After("execution(* YogaStudio.service.UserService.add(..))&& args(userentity)")
     public void sendEmail(JoinPoint joinpoint, UserEntity userentity) {
         try{
-        String email1=userentity.getEmail();
-        //System.out.println("khanuser");
-        
-        email.generateEmailForNewAppRegistration(email1);
+            String email1=userentity.getEmail();
+            //System.out.println("khanuser");        
+            emailController.generateEmailForNewAppRegistration(email1);
         }
         catch(Exception e){
          System.out.println("Error sending email "+e.getMessage());

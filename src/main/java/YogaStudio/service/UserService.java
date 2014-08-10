@@ -7,6 +7,7 @@
 package YogaStudio.service;
 
 
+import YogaStudio.Controller.EmailController;
 import YogaStudio.dao.generic.UserDAO;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
@@ -25,6 +26,7 @@ public class UserService {
     @Autowired
     private UserDAO userDao;
       
+    
     public UserService(){}
     
     public UserService(UserDAO userDao){
@@ -49,11 +51,15 @@ public class UserService {
         //determine if a user with such email already exists
         if (!userDao.userExists("email", user.getEmail()))
         {
-              return userDao.add(user);   
+            boolean flag = userDao.add(user);  
+//            if(flag)
+//                emailController.generateEmailForNewAppRegistration("jewel_en@yahoo.com");   
+//            
         } 
         else
             return false;
-       // email.generateEmailForNewAppRegistration("shohagcoe@gmail.com");   
+        return false;
+       
     }
     
     public List<UserEntity> findBy(String fieldName,String value) 

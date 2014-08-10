@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
  *
  * @author Shahadat
  */
-@Controller
+
 public class EmailController {
     
     
