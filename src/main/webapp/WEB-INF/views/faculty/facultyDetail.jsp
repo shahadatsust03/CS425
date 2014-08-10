@@ -50,17 +50,17 @@
                         <sec:authorize access="hasRole('ROLE_ADMIN')"> 
                         <h5>
                             <div>
-                            <form role="form" method="post" action="edit_section">
+                            <form role="form" method="post" action="../faculty/edit_faculty">
                                  <input type="hidden" name="id" value="${section.id}">
-                                 <button type="submit" class="btn btn-primary">Edit section</button>                          
+                                 <button type="submit" class="btn btn-primary">Edit Faculty</button>                          
                             </form>
                                  </div>
                                  &nbsp;
                                  <div>
                                      
-                            <form role="form" method="post" action="remove_section">
+                            <form role="form" method="post" action="../faculty/remove_faculty">
                                  <input type="hidden" name="id" value="${section.id}">
-                                 <button type="submit" class="btn btn-primary">Remove Section</button>                          
+                                 <button type="submit" class="btn btn-primary">Remove Faculty</button>                          
                             </form>  
                                  </div>
                         </h5>

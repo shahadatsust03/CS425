@@ -16,7 +16,7 @@
                    
                 <c:forEach items="${facultys}" var="faculty">
                  <tr>                           
-                     <td><a href="/faculty/getFaculty/${faculty.id}"/>${faculty.fullname}</td>
+                     <td><a href="faculty/${faculty.id}"/>${faculty.fullname}</td>
                       <td>${faculty.getSpecialization()}</td>
                      <td>${faculty.getYearsOfExperience()}</td>
                      <td>${faculty.email}</td>                     

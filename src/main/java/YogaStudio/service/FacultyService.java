@@ -52,7 +52,7 @@ public class FacultyService {
             return facultyDao.getAll();
     }
     
-    public Boolean removeFaculty(int id) {   
+    public Boolean removeFaculty(Long id) {   
         try
         {
             facultyDao.delete(id);
@@ -63,7 +63,7 @@ public class FacultyService {
     }
 
     public FacultyEntity getFaculty(Long id) {
-        return facultyDao.get(Integer.parseInt(id.toString()));
+        return facultyDao.get(id);
     }
       
 }

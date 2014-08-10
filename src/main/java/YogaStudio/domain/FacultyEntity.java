@@ -27,15 +27,39 @@ public class FacultyEntity extends UserEntity {
     private String specialization;
     private int yearsOfExperience;
     @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
-    Set<SectionEntity> sections = new HashSet<SectionEntity>();
+    List<SectionEntity> sections = new ArrayList<SectionEntity>();
     
     @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
-    Set<CustomerEntity> customers = new HashSet<CustomerEntity>();
+    List<CustomerEntity> customers = new ArrayList<CustomerEntity>();
     
     @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
 
     public FacultyEntity() {
+    }
+
+    public List<SectionEntity> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<SectionEntity> sections) {
+        this.sections = sections;
+    }
+
+    public List<CustomerEntity> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<CustomerEntity> customers) {
+        this.customers = customers;
+    }
+
+    public List<WaiverEntity> getWaivers() {
+        return waivers;
+    }
+
+    public void setWaivers(List<WaiverEntity> waivers) {
+        this.waivers = waivers;
     }
 
     public FacultyEntity(String specialization, int yearsOfExperience) {

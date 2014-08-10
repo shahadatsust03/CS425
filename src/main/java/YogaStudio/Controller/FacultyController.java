@@ -52,10 +52,17 @@ public class FacultyController {
         return  view;
     }   
    
-    @RequestMapping(value = {"/faculty/getFaculty/{id}", "/user/faculty/getFaculty/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
     public String getFaculty(@PathVariable Long id,Model model) {        
         model.addAttribute("faculty", facultyService.getFaculty(id));
-        return "facult/facultyDetail";        
+        return "faculty/facultyDetail";        
+    } 
+    @RequestMapping(value = {"/faculty/remove_faculty/", "/user/faculty/remove_faculty/"}, method = RequestMethod.POST)
+    public String removeFaculty(HttpServletRequest request) { 
+        Long id = Long.parseLong(request.getParameter("id"));
+         
+        boolean flg = facultyService.removeFaculty(id);
+        return "/faculty";        
     } 
     
     @RequestMapping(value = {"/faculty/add","/user/faculty/add"}, method = RequestMethod.GET)

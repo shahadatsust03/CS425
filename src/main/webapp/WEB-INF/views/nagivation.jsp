@@ -26,7 +26,7 @@
                              <c:if test="${pageContext.request.userPrincipal.name != null}">
                              
                              <li>
-                                 <a href="${pageContext.request.contextPath}/faculty">Faulty</a>                               
+                                 <a href="${pageContext.request.contextPath}/faculty">Faculty</a>                               
                              </li>  
                             
                             </c:if>
