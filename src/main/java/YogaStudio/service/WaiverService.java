@@ -80,8 +80,13 @@ public class WaiverService {
 
     }
     
-    public void getWaiversByFaId(){
-    
+     public void getWaiversByFaId(Long faId) {
+        waiverDAO.getWaiversByFAId(faId);
+    }
+
+    public void getWaiversByCustAndClass(Long custId, Long classId) {
+
+        waiverDAO.getWaiversByCustAndClass(custId, classId);
     }
 
 }

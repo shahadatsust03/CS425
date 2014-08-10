@@ -9,9 +9,11 @@ import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.UserEntity;
+import YogaStudio.domain.WaiverEntity;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.UserService;
+import YogaStudio.service.WaiverService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,9 @@ public class UserController {
     private ProductService productService;
     @Autowired
     private ClassService classService;
+    @Autowired
+    private WaiverService waiverService;
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
@@ -182,21 +187,21 @@ public class UserController {
 
     @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.GET)
     public ModelAndView editProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.get(Long.valueOf(id));        
+        UserEntity user = userService.get(Long.valueOf(id));
         String message = "Update Profile";//updateProfile(request, view, id);
         redirectAttributes.addFlashAttribute("message", message);
-         if (user != null) {                
-                return new ModelAndView("/user/editProfile", "Profile", user);
-            }
-        return new ModelAndView("/user/editProfile", "Profile", "not found");       
+        if (user != null) {
+            return new ModelAndView("/user/editProfile", "Profile", user);
+        }
+        return new ModelAndView("/user/editProfile", "Profile", "not found");
     }
-    
-     @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.POST)
     public RedirectView saveProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
 
         RedirectView view = new RedirectView();
-        String message=updateProfile(request, view, id);
-        redirectAttributes.addFlashAttribute("message", message);        
+        String message = updateProfile(request, view, id);
+        redirectAttributes.addFlashAttribute("message", message);
         return view;//"redirect:/";       
         //redirectAttributes.addFlashAttribute("message", "Profile not found.");
         //return new ModelAndView("/user/editProfile", "Profile", "not found");
@@ -214,7 +219,7 @@ public class UserController {
             user.setDateOfBirth(sdf.parse(request.getParameter("dateOfBirth")));
             user.setJoinDate(sdf.parse(request.getParameter("joinDate")));
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
         user.setContactNum(Long.valueOf(request.getParameter("contactNum")));
         user.setStreet(request.getParameter("street"));
@@ -233,7 +238,35 @@ public class UserController {
         return message;
     }
 
-    //private method to add new and update users
+    @RequestMapping(value = "/user/requestWaiver/{id}", method = RequestMethod.GET)
+    public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        UserEntity user = userService.get(Long.valueOf(id));
+        List<ClassEntity> classes = classService.getClassList();
+        ModelAndView view = new ModelAndView("/user/requestWaiver");
+        view.addObject("classes", classes);
+        view.addObject("user", user);
+        view.addObject("pageTitle", "Classes");
+        String message = "Waiver Request:";//updateProfile(request, view, id);
+        redirectAttributes.addFlashAttribute("message", message);
+//         if (user != null) {                
+//                return new ModelAndView("/user/requestWaiver", "user", user);
+//            }
+//        return new ModelAndView("/user/requestWaiver", "user", "not found");  
+        return view;
+    }
+
+    @RequestMapping(value = "/user/requestWaiver/{id}", method = RequestMethod.POST)
+    public RedirectView submitRequest(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+
+        RedirectView view = new RedirectView();
+        String message = submitWaiver(request, view, id);
+        redirectAttributes.addFlashAttribute("message", message);
+        return view;//"redirect:/";       
+        //redirectAttributes.addFlashAttribute("message", "Profile not found.");
+        //return new ModelAndView("/user/editProfile", "Profile", "not found");
+        //return "redirect:/";
+    }
+
     private String addUser(HttpServletRequest request) {
         List message = new ArrayList();
         String firstName = request.getParameter("firstName"),
@@ -273,6 +306,28 @@ public class UserController {
     //get current context user
     private UserDetails currentUser() {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    private String submitWaiver(HttpServletRequest request, RedirectView view, int id) {
+        CustomerEntity customer = userService.getCustomer(Long.valueOf(id));
+        ClassEntity yogaClass = classService.getClass(request.getParameter("class"));
+        String message = "Failed to submit waiver request.Class Not Found.";
+        if (yogaClass != null && customer != null) {
+
+            waiverService.getWaiversByCustAndClass(customer.getId(), yogaClass.getId());
+
+            WaiverEntity waiver = new WaiverEntity(customer, request.getParameter("reason"), yogaClass);
+
+            boolean submitStatus = waiverService.submitWaiverRequest(waiver, id);
+            //UserEntity updatedUser = userService.update(Long.valueOf(id), user);
+            view.setUrl(request.getContextPath() + "/waiver/viewWaivers");
+            message = "Waiver Request Submitted Successfully.";
+            // view.setUrl("add");
+            if (submitStatus == false) {
+                message = "Failed to submit waiver request.";
+            }
+        }
+        return message;
     }
 
 }
