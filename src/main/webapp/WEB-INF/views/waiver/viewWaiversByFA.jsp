@@ -18,6 +18,7 @@
 
             <div class="container">
                 <h1>Pending Waivers:</h1>
+               <!-- <form action="../../waiver/waiverDetails/${waiver.id}" method="post">-->
                 <table class="table table-striped" align="center">    
                     <td>Class</td>
                     <td>Reason</td>
@@ -26,18 +27,20 @@
                     <td>Comments</td>
                     <td>Status</td>
                     <td>Updated Date</td>
+                    <td></td>
                     <c:forEach items="${waivers}" var="waiver">
                         <tr>      
-                            <td>${waiver.yogaClass.className}</td>
+                            <td><a href="waiverDetails/${waiver.id}"/>${waiver.yogaClass.className}</td>
                             <td>${waiver.reason}</td>
                             <td>${waiver.submissionDate}</td>
                             <td>${waiver.faculty.fullname}</td>
                             <td>${waiver.comments}</td>
                             <td>${waiver.status}</td>
-                            <td>${waiver.updateDate}</td>
+                            <td>${waiver.updateDate}</td>                            
                         </tr>
                     </c:forEach>
                 </table>
+               <!-- </form> -->
             </div></div>
     </body>
 </html>

@@ -15,10 +15,16 @@
     <body>
         <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">   
-           
+
             <div class="container">
-        <h1>Hello World!</h1>
-        </div>
+                <form action="../../waiver/rejectWaiver/${waiver.id}" method="post">
+                    <h1>Enter Comments:</h1>
+                    <div class="form-group">
+                        <label for="reason">Comments:</label>
+                        <input type="text" class="form-control" id="comments" placeholder="Comments"  name="comments"/>
+                    </div>
+                    <div><br/><input type="submit" value="OK"></div></form>
             </div>
+        </div>
     </body>
 </html>

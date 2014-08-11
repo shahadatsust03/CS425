@@ -3,18 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package YogaStudio.Controller;
 
+import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
 import YogaStudio.domain.SectionEntity;
+import YogaStudio.domain.UserEntity;
+import YogaStudio.domain.WaiverEntity;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.CustomerService;
 import YogaStudio.service.FacultyService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.SectionService;
 import YogaStudio.service.UserService;
+import YogaStudio.service.WaiverService;
 import YogaStudio.util.Util;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.text.ParseException;
@@ -40,86 +43,85 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 @Controller
 public class FacultyController {
+
     @Autowired
     private FacultyService facultyService;
     @Autowired
     private ProductService productService;
     @Autowired
     private ClassService classService;
-    
+    @Autowired
+    private WaiverService waiverService;
+
     @Autowired
     private CustomerService customerService;
-    
-    
+
     @Autowired
-    private SectionService sectionService; 
-    
-    @RequestMapping(value = {"/faculty","/user/faculty"}, method = RequestMethod.GET)
+    private SectionService sectionService;
+
+    @RequestMapping(value = {"/faculty", "/user/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
         ModelAndView view = new ModelAndView("/faculty/faculty");
         view.addObject("facultys", facultys);
         view.addObject("pageTitle", "Faculty");
-        return  view;
-    }   
-   
+        return view;
+    }
+
     @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
-    public String getFaculty(@PathVariable Long id,Model model) {        
-        model.addAttribute("faculty", facultyService.getFaculty(id));        
-        model.addAttribute("sections", sectionService.getAllSections());
-        return "faculty/facultyDetail";        
-    } 
-    
-    @RequestMapping(value = {"/faculty/editFaculty/{id}", "/user/faculty/editFaculty/{id}"}, method = RequestMethod.GET)
-    public String editFaculty(@PathVariable Long id,Model model) {        
+    public String getFaculty(@PathVariable Long id, Model model) {
         model.addAttribute("faculty", facultyService.getFaculty(id));
-        return "faculty/editFaculty";        
-    } 
-    
-    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.POST,headers ="Accept:*/*")
-    public String assignFaculty(HttpServletRequest request) {     
+        model.addAttribute("sections", sectionService.getAllSections());
+        return "faculty/facultyDetail";
+    }
+
+    @RequestMapping(value = {"/faculty/editFaculty/{id}", "/user/faculty/editFaculty/{id}"}, method = RequestMethod.GET)
+    public String editFaculty(@PathVariable Long id, Model model) {
+        model.addAttribute("faculty", facultyService.getFaculty(id));
+        return "faculty/editFaculty";
+    }
+
+    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.POST, headers = "Accept:*/*")
+    public String assignFaculty(HttpServletRequest request) {
         String id = request.getParameter("id");
         String value = request.getParameter("value");
         FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
         CustomerEntity customer = customerService.get(Long.parseLong(value));
         faculty.addCustomer(customer);
         facultyService.add(faculty);
-        return "/faculty";        
-    }     
-    
-    @RequestMapping(value = {"/removeFaculty/{id}","/YogaStudio/faculty/removeFaculty/{id}","/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
-    public RedirectView removeFaculty(HttpServletRequest request,@PathVariable Long id, final RedirectAttributes redirectAttributes) {
-        Object message = null; 
-         RedirectView view = new RedirectView();                
-         if(facultyService.removeFaculty(id))
-         {
-              redirectAttributes.addFlashAttribute("Remove successfull", message);
-         }
-         else
-         {
-              redirectAttributes.addFlashAttribute("Remove not successfull", message);
-         }
-         view.setUrl(request.getContextPath()+"/faculty");         
-         return view;//"redirect:/";
+        return "/faculty";
     }
-    
-    @RequestMapping(value = {"/faculty/add","/user/faculty/add"}, method = RequestMethod.GET)
-    public String faculty(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
-         String  message =  "";    
-         redirectAttributes.addFlashAttribute("message", message);
-         return "faculty/addFaculty";
+
+    @RequestMapping(value = {"/removeFaculty/{id}", "/YogaStudio/faculty/removeFaculty/{id}", "/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
+    public RedirectView removeFaculty(HttpServletRequest request, @PathVariable Long id, final RedirectAttributes redirectAttributes) {
+        Object message = null;
+        RedirectView view = new RedirectView();
+        if (facultyService.removeFaculty(id)) {
+            redirectAttributes.addFlashAttribute("Remove successfull", message);
+        } else {
+            redirectAttributes.addFlashAttribute("Remove not successfull", message);
+        }
+        view.setUrl(request.getContextPath() + "/faculty");
+        return view;//"redirect:/";
     }
-    
-    @RequestMapping(value = {"faculty/save","/userfaculty/save"}, method = RequestMethod.POST)
+
+    @RequestMapping(value = {"/faculty/add", "/user/faculty/add"}, method = RequestMethod.GET)
+    public String faculty(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+        String message = "";
+        redirectAttributes.addFlashAttribute("message", message);
+        return "faculty/addFaculty";
+    }
+
+    @RequestMapping(value = {"faculty/save", "/userfaculty/save"}, method = RequestMethod.POST)
     public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
-        String message = addFaculty(request);       
+        String message = addFaculty(request);
         redirectAttributes.addFlashAttribute("message", message);
         return new RedirectView("/faculty", true);//"redirect:/";
     }
-    
-    private String addFaculty(HttpServletRequest request)  {
+
+    private String addFaculty(HttpServletRequest request) {
         List message = new ArrayList();
-        String firstName = request.getParameter("name"),                
+        String firstName = request.getParameter("name"),
                 email = request.getParameter("email"),
                 exp = request.getParameter("exp"),
                 special = request.getParameter("special"),
@@ -144,23 +146,22 @@ public class FacultyController {
         if (special.isEmpty()) {
             message.add("Speciality is required");
         }
-       
+
         if (username.isEmpty()) {
             message.add("Username is required");
         }
 
-        if (message.isEmpty()) {           
+        if (message.isEmpty()) {
             String authority = "ROLE_FACULTY";
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date date = new Date();
-            try{                
+            try {
                 date = formatter.parse(dateOfBirth);
-            }catch(Exception ex)
-            {
+            } catch (Exception ex) {
             }
             String password = Util.generatePassword();
-                                                                                                                                                                                
-            FacultyEntity facultyEntity = new FacultyEntity(special,Integer.parseInt(exp),username, password,firstName, email, authority, date,  Long.parseLong(contactNumber),  street,  city,  state,  country,  Long.parseLong(zip));
+
+            FacultyEntity facultyEntity = new FacultyEntity(special, Integer.parseInt(exp), username, password, firstName, email, authority, date, Long.parseLong(contactNumber), street, city, state, country, Long.parseLong(zip));
             boolean saved = facultyService.add(facultyEntity);
 
             if (saved) {
@@ -171,4 +172,56 @@ public class FacultyController {
         }
         return message.toString();
     }
+
+    @RequestMapping(value = "/waiver/viewWaiversByFA/{id}", method = RequestMethod.GET)
+    public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
+        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
+        ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
+        view.addObject("waivers", waivers);
+        view.addObject("faculty", faculty);
+        // view.addObject("pageTitle", "Waivers");
+        String message = "Waiver Request:";
+        redirectAttributes.addFlashAttribute("message", message);
+        return view;
+    }
+
+    @RequestMapping(value = "/waiver/waiverDetails/{id}", method = RequestMethod.GET)
+    public ModelAndView waiverDetails(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        //FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
+        WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
+        ModelAndView view = new ModelAndView("/waiver/waiverDetails");
+        view.addObject("waiver", waiver);
+        // view.addObject("pageTitle", "Waivers");
+        String message = "Waiver Request:";
+        redirectAttributes.addFlashAttribute("message", message);
+        return view;
+    }
+
+    @RequestMapping(value = "/waiver/respondOnWaiver/{id}", method = RequestMethod.POST)
+    public RedirectView respondOnWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        //if "name" value equals approve redirect to viewWaivers by updating status
+        //else show reject popup with comments and redirect after submitting and updating to DB to viewWaivers
+        RedirectView view = new RedirectView();
+        String message = "Successfully updated Waiver status.";
+        System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
+        // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
+        String response = request.getParameter("response");
+        boolean status = false;
+        if (response.contains("Approve")) {
+            status = waiverService.approveWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+        } else if (response.contains("Reject")) {
+            status = waiverService.rejectWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+        }
+        if (status == false) {
+            message = "!!! Failed updating the waiver.";
+        }
+        view.setUrl(request.getContextPath() + "/waiver/viewWaiversByFA");
+        redirectAttributes.addFlashAttribute("message", message);
+        return view;//"redirect:/";       
+        //redirectAttributes.addFlashAttribute("message", "Profile not found.");
+        //return new ModelAndView("/user/editProfile", "Profile", "not found");
+        //return "redirect:/";
+    }
+
 }

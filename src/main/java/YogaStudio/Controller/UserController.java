@@ -243,7 +243,7 @@ public class UserController {
 
     @RequestMapping(value = "/waiver/requestWaiver/{id}", method = RequestMethod.GET)
     public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.get(Long.valueOf(1));
+        CustomerEntity user = customerService.get(Long.valueOf(id));
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/waiver/requestWaiver");
         view.addObject("classes", classes);

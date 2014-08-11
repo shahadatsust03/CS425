@@ -39,7 +39,7 @@ public class WaiverDAO {
         sf.getCurrentSession().persist(waiver);
     }
 
-    public WaiverEntity get(int id) {
+    public WaiverEntity get(Long id) {
         return (WaiverEntity) sf.getCurrentSession().load(WaiverEntity.class, id);
     }
 
@@ -48,7 +48,7 @@ public class WaiverDAO {
         sf.getCurrentSession().update(waiver);
     }
 
-    public void delete(int waiverId) {
+    public void delete(Long waiverId) {
         WaiverEntity waiver = get(waiverId);
         sf.getCurrentSession().delete(waiver);
     }
