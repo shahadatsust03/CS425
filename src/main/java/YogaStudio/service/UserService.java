@@ -74,8 +74,6 @@ public class UserService {
     public UserEntity get(Long id) {     
         return userDao.get(id);      
     }
-
-
     
     public UserEntity getUser(int id) {     
         return userDao.get(id);      
@@ -89,8 +87,6 @@ public class UserService {
         userDao.delete(userId);   
     }
     
- 
-
     public UserEntity findUser(String username, String password) {
         return  userDao.findUser( username,password);
     }
