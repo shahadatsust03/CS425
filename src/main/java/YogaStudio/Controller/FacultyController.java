@@ -6,9 +6,11 @@
 
 package YogaStudio.Controller;
 
+import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.service.ClassService;
+import YogaStudio.service.CustomerService;
 import YogaStudio.service.FacultyService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.SectionService;
@@ -46,6 +48,10 @@ public class FacultyController {
     private ClassService classService;
     
     @Autowired
+    private CustomerService customerService;
+    
+    
+    @Autowired
     private SectionService sectionService; 
     
     @RequestMapping(value = {"/faculty","/user/faculty"}, method = RequestMethod.GET)
@@ -74,7 +80,11 @@ public class FacultyController {
     public String assignFaculty(HttpServletRequest request) {     
         String id = request.getParameter("id");
         String value = request.getParameter("value");
-        return "faculty/editFaculty";        
+        FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
+        CustomerEntity customer = customerService.get(Long.parseLong(value));
+        faculty.addCustomer(customer);
+        facultyService.add(faculty);
+        return "/faculty";        
     }     
     
     @RequestMapping(value = {"/removeFaculty/{id}","/YogaStudio/faculty/removeFaculty/{id}","/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
