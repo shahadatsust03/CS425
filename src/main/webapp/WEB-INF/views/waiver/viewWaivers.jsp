@@ -10,10 +10,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Requested Waivers</title>
+        <%@include file="../header.jsp" %>
     </head>
     <body>
+        <%@include file="../nagivation.jsp" %>
+        <div id="featureWrap">   
+           
+            <div class="container">
         <h1>Requested Waivers:</h1>
-        <table class="table table-striped">    
+        <table class="table table-striped" align="center">    
             <td>Class</td>
             <td>Reason</td>
             <td>Submitted Date</td>
@@ -33,5 +38,7 @@
                 </tr>
             </c:forEach>
         </table>
+        </div>
+            </div>
     </body>
 </html>

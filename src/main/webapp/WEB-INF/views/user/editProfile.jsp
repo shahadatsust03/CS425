@@ -18,7 +18,7 @@
             <c:if test="${not empty Profile}">
                 <form action="../../user/editProfile/${Profile.id}" method="post">
                     <h1>My Profile!</h1>
-                    <table>
+                    <table align="center">
                         <tr><td><b>Full Name:</b></td><td><input type="text" name="fullname" value="${not empty Profile.fullname ? Profile.fullname :""}"></td></tr>
 
                         <tr><td><b>Email</b></td>     <td><input type="text" name="email" value="${not empty Profile.email ? Profile.email:""}"></td><td>(Use format name@company.com)</td> </tr>
@@ -34,7 +34,7 @@
                         <tr><td><b>Zipcode</b></td> <td><input type="text" name="zipcode" value="${not empty Profile.zipcode ? Profile.zipcode : ""}"></td> </tr>  
                     </table>
                 </c:if>
-                <div><br/><input type="submit" value="Save Profile">
+                <div align="center"><br/><input type="submit" value="Save Profile">
                     </form>
                 </div>
         </div> <!-- /featureWrap -->
