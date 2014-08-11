@@ -92,6 +92,11 @@
            <property name="customerdao" ref="customerdao" />              
     </bean>
     
+    <bean id="semesterService" class="YogaStudio.service.SemesterService">
+            <constructor-arg ref="semesterdao"/>
+    </bean>
+    
+    
     <bean id="classservice" class="YogaStudio.service.ClassService">
          <constructor-arg ref="classdao"/> 
          <constructor-arg ref="enrollmentdao"/>    
