@@ -147,8 +147,8 @@ public class UserController {
     }
     
     @RequestMapping(value = "/user/users/delete", method = RequestMethod.POST)
-    public String delete(int userId) {
-        userService.delete(Long.valueOf(userId));
+    public String delete(Long userId) {
+        userService.delete(userId);
         return "redirect:/users";
     }
 

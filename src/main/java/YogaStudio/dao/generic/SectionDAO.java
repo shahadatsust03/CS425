@@ -58,18 +58,7 @@ public class SectionDAO {
         }
         return false;
     }
-      public boolean removeSection(Long Id) {
-        try{
-            SectionEntity ce = get(Id);
-            sf.getCurrentSession().delete(ce);
-            return true;
-        }
-        catch(Exception e){
-         System.out.println("Remove section failed "+e.getMessage());
-        }
-        return false;
-    }
-     
+   
     public List<SectionEntity> getAllSections() {
         
         String hql = "From SectionEntity";

@@ -31,6 +31,12 @@ public class CustomerService {
     @Autowired
     private CustomerDAO customerdao;
     
+    public CustomerService(){};
+
+    public CustomerService(CustomerDAO customerdao) {
+        this.customerdao = customerdao;
+    }
+    
     
     public CustomerDAO getCustomerdao() {
         return customerdao;
