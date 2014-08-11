@@ -12,6 +12,8 @@
     <body>
         <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">   
+           
+            <div class="container">
             <c:if test="${empty Profile}">
                 Profile Not Found.
             </c:if>
@@ -39,9 +41,11 @@
                     <tr><td><b>Zipcode</b></td> <td>${Profile.zipcode}</td> </tr>  
                 </table>
             </c:if>
-        </div> <!-- /featureWrap -->
-        <h5>
+                <h5>
             <b>  <a href="${pageContext.request.contextPath}/user/editProfile/${Profile.id}">Edit Profile</a> </b>
         </h5>
+            </div>
+        </div> <!-- /featureWrap -->
+        
     </body>
 </html>
