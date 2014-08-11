@@ -84,7 +84,7 @@ public class UserService {
     public UserEntity update(Long userId, UserEntity userentity) {     
         return userDao.update(userId, userentity);    
     }
-
+       
     public void delete(Long userId) {    
         userDao.delete(userId);   
     }

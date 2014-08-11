@@ -24,21 +24,21 @@ import javax.persistence.Table;
 @Table(name="Customer")
 public class CustomerEntity extends UserEntity{
     @OneToMany(mappedBy="customer")
-    List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
+    private List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
 
     @OneToMany(mappedBy="customer",cascade={CascadeType.ALL})
-    List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();
+    private List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();
     
     @OneToMany(mappedBy="customer",cascade={CascadeType.ALL})
-    List<TranscriptEntity> transcripts = new ArrayList<TranscriptEntity>();
+    private List<TranscriptEntity> transcripts = new ArrayList<TranscriptEntity>();
     
     @OneToMany(mappedBy="customer")
-    List<OrderEntity> orders = new ArrayList<OrderEntity>();  
+    private List<OrderEntity> orders = new ArrayList<OrderEntity>();  
     
     
     @ManyToOne
     @JoinColumn
-    FacultyEntity faculty;
+    private FacultyEntity faculty;
 
     public List<EnrollmentEntity> getEnrollments() {
         return enrollments;
@@ -88,29 +88,36 @@ public class CustomerEntity extends UserEntity{
     
     public void addOrder(OrderEntity order) {
         order.setCustomer(this);
-        this.orders.add(order);
+        this.getOrders().add(order);
     }
      public void removeOrder(OrderEntity order) {
         order.setCustomer(null);
-        this.orders.add(order);
+        this.getOrders().add(order);
     }
     
     
     public void addWaivers(WaiverEntity waiver) {
         waiver.setCustomer(this);
-        this.waivers.add(waiver);
+        this.getWaivers().add(waiver);
     }
      public void removeWaivers(WaiverEntity waiver) {
         waiver.setCustomer(null);
-        this.waivers.remove(waiver);
+        this.getWaivers().remove(waiver);
     }
     
      public void addEnrollments(EnrollmentEntity enrollment) {
          enrollment.setCustomer(this);
-        enrollments.add(enrollment);
+        getEnrollments().add(enrollment);
     }
      public void removeEnrollments(EnrollmentEntity enrollment) {
         enrollment.setCustomer(null);
-         enrollments.remove(enrollment);
+         getEnrollments().remove(enrollment);
+    }
+
+    /**
+     * @param transcripts the transcripts to set
+     */
+    public void setTranscripts(List<TranscriptEntity> transcripts) {
+        this.transcripts = transcripts;
     }
 }
