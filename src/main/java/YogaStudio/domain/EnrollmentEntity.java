@@ -51,15 +51,18 @@ public class EnrollmentEntity {
         this.enrolledDate = new Date();
     }
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    //@ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn
     CustomerEntity customer;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    //@ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn
     SectionEntity section;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    //@ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn
     ClassEntity classEn;
 

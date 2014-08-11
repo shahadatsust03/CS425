@@ -77,8 +77,8 @@ public class ClassService {
         return classdao.get(id);
     }
     
-    public void updateClass(Long classId, ClassEntity classEntity) {
-        classdao.updateClass(classId, classEntity);
+    public boolean updateClass(ClassEntity classEntity) {
+        return classdao.updateClass(classEntity);
     }
     
     public void removeClass(String  className){
@@ -89,26 +89,59 @@ public class ClassService {
         while(sectionsIterator.hasNext())
         {
             SectionEntity section = sectionsIterator.next();
-            List<Integer> enrolledCustomersIds = enrollmentdao.getEnrolledCustomersIds(section.getId());            
-            Iterator<Integer> enrolledCustomersIdsIterator = enrolledCustomersIds.iterator();
+            List<Long> enrolledCustomersIds = enrollmentdao.getEnrolledCustomersIds(section.getId());            
+            Iterator<Long> enrolledCustomersIdsIterator = enrolledCustomersIds.iterator();
             while(enrolledCustomersIdsIterator.hasNext()){
-                Integer id = enrolledCustomersIdsIterator.next();
+                Long id = enrolledCustomersIdsIterator.next();
                 
                 CustomerEntity customerEntity = customerdao.getCustomer(id);
                 
                 EmailController eController = new EmailController();
-                eController.sendEmail(customerEntity.getEmail(), "Class Removal" , "The class " + className + " is removed");
+                //eController.sendEmail(customerEntity.getEmail(), "Class Removal" , "The class " + className + " is removed");
                 
             }
             
             FacultyEntity facultyEntity = sectiondao.getAssignedFaculty(section.getId());
             EmailController eController = new EmailController();
-            eController.sendEmail(facultyEntity.getEmail(), "Class Removal" , "The class " + className + " is removed");
+           // eController.sendEmail(facultyEntity.getEmail(), "Class Removal" , "The class " + className + " is removed");
             
-             classdao.removeClass(classEntity.getId());
+             
             
-        }
+        }        
+        classdao.removeClass(classEntity.getId());
        
     }
+    
+    public void removeClass(Long id){
+        ClassEntity classEntity = classdao.get(id);
+        
+        Iterator<SectionEntity> sectionsIterator = classEntity.getSections().iterator();
+        
+        while(sectionsIterator.hasNext())
+        {
+            SectionEntity section = sectionsIterator.next();
+            List<Long> enrolledCustomersIds = enrollmentdao.getEnrolledCustomersIds(section.getId());            
+            Iterator<Long> enrolledCustomersIdsIterator = enrolledCustomersIds.iterator();
+            while(enrolledCustomersIdsIterator.hasNext()){
+                Long id2 = enrolledCustomersIdsIterator.next();
+                
+                CustomerEntity customerEntity = customerdao.getCustomer(id2);
+                
+                EmailController eController = new EmailController();
+                //eController.sendEmail(customerEntity.getEmail(), "Class Removal" , "The class " + classEntity.getClassName() + " is removed");
+                
+            }
+            
+            FacultyEntity facultyEntity = sectiondao.getAssignedFaculty(section.getId());
+            EmailController eController = new EmailController();
+            //eController.sendEmail(facultyEntity.getEmail(), "Class Removal" , "The class " + classEntity.getClassName() + " is removed");
+            
+                        
+        }
+        
+        classdao.removeClass(classEntity.getId());
+       
+    }
+    
     
 }

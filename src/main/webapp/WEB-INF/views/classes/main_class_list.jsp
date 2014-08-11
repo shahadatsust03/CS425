@@ -12,7 +12,7 @@
                      <td>Tution Fee</td>
                 <c:forEach items="${classes}" var="classes">
                  <tr>      
-                     <td><a href="classes/${classs.id}"/>${classes.className}</td>
+                     <td><a href="${pageContext.request.contextPath}/classes/${classes.id}"/>${classes.className}</td>
                      <td>${classes.description}</td>
                      <td>${classes.fee}</td>
                  </tr>

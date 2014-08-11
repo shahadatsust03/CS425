@@ -18,6 +18,7 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
+                    <%@include file="class_navigation2.jsp" %>
                     <div class="panel panel-default">
                         <div class="panel-heading" style="border:none;background:none;">
                             <h4>${classes.className}
@@ -25,17 +26,19 @@
                         </div>
                         <div class="panel-body">
                          <div>Description: ${classes.description}</div>
-                         <div>Price: ${classes.fee}</div>
-                         <div>Price: ${classes.fee}</div>
+                         <div>Price: ${classes.fee}</div>                         
                          <div>Prerequesties: 
-                         <c:if test="${not empty classes.prerequiste}">
-                             <c:forEach items="${classes.prerequiste}" var="preReq">                                 
+                         <c:if test="${not empty classes.prerequisteClasses}">
+                             <c:forEach items="${classes.prerequisteClasses}" var="preReq">                                 
                                  ${preReq.className} &nbsp;&nbsp;
                              </c:forEach>
                          </c:if>
                          </div>
                         </div>
+                         <table>                              
+                         </table>
                     </div>
+                         
                 </div>
     </div> 
     </body>

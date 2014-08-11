@@ -36,13 +36,69 @@ public class ClassEntity {
     private String description;
     private Double fee;
     
-    @ManyToMany(mappedBy="prerequisteClasses",cascade={CascadeType.ALL})
+    //@ManyToMany(mappedBy="prerequisteClasses",cascade={CascadeType.ALL})
+    @ManyToMany(mappedBy="prerequisteClasses")
     private List<ClassEntity> prerequisite = new ArrayList<ClassEntity>();
+    
+    @OneToMany(mappedBy="classEntity",cascade={CascadeType.ALL})
+    List<TranscriptEntity> transcripts = new ArrayList<TranscriptEntity>();
+
+    public void setPrerequisite(List<ClassEntity> prerequisite) {
+        this.prerequisite = prerequisite;
+    }
+
+    public List<TranscriptEntity> getTranscripts() {
+        return transcripts;
+    }
+
+    public List<WaiverEntity> getWaivers() {
+        return waivers;
+    }
+
+    public Set<PaymentEntity> getPayments() {
+        return payments;
+    }
+
+    public Set<EnrollmentEntity> getEnrollments() {
+        return enrollments;
+    }
+
+    public TranscriptEntity getTranscript() {
+        return transcript;
+    }
+
+    public void setTranscripts(List<TranscriptEntity> transcripts) {
+        this.transcripts = transcripts;
+    }
+
+    public void setWaivers(List<WaiverEntity> waivers) {
+        this.waivers = waivers;
+    }
+
+    public void setPayments(Set<PaymentEntity> payments) {
+        this.payments = payments;
+    }
+
+    public void setEnrollments(Set<EnrollmentEntity> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    public void setTranscript(TranscriptEntity transcript) {
+        this.transcript = transcript;
+    }
+    
+    
+    
+
+    public List<ClassEntity> getPrerequisite() {
+        return prerequisite;
+    }
     
     @OneToMany(mappedBy="yogaClass",cascade={CascadeType.ALL})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
  
-    @ManyToMany(cascade={CascadeType.ALL})
+    //@ManyToMany(cascade={CascadeType.ALL})
+    @ManyToMany()
     @JoinTable(name="Prerequestie_Class",  
     joinColumns={@JoinColumn(name="Class_Id", referencedColumnName="id")},  
     inverseJoinColumns={@JoinColumn(name="Prerequestie_Id", referencedColumnName="id")})

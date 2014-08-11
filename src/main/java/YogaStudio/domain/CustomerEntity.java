@@ -8,6 +8,7 @@ package YogaStudio.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -25,8 +26,11 @@ public class CustomerEntity extends UserEntity{
     @OneToMany(mappedBy="customer")
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
 
-    @OneToMany(mappedBy="customer")
-    List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();  
+    @OneToMany(mappedBy="customer",cascade={CascadeType.ALL})
+    List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();
+    
+    @OneToMany(mappedBy="customer",cascade={CascadeType.ALL})
+    List<TranscriptEntity> transcripts = new ArrayList<TranscriptEntity>();
     
     @OneToMany(mappedBy="customer")
     List<OrderEntity> orders = new ArrayList<OrderEntity>();  
@@ -36,11 +40,34 @@ public class CustomerEntity extends UserEntity{
     @JoinColumn
     FacultyEntity faculty;
 
-    public CustomerEntity() {
+    public List<EnrollmentEntity> getEnrollments() {
+        return enrollments;
     }
+
+    public List<TranscriptEntity> getTranscripts() {
+        return transcripts;
+    }
+
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setEnrollments(List<EnrollmentEntity> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
+    }
+    
+    
 
     public CustomerEntity(String userName,String password, String fullname, String email) {
         super(userName,password, fullname, email);
+    }
+    
+    public CustomerEntity(){
+        
     }
 
     public FacultyEntity getFaculty() {

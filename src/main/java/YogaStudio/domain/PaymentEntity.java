@@ -31,7 +31,7 @@ public class PaymentEntity {
     @Temporal(TemporalType.DATE)
     private Date paymentDate;    
 
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne()
     @JoinTable(name="Class_Payment",  
     joinColumns={@JoinColumn(name="Class_Id", referencedColumnName="id")},  
     inverseJoinColumns={@JoinColumn(name="Payment_Id", referencedColumnName="id")})
@@ -43,7 +43,7 @@ public class PaymentEntity {
     inverseJoinColumns={@JoinColumn(name="Payment_Id", referencedColumnName="id")})  
     OrderEntity order;
     
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn
     CreditCardEntity creditcard;
 
@@ -54,6 +54,8 @@ public class PaymentEntity {
     public void setOrder(OrderEntity order) {
         this.order = order;
     }
+    
+     
         
     public ClassEntity getClasses() {
         return classes;
@@ -92,6 +94,15 @@ public class PaymentEntity {
         return id;
     }
 
+    public void setCreditcard(CreditCardEntity creditcard) {
+        this.creditcard = creditcard;
+    }
+
+
+    public CreditCardEntity getCreditcard() {
+        return creditcard;
+    }
+   
     public void setId(Long id) {
         this.id = id;
     }

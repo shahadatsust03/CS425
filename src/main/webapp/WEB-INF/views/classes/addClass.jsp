@@ -13,12 +13,28 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <%@include file="../header.jsp" %>
+        
+              <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script>
+        $(function() {
+        $( "#startDate" ).datepicker({ dateFormat: "yyyy-mm-dd" });
+        });
+        </script>
+        <script>
+        $(function() {
+        $( "#endDate" ).datepicker({ dateFormat: "yyyy-mm-dd" });
+        });
+        </script>
+        
     </head>
     <body>
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
-                            <form role="form" method="post" action="save">
+                            <form role="form" method="post" action="${pageContext.request.contextPath}/classes/save">
                            <div class="form-group">
                              <label for="price">Name:</label>
                              <input typ="text" class="form-control" id="price" name="name" placeholder = "Name" value=''/>

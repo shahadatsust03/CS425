@@ -84,6 +84,19 @@
     </bean>
     
     
+    <bean id="paymentService" class="YogaStudio.service.PaymentService">
+          <property name="paymentdao" ref="paymentdao"/>              
+    </bean> 
+    
+    <bean id="customertService" class="YogaStudio.service.CustomerService">
+           <property name="customerdao" ref="customerdao" />              
+    </bean>
+    
+    <bean id="semesterService" class="YogaStudio.service.SemesterService">
+            <constructor-arg ref="semesterdao"/>
+    </bean>
+    
+    
     <bean id="classservice" class="YogaStudio.service.ClassService">
          <constructor-arg ref="classdao"/> 
          <constructor-arg ref="enrollmentdao"/>    
@@ -93,6 +106,20 @@
     
     <bean id="sectionservice" class="YogaStudio.service.SectionService">
          <constructor-arg ref="classdao"/> 
+         <constructor-arg ref="enrollmentdao"/>    
+         <constructor-arg ref="customerdao"/> 
+         <constructor-arg ref="sectiondao"/> 
+    </bean>
+    
+    <bean id="semesterservice" class="YogaStudio.service.SemesterService">
+         <constructor-arg ref="enrollmentdao"/> 
+         <constructor-arg ref="customerdao"/>    
+         <constructor-arg ref="sectiondao"/> 
+         <constructor-arg ref="semesterdao"/> 
+    </bean>
+    
+    <bean id="enrollmentservice" class="YogaStudio.service.EnrollmentService">
+         <constructor-arg ref="transcriptdao"/> 
          <constructor-arg ref="enrollmentdao"/>    
          <constructor-arg ref="customerdao"/> 
          <constructor-arg ref="sectiondao"/> 
@@ -152,6 +179,13 @@
         <property name="sf" ref="sessionFactory"/>
     </bean>
     
+     <bean id="transcriptdao" class="YogaStudio.dao.generic.TranscriptDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
+    
+     <bean id="paymentdao" class="YogaStudio.dao.generic.PaymentDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean> 
     
     <!--product Dao bean -->
     <bean id="productDao" class="YogaStudio.dao.generic.ProductDAO">

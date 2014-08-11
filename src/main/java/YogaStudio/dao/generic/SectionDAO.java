@@ -8,6 +8,7 @@ package YogaStudio.dao.generic;
 
 import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
+import YogaStudio.domain.EnrollmentEntity;
 import YogaStudio.domain.FacultyEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.domain.UserEntity;
@@ -44,7 +45,18 @@ public class SectionDAO {
         return false;
     }
      public SectionEntity get(Long id) {
-        return (SectionEntity) sf.getCurrentSession().load(SectionEntity.class, id);
+        return (SectionEntity) sf.getCurrentSession().get(SectionEntity.class, id);
+    }
+      public boolean removeSection(Long Id) {
+        try{
+            SectionEntity ce = get(Id);
+            sf.getCurrentSession().delete(ce);
+            return true;
+        }
+        catch(Exception e){
+         System.out.println("Remove section failed "+e.getMessage());
+        }
+        return false;
     }
       public boolean removeSection(Long Id) {
         try{
@@ -84,6 +96,32 @@ public class SectionDAO {
         q.setParameter("startDate", formatter.parse(startDate));
         q.setParameter("endDate", formatter.parse(endDate));
         return (SectionEntity) q.uniqueResult();    //ClassEntity)(q.list().get(0));
+    }
+    
+    public List<ClassEntity> getPrerequisites(Long sectionId) throws ParseException{
+        //Assuming the className for classes is unique
+        String hql = "SELECT SE.classEntity From SectionEntity SE WHERE SE.id = :sectionId"; 
+        Query q = sf.getCurrentSession().createQuery(hql);
+        q.setParameter("sectionId", sectionId);
+        
+        ClassEntity classEntity = (ClassEntity) q.uniqueResult();
+        
+        if(classEntity != null)
+            return classEntity.getPrerequisteClasses();
+        
+        return null;
+    }
+    
+     public boolean isEnrolled(Long customerId, Long sectionId){
+        String hql = "From EnrollmentEntity EE WHERE EE.customer.id = :customerId AND EE.section.id = :sectionId";
+        Query q = sf.getCurrentSession().createQuery(hql);
+        q.setParameter("customerId", customerId);
+        q.setParameter("sectionId", sectionId);
+        EnrollmentEntity enrollmentEntity = (EnrollmentEntity) q.uniqueResult();
+        if(enrollmentEntity == null)
+            return false;
+        else
+            return true;
     }
     
 }

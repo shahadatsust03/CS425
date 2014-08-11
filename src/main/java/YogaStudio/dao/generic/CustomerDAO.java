@@ -27,8 +27,8 @@ public class CustomerDAO {
     public void setSf(SessionFactory sf) {
         this.sf = sf;
     }
-
-    public CustomerEntity getCustomer(int customerId) {
+    
+    public CustomerEntity getCustomer(Long customerId){
         //Assuming the className for classes is unique
         String hql = "From CustomerEntity CE WHERE CE.id = :customerId";
         Query q = sf.getCurrentSession().createQuery(hql);
@@ -60,4 +60,6 @@ public class CustomerDAO {
         CustomerEntity customer = get(customerId);
         sf.getCurrentSession().delete(customer);
     }
+    
+   
 }

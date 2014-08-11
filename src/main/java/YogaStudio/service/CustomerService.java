@@ -6,35 +6,42 @@
 
 package YogaStudio.service;
 
+
+import YogaStudio.Controller.EmailController;
+import YogaStudio.dao.generic.ClassDAO;
 import YogaStudio.dao.generic.CustomerDAO;
+import YogaStudio.dao.generic.EnrollmentDAO;
+import YogaStudio.dao.generic.RegistrationDAO;
+import YogaStudio.dao.generic.SectionDAO;
+import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
+import YogaStudio.domain.FacultyEntity;
+import YogaStudio.domain.SectionEntity;
+import YogaStudio.domain.UserEntity;
+import java.util.Iterator;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author demodem
+ * @author Shahadat
  */
 public class CustomerService {
+    
     @Autowired
     private CustomerDAO customerdao;
+    
+    
+    public CustomerDAO getCustomerdao() {
+        return customerdao;
+    }
 
-    public CustomerService(CustomerDAO customerdao) {
+    public void setCustomerdao(CustomerDAO customerdao) {
         this.customerdao = customerdao;
     }
-     
-    public CustomerEntity getCustomer(Long id) {
-        return customerdao.get(id);
+    
+    public CustomerEntity getCustomer(Long customerId){
+        return customerdao.getCustomer(customerId);
     }
-      
-       public CustomerEntity get(Long id) {     
-        return customerdao.get(id);      
-    }
-
-    public CustomerEntity getUser(Long id) {     
-        return customerdao.get(id);      
-    }
-
-    public void delete(Long userId) {    
-        customerdao.delete(userId);   
-    }   
+    
 }
