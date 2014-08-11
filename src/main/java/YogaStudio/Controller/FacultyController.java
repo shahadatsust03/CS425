@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -69,7 +70,7 @@ public class FacultyController {
         return "faculty/editFaculty";        
     } 
     
-    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.POST,headers ="Accept:*/*")
     public String assignFaculty(HttpServletRequest request) {     
         String id = request.getParameter("id");
         String value = request.getParameter("value");

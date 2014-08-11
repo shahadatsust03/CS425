@@ -227,7 +227,7 @@ public class UserEntity {
     /**
      * @return the contactNum
      */
-    public long getContactNum() {
+    public Long getContactNum() {
         return contactNum;
     }
 

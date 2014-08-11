@@ -15,8 +15,7 @@
             <div class="container">
                     <!--display flash message-->
                   
-                         ${message}
-               
+                         ${message}               
 
                     <div class="row">
                             <div class="col-sm-4 text-center feature">

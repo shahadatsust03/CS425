@@ -117,14 +117,28 @@
                          }               
                     alert(value);                
                     
-                    $.ajax({
+                   /* $.ajax({
                         url: "assignFaculty",
-                       // context: document.body
-                        data: {value: value, id: id},
-                      }).done(function(data) {
-                          window.location.href = "/";
+                       // context: document.
+                        data: {value: value, id: id},  
+                        type: "POST",
+                      }).done(function(resp){
+                          console.debug(resp); 
+                      })
+                      .fail(function(error) {
+                            console.debug(error);
+                          alert('fail');
+                          //window.location.href = "/";
                       });
-                   
+                   */
+                  $.ajax({
+                    type: "POST",
+                    url: "assignFaculty",
+                    data: { name: "John", location: "Boston" }
+                    })
+                    .done(function( msg ) {
+                    alert( "Data Saved: " + msg );
+                    });
                 }               
              </script>    
     </body>
