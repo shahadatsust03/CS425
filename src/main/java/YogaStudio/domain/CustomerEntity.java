@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Customer")
 public class CustomerEntity extends UserEntity{
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer",cascade = CascadeType.ALL)
     private List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
 
     @OneToMany(mappedBy="customer",cascade={CascadeType.ALL})
@@ -32,7 +32,7 @@ public class CustomerEntity extends UserEntity{
     @OneToMany(mappedBy="customer",cascade={CascadeType.ALL})
     private List<TranscriptEntity> transcripts = new ArrayList<TranscriptEntity>();
     
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer",cascade = CascadeType.ALL)
     private List<OrderEntity> orders = new ArrayList<OrderEntity>();  
     
     
