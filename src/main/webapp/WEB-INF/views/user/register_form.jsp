@@ -5,7 +5,7 @@
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<form role="form" method="post" action="${pageContext.request.contextPath}/register">
+<form role="form" method="post" action="register">
         <div class="form-group">
           <label for="firstName">First Name</label>
           <input typ="text" class="form-control" id="firstName" name="firstName" value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/>

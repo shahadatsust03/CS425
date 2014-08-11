@@ -1,0 +1,32 @@
+ul.gallery.col-4 li {
+width: 25%;
+}
+ul.gallery li {
+display: block;
+padding: 0;
+margin: 0;
+float: left;
+}
+
+body>section {
+padding: 50px 0;
+}
+ul.gallery {
+display: block;
+margin: -15px;
+}
+ul.gallery li .preview {
+margin: 15px;
+display: block;
+position: relative;
+}
+ul.gallery li .preview:hover .links {
+-webkit-transform: translate(0,0);
+-moz-transform: translate(0,0);
+-ms-transform: translate(0,0);
+-o-transform: translate(0,0);
+transform: translate(0,0);
+}
+ul.gallery li .desc {
+margin: 15px;
+}

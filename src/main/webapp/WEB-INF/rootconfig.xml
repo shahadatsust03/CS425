@@ -182,4 +182,14 @@
      <bean id="waiverDAO" class="YogaStudio.dao.generic.WaiverDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>
+    
+        <!--file service bean -->
+    <bean id="fileService" class="YogaStudio.service.FileService">
+           <constructor-arg ref="fileDao"/>              
+    </bean>
+    
+    <!--file Dao bean -->
+    <bean id="fileDao" class="YogaStudio.dao.generic.FileDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
 </beans>

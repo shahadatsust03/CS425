@@ -46,7 +46,15 @@
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
+                              <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
                             </c:if>
+                               <!--Add a Div with the class "simpleCart_items" to show your shopping cart area.-->
+                              <li>
+                                 <a href="${pageContext.request.contextPath}/products/cart" >
+                                    <span class="badge pull-right" id="myCart">0</span>
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                 </a>
+                              </li> 
                     </ul>
             </div><!--/.nav-collapse -->
     </div>

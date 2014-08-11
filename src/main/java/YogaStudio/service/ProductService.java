@@ -7,7 +7,10 @@
 package YogaStudio.service;
 
 import YogaStudio.dao.generic.ProductDAO;
+import YogaStudio.domain.CustomerEntity;
+import YogaStudio.domain.OrderEntity;
 import YogaStudio.domain.ProductEntity;
+import YogaStudio.domain.ProductOrderEntity;
 import YogaStudio.domain.UserEntity;
 import java.util.List;
 //import org.apache.commons.lang.RandomStringUtils;
@@ -60,5 +63,15 @@ public class ProductService {
 
     public void delete(Long userId) {    
         productDao.delete(userId);   
-    }   
+    } 
+   
+    public boolean addOrders(List<ProductOrderEntity> list ,UserEntity user)
+    {        
+       return productDao.addProductOrders(list,user);
+    }
+    
+    public List<OrderEntity> getUserOrders(CustomerEntity customer)
+    {        
+       return productDao.getUserOrders(customer);
+    }
 }
