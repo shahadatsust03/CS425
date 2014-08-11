@@ -74,8 +74,7 @@ public class FacultyController {
         String id = request.getParameter("id");
         String value = request.getParameter("value");
         return "faculty/editFaculty";        
-    } 
-    
+    }     
     
     @RequestMapping(value = {"/removeFaculty/{id}","/YogaStudio/faculty/removeFaculty/{id}","/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
     public RedirectView removeFaculty(HttpServletRequest request,@PathVariable Long id, final RedirectAttributes redirectAttributes) {

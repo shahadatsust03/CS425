@@ -75,17 +75,30 @@ public class UserService {
         return userDao.get(id);      
     }
 
-    public UserEntity getUser(Long id) {     
+    public UserEntity get(Long id) {     
+        return userDao.get(id);      
+    }
+
+    
+    public UserEntity getUser(int id) {     
         return userDao.get(id);      
     }
     
     public UserEntity update(Long userId, UserEntity userentity) {     
         return userDao.update(userId, userentity);    
     }
+    public UserEntity update(Long userId, UserEntity userentity) {     
+        return userDao.update(userId, userentity);    
+    }
+    
 
     public void delete(Long userId) {    
         userDao.delete(userId);   
-    }   
+    }
+    
+    public void delete(Long userId) {    
+        userDao.delete(userId);   
+    }
 
     public UserEntity findUser(String username, String password) {
         return  userDao.findUser( username,password);

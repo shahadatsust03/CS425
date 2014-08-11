@@ -58,7 +58,7 @@ public class SectionDAO {
         }
         return false;
     }
-   
+
     public List<SectionEntity> getAllSections() {
         
         String hql = "From SectionEntity";
