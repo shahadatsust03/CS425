@@ -94,9 +94,9 @@ public class WaiverService {
         return waiverDAO.getWaiversByCustAndClass(custId, classId);
     }
 
-    public List<WaiverEntity> getWaiversByCust(int id) {
+    public List<WaiverEntity> getWaiversByCust(CustomerEntity cust) {
         List<WaiverEntity> waiverList = new ArrayList<WaiverEntity>();
-        waiverList = waiverDAO.getWaiversByCustAndClass(Long.valueOf(id));
+        waiverList = waiverDAO.getWaiversByCust(cust);
         return waiverList;
     }
 

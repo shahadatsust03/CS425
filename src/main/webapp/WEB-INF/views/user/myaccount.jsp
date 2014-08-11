@@ -24,7 +24,7 @@
 
                 <h1>My Profile!</h1>
                 <table>
-                    <tr><td><b>Full Name</b></td>       <td>${Profile.fullname}</td> </tr>
+                    <tr><td><b>Full Name</b></td>       <td>${not empty Profile.fullname ? Profile.fullname :""}</td> </tr>
                     <tr><td><b>Email</b></td>     <td>${Profile.email}</td><td>(Use format name@company.com)</td></tr>
                     <tr><td><b>User Role</b></td>      <td>${Profile.AUTHORITY}</td> </tr>
                     <tr><td><b>Username</b></td>       <td>${Profile.username}</td> </tr>

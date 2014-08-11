@@ -76,9 +76,9 @@ public class WaiverDAO {
         return result.list();
     }
 
-    public List<WaiverEntity> getWaiversByCustAndClass(Long custId) {
+    public List<WaiverEntity> getWaiversByCust(CustomerEntity cust) {
          Query result = sf.getCurrentSession().getNamedQuery("waiverByCust");
-        result.setParameter("customer", custId);        
+        result.setParameter("customer", cust);        
         result.setParameter("status", STATUS.INVALID.name());
         //result.setParameter("enabled", enabled);
         if (result.list().isEmpty()) {
