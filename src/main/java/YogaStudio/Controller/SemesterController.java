@@ -45,7 +45,7 @@ public class SemesterController {
         return  view;
     }
     
-    @RequestMapping(value = {"/user/semesters/add", "/semesters/add"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/removesemester/semesters/add", "/semesters/add"}, method = RequestMethod.GET)
     public String addEditSemesters(HttpServletRequest request) {
         return "semesters/addSemester";
     }
@@ -111,8 +111,15 @@ public class SemesterController {
     @RequestMapping(value = {"/removesemester/{id}", "/semesters/removesemester/{id}"}, method = RequestMethod.GET)
     public ModelAndView removeSemester(@PathVariable Long id, Model model) throws ParseException {
         //model.addAttribute("classes", classService.getClass(id));
-        //return "classes/classDetail";        
+        //return "classes/classDetail";  
+        try{
         semesterService.removeSemester(id);
         return getSemesters(null);
+        }catch(Exception e){
+            ModelAndView view = new ModelAndView("semesters/results");
+            String message = "Remove unsuccessful! You must remove sections of this semester first";
+            view.addObject("message", message);
+            return view;        
+        }
     }
 }

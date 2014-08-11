@@ -91,5 +91,12 @@ public class UserService {
         return  userDao.findUser( username,password);
     }
     
+    public UserEntity findUser(String username) {
+        List<UserEntity> users = userDao.findEntityBy("UserEntity", "username", username);
+        if(users.size() != 0)
+            return users.get(0);
+        return null;
+    }
+    
 
 }

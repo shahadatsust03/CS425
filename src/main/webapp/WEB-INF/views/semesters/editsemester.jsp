@@ -28,6 +28,7 @@
         $( "#endDate" ).datepicker({ dateFormat: "yy-mm-dd" });
         });
         </script>
+        
     </head>
     <body>
         <%@include file="../nagivation.jsp" %>

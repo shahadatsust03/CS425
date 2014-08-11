@@ -11,6 +11,7 @@ import YogaStudio.dao.generic.CustomerDAO;
 import YogaStudio.dao.generic.EnrollmentDAO;
 import YogaStudio.dao.generic.SectionDAO;
 import YogaStudio.domain.ClassEntity;
+import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.SectionEntity;
 import java.util.List;
 import org.hibernate.Query;
@@ -54,6 +55,11 @@ public class SectionService {
     public List<SectionEntity> getAllSections() {        
         return sectiondao.getAllSections();
     }
+    
+    public SectionEntity getSection(Long id) {        
+        return sectiondao.get(id);
+    }
+     
     public void setClassdao(ClassDAO classdao) {
         this.classdao = classdao;
     }
@@ -80,6 +86,20 @@ public class SectionService {
 
     public void setSectiondao(SectionDAO sectiondao) {
         this.sectiondao = sectiondao;
+    }
+   
+    public boolean checkSpace(SectionEntity sectionEntity){
+        int classLimit = sectionEntity.getClassLimit();
+        Long enrolledCustomersCount = enrollmentdao.getEnrolledCustomersCount(sectionEntity.getId());
+        
+        if(enrolledCustomersCount < classLimit)
+            return true;
+        else       
+            return false;
+    }
+    
+    public boolean isEnrolled(Long customerId, Long sectionId) {
+        return sectiondao.isEnrolled(customerId, sectionId);
     }
    
 }

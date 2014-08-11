@@ -18,6 +18,7 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
+                    <%@include file="class_navigation2.jsp" %>
                     <div class="panel panel-default">
                         <div class="panel-heading" style="border:none;background:none;">
                             <h4>${classes.className}
@@ -34,11 +35,7 @@
                          </c:if>
                          </div>
                         </div>
-                         <table> 
-                             <tr>
-                         <td><a href="${pageContext.request.contextPath}/editclassform/${classes.id}"/> Edit  </td>
-                         <td><a href="${pageContext.request.contextPath}/removeclass/${classes.id}"/> Remove</td>
-                            </tr>
+                         <table>                              
                          </table>
                     </div>
                          

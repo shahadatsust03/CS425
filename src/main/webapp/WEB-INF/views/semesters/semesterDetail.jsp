@@ -18,6 +18,7 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
+                    <%@include file="semester_navigation2.jsp" %>
                     <div class="panel panel-default">
                         <div class="panel-heading" style="border:none;background:none;">
                             <h4>${semester.semesterName}
@@ -28,15 +29,8 @@
                              <tr><td>Start Date : </td><td>${semester.startDate}</td>
                              <tr><td>End Date: </td><td>${semester.endDate}</div></td> 
                          </table>
-                        </div>
-                         <table> 
-                             <tr>
-                                 <td><a href="${pageContext.request.contextPath}/editsemesterform/${semester.id}"/>Edit &nbsp&nbsp </td>
-                                 <td><a href="${pageContext.request.contextPath}/removesemester/${semester.id}"/> Remove</td>
-                             </tr>
-                         </table>                         
+                        </div>                                               
                     </div>
-                         
                 </div>
     </div> 
     </body>

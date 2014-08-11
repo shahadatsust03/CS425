@@ -33,7 +33,7 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
-                            <form role="form" method="post" action="save">
+                            <form role="form" method="post" action="${pageContext.request.contextPath}/semesters/save">
                            <div class="form-group">
                              <label for="semesterName">Name:</label>
                              <input typ="text" class="form-control" id="semesterName" name="semesterName" placeholder = "Name" value=''/>

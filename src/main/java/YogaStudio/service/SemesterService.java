@@ -93,10 +93,10 @@ public class SemesterService {
         while(sectionsIterator.hasNext())
         {
             SectionEntity section = sectionsIterator.next();
-            List<Integer> enrolledCustomersIds = enrollmentdao.getEnrolledCustomersIds(section.getId());            
-            Iterator<Integer> enrolledCustomersIdsIterator = enrolledCustomersIds.iterator();
+            List<Long> enrolledCustomersIds = enrollmentdao.getEnrolledCustomersIds(section.getId());            
+            Iterator<Long> enrolledCustomersIdsIterator = enrolledCustomersIds.iterator();
             while(enrolledCustomersIdsIterator.hasNext()){
-                Integer id = enrolledCustomersIdsIterator.next();
+                Long id = enrolledCustomersIdsIterator.next();
                 
                 CustomerEntity customerEntity = customerdao.getCustomer(id);
                 
@@ -125,10 +125,10 @@ public class SemesterService {
         while(sectionsIterator.hasNext())
         {
             SectionEntity section = sectionsIterator.next();
-            List<Integer> enrolledCustomersIds = enrollmentdao.getEnrolledCustomersIds(section.getId());            
-            Iterator<Integer> enrolledCustomersIdsIterator = enrolledCustomersIds.iterator();
+            List<Long> enrolledCustomersIds = enrollmentdao.getEnrolledCustomersIds(section.getId());            
+            Iterator<Long> enrolledCustomersIdsIterator = enrolledCustomersIds.iterator();
             while(enrolledCustomersIdsIterator.hasNext()){
-                Integer id2 = enrolledCustomersIdsIterator.next();
+                Long id2 = enrolledCustomersIdsIterator.next();
                 
                 CustomerEntity customerEntity = customerdao.getCustomer(id2);
                 

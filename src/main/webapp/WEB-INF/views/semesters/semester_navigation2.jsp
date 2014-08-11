@@ -23,22 +23,26 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="${pageContext.request.contextPath}/semesters/add">Add</a></li>
-                            <li class="divider"></li>                           
+                        <ul class="dropdown-menu" role="menu">                            
+                            <li><a href="${pageContext.request.contextPath}/editsemesterform/${semester.id}">Edit</a></li>
+                            <li class="divider"></li>
+                            <li><a href="${pageContext.request.contextPath}/removesemester/${semester.id}">Remove</a></li>
+                            <li class="divider"></li>
                         </ul>
                     </li>
                 </ul>
             </sec:authorize>
             
-            
-             <div class="nav navbar-nav navbar-right">
+            <div class="nav navbar-nav navbar-right">
 
                 <button data-toggle="dropdown" class="btn dropdown-toggle">Manage<span class="caret"></span></button>
 
                 <ul class="dropdown-menu">           
-                    <li><a href="${pageContext.request.contextPath}/semesters/add">Add Semester</a></li>
-                     
+                    <li><a href="${pageContext.request.contextPath}/editsemesterform/${semester.id}">Edit Semester</a></li>
+                     <li class="divider"></li>  
+                     <li><a href="${pageContext.request.contextPath}/removesemester/${semester.id}">Remove Semester</a></li>
+                     <li class="divider"></li> 
+
                 </ul>
 
             </div>

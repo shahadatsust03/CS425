@@ -34,7 +34,7 @@ public class SectionEntity {
     @GeneratedValue
     private Long id;
     private String sectionName;
-    private String descripton;
+    private String description;
     private String location;
     private int classLimit;
 
@@ -46,7 +46,7 @@ public class SectionEntity {
     @OneToMany(mappedBy="section",cascade={CascadeType.ALL})
     List<ScheduleEntity> scheduleList = new ArrayList<ScheduleEntity>();
      
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne(cascade={CascadeType.PERSIST})
     @JoinColumn
     SemesterEntity semester;
     
@@ -85,12 +85,12 @@ public class SectionEntity {
         this.sectionName = sectionName;
     }
 
-    public String getDescripton() {
-        return descripton;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripton(String descripton) {
-        this.descripton = descripton;
+    public void setDescripiton(String descripton) {
+        this.description = descripton;
     }
 
     public String getLocation() {
@@ -162,7 +162,7 @@ public class SectionEntity {
 
     public SectionEntity(String sectionName, String descripton, String location, int classLimit) {
         this.sectionName = sectionName;
-        this.descripton = descripton;
+        this.description = descripton;
         this.location = location;
         this.classLimit = classLimit;
     }

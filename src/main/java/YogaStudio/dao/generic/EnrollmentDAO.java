@@ -8,6 +8,7 @@ package YogaStudio.dao.generic;
 import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.EnrollmentEntity;
+import YogaStudio.domain.SectionEntity;
 import YogaStudio.domain.UserEntity;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,13 +38,13 @@ public class EnrollmentDAO {
         return (EnrollmentEntity) sf.getCurrentSession().load(EnrollmentEntity.class, id);
     }
 
-    public List<Integer> getEnrolledCustomersIds(Long sectionId) {
+    public List<Long> getEnrolledCustomersIds(Long sectionId) {
         String hql = "SELECT EE.customer.id From EnrollmentEntity EE WHERE EE.section.id = :sectionId";
         Query q = sf.getCurrentSession().createQuery(hql);
         q.setParameter("sectionId",sectionId);
        
 
-        List<Integer> customerIds = q.list();
+        List<Long> customerIds = q.list();
 
         return customerIds;
         //return q.list();
@@ -58,6 +59,14 @@ public class EnrollmentDAO {
         return (Long)(q.uniqueResult());
         //return q.list();
 
+    }
+    
+     public List<SectionEntity> getEnrolledSections(Long customerId) {
+        
+        String hql = "SELECT EE.section From EnrollmentEntity EE WHERE EE.customer.id = :customerId";
+        Query q = sf.getCurrentSession().createQuery(hql);    
+        q.setParameter("customerId", customerId);
+        return q.list(); 
     }
 
     public CustomerEntity getCustoemrAtFrontOfWaitingList(Long sectionId) {
@@ -99,7 +108,7 @@ public class EnrollmentDAO {
         sf.getCurrentSession().persist(enrollmentEntity);
     }
 
-    public EnrollmentEntity getEnrollment(int customerId, Long sectionId) {
+    public EnrollmentEntity getEnrollment(Long customerId, Long sectionId) {
         //Assuming the className for classes is unique
         String hql = "From EnrollmentEntity EE WHERE EE.customer.id = :customerId AND EE.section.id = :sectionId";
         Query q = sf.getCurrentSession().createQuery(hql);
@@ -116,7 +125,7 @@ public class EnrollmentDAO {
     //returns true if waiting list is not empty, returns true if there is waiting list
     
     //assuming status = 1 implies in waiting list, 0 implies enrolled
-    public boolean getWaitingListStatus(Long sectionId)  //returns true if the waiting list is not empty
+    public boolean waitingListIsEmpty(Long sectionId)  //returns true if the waiting list is not empty
     {    
         String hql = "From EnrollmentEntity EE WHERE EE.section.id = :sectionId  AND EE.status = 1";
         Query q = sf.getCurrentSession().createQuery(hql);
@@ -125,6 +134,15 @@ public class EnrollmentDAO {
             return false;
         else
             return true;
+    }
+    
+    public void removeEnrollment(EnrollmentEntity enrollmentEntity) {
+        try{        
+        sf.getCurrentSession().delete(enrollmentEntity);
+        }
+        catch(Exception e){
+         System.out.println("Remove class failed "+e.getMessage());
+        }
     }
 
 }

@@ -34,7 +34,7 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
-                            <form role="form" method="post" action="save">
+                            <form role="form" method="post" action="${pageContext.request.contextPath}/classes/save">
                            <div class="form-group">
                              <label for="price">Name:</label>
                              <input typ="text" class="form-control" id="price" name="name" placeholder = "Name" value=''/>

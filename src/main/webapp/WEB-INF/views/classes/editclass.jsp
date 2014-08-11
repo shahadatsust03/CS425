@@ -40,13 +40,13 @@
                            <input type="hidden" name="idsPrereq" value="">
                            
                            <input type="hidden" name="id" value="${classes.id}" />
-                           <button type="submit" class="btn btn-primary">Cancel</button>
-                           <button type="submit" class="btn btn-primary">Update</button>
+                           <button type="submit" name="cancelbutton" class="btn btn-primary">Cancel</button>
+                           <button type="submit" name="updatebutton" class="btn btn-primary">Update</button>
                     </form>
                 </div>
                            <script language="JavaScript">
 function openpopup(anchor){ 
-    var popurl="${pageContext.request.contextPath}/classes/classPopup"+"#"+anchor;
+    var popurl="${pageContext.request.contextPath}/classes/classes/classPopup"+"#"+anchor;
      popup_window = window.open(popurl,"","width=600,height=400,");
      //popup_window.close();
 

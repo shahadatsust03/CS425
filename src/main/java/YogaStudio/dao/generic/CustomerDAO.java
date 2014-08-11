@@ -31,7 +31,7 @@ public class CustomerDAO {
         this.sf = sf;
     }
     
-    public CustomerEntity getCustomer(int customerId){
+    public CustomerEntity getCustomer(Long customerId){
         //Assuming the className for classes is unique
         String hql = "From CustomerEntity CE WHERE CE.id = :customerId";
         Query q = sf.getCurrentSession().createQuery(hql);
@@ -43,4 +43,6 @@ public class CustomerDAO {
         return (CustomerEntity) sf.getCurrentSession().load(CustomerEntity.class, id);
 
     }
+    
+   
 }

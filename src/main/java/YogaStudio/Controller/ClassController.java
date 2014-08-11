@@ -41,7 +41,7 @@ public class ClassController {
         return  view;
     }
     
-    @RequestMapping(value = {"classes/classes/classPopup", "classes/classPopup#classes/classPopup"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"classes/classes/classPopup", "classes/classPopup"}, method = RequestMethod.GET)
     public ModelAndView getClassesForPopup(HttpServletRequest request) {
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/classes/classPop");
@@ -50,7 +50,7 @@ public class ClassController {
         return  view;
     }
     
-    @RequestMapping(value = {"/user/classes/add", "/classes/add"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/removeclass/classes/add", "/classes/add"}, method = RequestMethod.GET)
     public String addEditClasses(HttpServletRequest request) {
         return "classes/addClass";
     }
@@ -95,9 +95,17 @@ public class ClassController {
     @RequestMapping(value = {"/removeclass/{id}", "/classes/removeclass/{id}"}, method = RequestMethod.GET)
     public ModelAndView removeClass(@PathVariable Long id, Model model) {
         //model.addAttribute("classes", classService.getClass(id));
-        //return "classes/classDetail";        
+        //return "classes/classDetail";   
+        try{
         classService.removeClass(id);
         return getClasses(null);
+        }catch(Exception e){
+            ModelAndView view = new ModelAndView("classes/results");
+            String message = "Remove unsuccessful! You must remove successors of this class first";
+            view.addObject("message", message);
+            return view;
+        }
+        
     }
     
     
