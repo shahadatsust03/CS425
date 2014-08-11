@@ -15,9 +15,14 @@ import YogaStudio.service.CustomerService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.UserService;
 import YogaStudio.service.WaiverService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -243,7 +249,7 @@ public class UserController {
 
     @RequestMapping(value = "/waiver/requestWaiver/{id}", method = RequestMethod.GET)
     public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.get(Long.valueOf(1));
+        CustomerEntity user = customerService.get(Long.valueOf(id));
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/waiver/requestWaiver");
         view.addObject("classes", classes);
@@ -352,6 +358,58 @@ public class UserController {
 //            }
 //        return new ModelAndView("/user/requestWaiver", "user", "not found");  
         return view;
+    }
+    
+    //view customer orders     
+   @RequestMapping(value = "/user/orders", method = RequestMethod.GET)
+    public String viewUserOrders(Model model) {
+       // model.addAttribute("product", productService.get(id));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();          
+        Object object = auth.getPrincipal();   
+        UserDetails userDetails = (UserDetails)object; //
+        String password = userDetails.getPassword(); //
+        //TODO user by username and password
+        UserEntity user = userService.findCustomerBy("username",username);
+        if(user !=null)
+        {
+         model.addAttribute("orders", productService.getUserOrders((CustomerEntity) user));
+        }
+        return "product/customerOrders";
+    }
+    
+    @RequestMapping(value="/requestpassword", method=RequestMethod.POST, produces="text/plain")
+    @ResponseBody
+    public String requestPassword(HttpServletRequest request) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String json = "";
+                    HashMap response = new HashMap();
+                           try{
+                              String email  = request.getParameter("email");
+                              UserEntity user = userService.findUserBy("email", email);
+                              if(user != null){
+                                  boolean updated = userService.updatePassword(user);
+                                  response.put("success",updated);
+                                  response.put("message",
+                                              (updated)? "Password successfully reset,please check your inbox": "Sorry,we are unable to reset your password");
+                              }
+                              else{
+                               response.put("success", false);
+                               response.put("message", "Sorry ,no user with such with that email");
+                              }
+            }
+            catch(Exception e){
+              response.put("success", false);
+            }
+     
+            try {
+                //convert map to JSON string
+                json = mapper.writeValueAsString( response);
+            } catch (IOException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
     }
 
 }

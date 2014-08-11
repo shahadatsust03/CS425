@@ -1,4 +1,8 @@
   $(document).ready(function(){
+    $('#password-request')
+        .on('hidden.bs.modal', function(){
+            $("#request-password-model-msg").html("");
+        });
 
    linkClicked("#addproduct",function(url){
         console.debug(url);
@@ -20,7 +24,7 @@
     }
   });
   
-  jQuery(function($) {
+ jQuery(function($) {
        $.fn.checkOut = function(data) {
            console.log("add to cart");
            console.log(data);
@@ -117,42 +121,5 @@
             */
          return false;
          };
-         
-         //save section
-         $.fn.doSaveSection =  function(id) {  
-              console.log("do save");
-               var radioboxes = document.getElementsByName("radio_id");
-                         var value = "";
-                         // loop over them all
-                         var j = 0;
-                         for (var i=0; i<radioboxes.length; i++) {
-                            // And stick the checked ones onto an array...
-                            if (radioboxes[i].checked) {
-
-                                if(j == 0)
-                                 value += radioboxes[i].value ;
-
-                                else
-                                    value += "," + radioboxes[i].value;
-                                j++;
-
-                            }
-                         }               
-                    alert(value+" " + id);        
-                  $.ajax({
-                    type: "GET",
-                                         
-                   url: "assignFaculty/" + id + "/"+value, 
-                    })
-                    .done(function( data ) {
-                        window.location.href = data;
-                    });              
-                  
-             
-            
-            //
-            document.getElementById('sectionList').style.display='none';
-            document.getElementById('fade').style.display='none';
-          }           
  });
- 
+            

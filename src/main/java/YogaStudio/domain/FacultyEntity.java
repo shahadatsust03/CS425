@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package YogaStudio.domain;
 
 import java.util.ArrayList;
@@ -22,20 +21,41 @@ import javax.persistence.Table;
  * @author sMazumder
  */
 @Entity
-@Table(name="Faculty")
+@Table(name = "Faculty")
 public class FacultyEntity extends UserEntity {
+
     private String specialization;
     private int yearsOfExperience;
-    @OneToMany(mappedBy="faculty")
+    @OneToMany(mappedBy = "faculty", cascade = {CascadeType.ALL})
     List<SectionEntity> sections = new ArrayList<SectionEntity>();
-    
-    @OneToMany(mappedBy="faculty")
+
+    @OneToMany(mappedBy = "faculty", cascade = {CascadeType.ALL})
     List<CustomerEntity> customers = new ArrayList<CustomerEntity>();
-    
-    @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
-    List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
+
+    @OneToMany(mappedBy = "faculty", cascade = {CascadeType.ALL})
+    List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();
 
     public FacultyEntity() {
+    }
+
+    public void addCustomers(CustomerEntity customer) {
+        customer.setFaculty(this);
+        this.getCustomers().add(customer);
+    }
+
+    public void removeCustomers(CustomerEntity customer) {
+        customer.setFaculty(null);
+        this.getCustomers().remove(customer);
+    }
+
+    public void addWaivers(WaiverEntity waiver) {
+        waiver.setFaculty(this);
+        this.getWaivers().add(waiver);
+    }
+
+    public void removeWaivers(WaiverEntity waiver) {
+        waiver.setFaculty(null);
+        this.getWaivers().remove(waiver);
     }
 
     public List<SectionEntity> getSections() {
@@ -66,11 +86,11 @@ public class FacultyEntity extends UserEntity {
         this.specialization = specialization;
         this.yearsOfExperience = yearsOfExperience;
     }
-    
-    public FacultyEntity(String specialization, int yearsOfExperience,String username, String password, String fullname, String email, String AUTHORITY, Date dateOfBirth, Long contactNum, String street, String city, String state, String country, Long zipcode) {
-             super(username, password, fullname, email, AUTHORITY, dateOfBirth, contactNum, street, city, state, country, zipcode);
-             this.specialization = specialization;
-             this.yearsOfExperience = yearsOfExperience;
+
+    public FacultyEntity(String specialization, int yearsOfExperience, String username, String password, String fullname, String email, String AUTHORITY, Date dateOfBirth, Long contactNum, String street, String city, String state, String country, Long zipcode) {
+        super(username, password, fullname, email, AUTHORITY, dateOfBirth, contactNum, street, city, state, country, zipcode);
+        this.specialization = specialization;
+        this.yearsOfExperience = yearsOfExperience;
     }
 
     public FacultyEntity(String specialization, int yearsOfExperience, String username, String password, String fullname, String email) {
@@ -78,22 +98,23 @@ public class FacultyEntity extends UserEntity {
         this.specialization = specialization;
         this.yearsOfExperience = yearsOfExperience;
     }
-    
-    public void addWaivers(WaiverEntity waiver) {
-        waiver.setFaculty(this);
-        this.waivers.add(waiver);
-    }
-     public void removeWaivers(WaiverEntity waiver) {
-        waiver.setFaculty(null);
-        this.waivers.remove(waiver);
-    }
-    
-    public void addSection(SectionEntity section){
+
+//    public void addWaivers(WaiverEntity waiver) {
+//        waiver.setFaculty(this);
+//        this.waivers.add(waiver);
+//    }
+//
+//    public void removeWaivers(WaiverEntity waiver) {
+//        waiver.setFaculty(null);
+//        this.waivers.remove(waiver);
+//    }
+
+    public void addSection(SectionEntity section) {
         section.setFaculty(this);
         sections.add(section);
     }
-    
-     public void removeSection(SectionEntity section){
+
+    public void removeSection(SectionEntity section) {
         section.setFaculty(null);
         sections.remove(section);
     }
@@ -113,15 +134,14 @@ public class FacultyEntity extends UserEntity {
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
-     
-     
-    public void addCustomer(CustomerEntity customer){
+
+    public void addCustomer(CustomerEntity customer) {
         customer.setFaculty(this);
         customers.add(customer);
     }
-    
-     public void removeCustomer(CustomerEntity customer){
+
+    public void removeCustomer(CustomerEntity customer) {
         customer.setFaculty(null);
         sections.remove(customer);
-    }    
+    }
 }

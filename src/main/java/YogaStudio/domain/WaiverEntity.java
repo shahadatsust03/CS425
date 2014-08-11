@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "submittedWaivers", query = "select w from WaiverEntity w where w.faculty=:faculty and w.status=:status"),
     @NamedQuery(name = "waiverByCustAndClass", query = "select w from WaiverEntity w where w.customer=:customer and w.yogaClass=:yogaClass and w.status <> :status"),
-@NamedQuery(name = "waiverByCust", query = "select w from WaiverEntity w where w.customer=:customer and w.status <> :status")})
+@NamedQuery(name = "waiverByCust", query = "select w from WaiverEntity w where w.customer.id=:customer and w.status <> :status")})
 @Entity
 @Table(name = "Waiver")
 public class WaiverEntity {

@@ -142,4 +142,14 @@ public class UserDAO {
         }
         return null;
     }
+    
+    public boolean updateUser(UserEntity userentity) {   
+        try{
+            sf.getCurrentSession().saveOrUpdate(userentity);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
 }
