@@ -48,6 +48,9 @@ public class UserDAO {
     public UserEntity get(Long id) {
         return (UserEntity) sf.getCurrentSession().load(UserEntity.class, id);
     }
+    public UserEntity get(int id) {
+        return (UserEntity) sf.getCurrentSession().load(UserEntity.class, id);
+    }
 
     public UserEntity update(Long userId, UserEntity userentity) {
         UserEntity user = get(userId);
@@ -57,11 +60,26 @@ public class UserDAO {
         return (UserEntity) sf.getCurrentSession().merge(user);
     }
 
+    public UserEntity update(int userId, UserEntity userentity) {
+        UserEntity user = get(userId);
+        user.setUsername(userentity.getUsername());
+        user.setFullname(userentity.getFullname());
+        user.setEmail(userentity.getEmail());
+        return (UserEntity) sf.getCurrentSession().merge(user);
+    }
+
+    
     public void delete(Long userId) {
         UserEntity u = get(userId);
         sf.getCurrentSession().delete(u);
     }
 
+    public void delete(int userId) {
+        UserEntity u = get(userId);
+        sf.getCurrentSession().delete(u);
+    }
+
+    
     public boolean authenticateUser(String username, String password, Byte enabled) {
         Query result = sf.getCurrentSession().getNamedQuery("userLogin");
         result.setParameter("username", username);

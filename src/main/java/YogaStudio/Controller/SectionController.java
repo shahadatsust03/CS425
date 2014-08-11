@@ -61,7 +61,7 @@ public class SectionController {
     public ModelAndView addSectionPage(HttpServletRequest request) {        
         ModelAndView view = new ModelAndView("/section/addSection");   
         List<ClassEntity> classes = classService.getClassList();
-        List<SemesterEntity> semesters = semesterService.getAllSemester();
+        List<SemesterEntity> semesters = semesterService.getSemesterList();
         List<ScheduleEntity> schedules = scheduleService.getAllSchedules();
         view.addObject("classes", classes);
         view.addObject("semesters", semesters);
