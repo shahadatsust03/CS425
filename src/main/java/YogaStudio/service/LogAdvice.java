@@ -19,21 +19,37 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Aspect
 public class LogAdvice {
+    @Autowired
+    private EmailController emailController;
 
-    private EmailController email=new EmailController();
-
-    @After("execution(* YogaStudio.service.UserService.add(..))&& args(userentity)")
-    public void sendEmail(JoinPoint joinpoint, UserEntity userentity) {
+    public LogAdvice(EmailController emailController) {
+        this.emailController = emailController;
+    }
+    
+    @After("execution(* YogaStudio.service.UserService.add(..))&& args( fullname,  email, userName,  authority)")
+    public void sendEmail(JoinPoint joinpoint, String fullname, String email,String userName, String authority) {
         try{
-        String email1=userentity.getEmail();
-        //System.out.println("khanuser");
-        
-        email.generateEmailForNewAppRegistration(email1);
+           
+            //System.out.println("khanuser");        
+            emailController.generateEmailForNewAppRegistration(email);
         }
         catch(Exception e){
          System.out.println("Error sending email "+e.getMessage());
         }
 
-    }
+    }  
+    
+     @After("execution(* YogaStudio.service.UserService.add(..))&& args( id)")
+    public void sendEmail1(JoinPoint joinpoint, Long id) {
+        try{
+           
+            //System.out.println("khanuser");        
+           // emailController.generateEmailForNewAppRegistration(email);
+        }
+        catch(Exception e){
+         System.out.println("Error sending email "+e.getMessage());
+        }
+
+    } 
 
 }

@@ -16,18 +16,48 @@
     </head>
     <body><%@include file="../nagivation.jsp" %>
         <div id="featureWrap"> 
-            <c:if test="${empty User}">
-                Profile Not Found.
+            <c:if test="${empty user}">
+                User Not Found.
             </c:if>
-            <c:if test="${not empty User}">
-            <form action="../../waiver/submitWaiver/${User.id}" method="post">
-        <h1>Request Waiver Form:</h1>
-        <div><b>Select Class</b>
-        <form input="" name="class">
-        </div>
-        <div> <form input="text" name="reason"> Reason: </form></div>
-        <div><br/><input type="submit" value="Submit Waiver"></div></form>
-            </c:if>
+            <c:if test="${not empty user}">
+                <form action="../../waiver/submitWaiver/${user.id}" method="post">
+                    <h1>Request Waiver Form:</h1>
+
+                    <div class="container">                                        
+                        <div>
+                            <!--         <form role="form"> -->
+
+                            <table class="table table-striped">
+                                <div><b>Select Class:</b>
+                                    <p>Class List</p>
+                                    <td>Select</td>
+                                    <td>Name</td>
+                                    <td>Description</td>
+                                    <td>Tution Fee</td>
+                                    <c:forEach items="${classes}" var="classes">
+                                        <tr>      
+                                        <div>
+                                            <td><input type="radio" name="class_id" value="${classes.id}">
+
+                                            <td>${classes.className}</td>
+                                            <td>${classes.description}</td>
+                                            <td>${classes.fee}</td>          
+
+                                        </div>
+
+                                        </tr>
+                                    </c:forEach>
+
+                                </div>
+                            </table>
+                            <div class="form-group">
+                                <label for="reason">Reason:</label>
+                                <input type="text" class="form-control" id="reason" placeholder="Reason"  name="reason"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div><br/><input type="submit" value="Submit Waiver"></div></form>
+                    </c:if>
         </div>
     </body>
 </html>

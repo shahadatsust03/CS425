@@ -6,6 +6,7 @@
 
 package YogaStudio.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class SemesterEntity {
     private Date startDate; 
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @OneToMany(mappedBy="semester",cascade={CascadeType.ALL})
+    @OneToMany(mappedBy="semester")
 //    @JoinColumn
     Set<SectionEntity> sections = new HashSet<SectionEntity>();
 
@@ -51,7 +52,19 @@ public class SemesterEntity {
     public String getSemesterName() {
         return semesterName;
     }
-
+    
+    public String getstartDate(){
+        SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/YYY");
+        String date = formatter.format(this.startDate);
+        return date;
+    } 
+    
+    public String getendDate(){
+        SimpleDateFormat formatter=new SimpleDateFormat("MM/dd/YYY");
+        String date = formatter.format(this.endDate);
+        return date;
+    } 
+    
     public void setSemesterName(String semesterName) {
         this.semesterName = semesterName;
     }

@@ -38,7 +38,7 @@ public class FacultyDAO {
         sf.getCurrentSession().persist(facultyEntity);
     }
 
-    public FacultyEntity get(int id) {
+    public FacultyEntity get(Long id) {
         return (FacultyEntity) sf.getCurrentSession().load(FacultyEntity.class, id);
     }
 
@@ -47,7 +47,7 @@ public class FacultyDAO {
         sf.getCurrentSession().update(facultyEntity);
     }
 
-    public void delete(int facultyId) {
+    public void delete(Long facultyId) {
         FacultyEntity faculty = get(facultyId);
         sf.getCurrentSession().delete(faculty);
     }

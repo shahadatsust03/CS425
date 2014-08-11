@@ -12,7 +12,9 @@ import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.EnrollmentEntity;
 import YogaStudio.domain.WaiverEntity;
 import YogaStudio.util.STATUS;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -24,15 +26,18 @@ public class WaiverService {
     @Autowired
     private WaiverDAO waiverDAO;
     @Autowired
-    private CustomerDAO customerDao;
+    private CustomerDAO customerdao;
 
     public WaiverService() {
     }
 
     public WaiverService(WaiverDAO waiverDAO) {
-
         this.waiverDAO = waiverDAO;
+    }
 
+    public WaiverService(WaiverDAO waiverDAO, CustomerDAO customerDao) {
+        this.waiverDAO = waiverDAO;
+        this.customerdao = customerDao;
     }
 
     public WaiverDAO getWaiterdao() {
@@ -43,11 +48,11 @@ public class WaiverService {
         this.waiverDAO = waiverDAO;
     }
 
-    public boolean submitWaiverRequest(WaiverEntity waiver, int custId) {
+    public boolean submitWaiverRequest(WaiverEntity waiver, Long custId) {
         if (waiver == null) {
             return false;
         }
-        CustomerEntity customer = customerDao.get(custId);
+        CustomerEntity customer = customerdao.get(custId);
         if (customer != null) {
             waiver.setFaculty(customer.getFaculty());
         }
@@ -79,9 +84,20 @@ public class WaiverService {
         waiverDAO.update(waiver);
 
     }
-    
-    public void getWaiversByFaId(){
-    
+
+    public void getWaiversByFaId(Long faId) {
+        waiverDAO.getWaiversByFAId(faId);
+    }
+
+    public List<WaiverEntity> getWaiversByCustAndClass(Long custId, Long classId) {
+
+        return waiverDAO.getWaiversByCustAndClass(custId, classId);
+    }
+
+    public List<WaiverEntity> getWaiversByCust(int id) {
+        List<WaiverEntity> waiverList = new ArrayList<WaiverEntity>();
+        waiverList = waiverDAO.getWaiversByCustAndClass(Long.valueOf(id));
+        return waiverList;
     }
 
 }

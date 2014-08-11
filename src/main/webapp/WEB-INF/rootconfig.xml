@@ -64,7 +64,11 @@
     <bean id="userService" class="YogaStudio.service.UserService">
            <constructor-arg ref="userDao"/>              
     </bean>
-    
+     <!--user service bean -->
+    <bean id="customerService" class="YogaStudio.service.CustomerService">
+           <constructor-arg ref="customerdao"/>    
+                     
+    </bean>
     <!--user Dao bean -->
     <bean id="userDao" class="YogaStudio.dao.generic.UserDAO">
         <property name="sf" ref="sessionFactory"/>
@@ -74,6 +78,11 @@
     <bean id="productService" class="YogaStudio.service.ProductService">
            <constructor-arg ref="productDao"/>              
     </bean>
+    
+    <bean id="semesterService" class="YogaStudio.service.SemesterService">
+            <constructor-arg ref="semesterdao"/>
+    </bean>
+    
     
     <bean id="paymentService" class="YogaStudio.service.PaymentService">
           <property name="paymentdao" ref="paymentdao"/>              
@@ -111,6 +120,41 @@
          <constructor-arg ref="sectiondao"/> 
     </bean>
     
+    
+    <bean id="scheduleservice" class="YogaStudio.service.ScheduleService">
+         <constructor-arg ref="classdao"/> 
+         <constructor-arg ref="enrollmentdao"/>    
+         <constructor-arg ref="customerdao"/> 
+         <constructor-arg ref="sectiondao"/> 
+         <constructor-arg ref="shceduledao"/> 
+    </bean>   
+    
+    <bean id="facultyservice" class="YogaStudio.service.FacultyService">
+         <constructor-arg ref="facultydao"/>         
+    </bean>   
+    
+    <bean id="waiverService" class="YogaStudio.service.WaiverService">
+         <constructor-arg ref="customerdao"/>         
+         <constructor-arg ref="waiverDAO"/>
+    </bean>  
+    
+    <bean id="emailController" class="YogaStudio.Controller.EmailController">
+                  
+    </bean>   
+    
+    <bean id="logAdvice" class="YogaStudio.service.LogAdvice">
+              <constructor-arg ref="emailController"/>     
+    </bean>   
+    
+    <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="shceduledao" class="YogaStudio.dao.generic.ScheduleDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    
     <bean id="classdao" class="YogaStudio.dao.generic.ClassDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>
@@ -142,7 +186,8 @@
     <bean id="productDao" class="YogaStudio.dao.generic.ProductDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>
-   
-    <bean id="logAdvice" class="YogaStudio.service.LogAdvice" />
     
+     <bean id="waiverDAO" class="YogaStudio.dao.generic.WaiverDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
 </beans>

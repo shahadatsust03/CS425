@@ -4,35 +4,35 @@
     Author     : Shahadat
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
+/*var countChecked = function() {
+  var n = $( "input:checked" ).length;
+  console.debug(n);
+  console.debug("number of i")
+};
+countChecked();
+ 
+$( "input[type=checkbox]" ).on( "click", countChecked );
+*/
+</script>
 <div>
     <div>
        <table class="table table-striped">    
-                     <td>ID</td>
+                     
                      <td>Name</td>
                      <td>Description</td>
                      <td>Class Name</td>
                      <td>Location</td>
                      <td>Class limit</td>
-                     <td>Day of week</td>
-                     <td>Start date</td>
-                     <td>End date</td>
+                   
                 <c:forEach items="${sections}" var="section">
-                 <tr>      
-                     <td><a href="section/${section.id}"/>${section.id}</td>
-                     <td>${section.sectionName}</td>
+                 <tr>                           
+                     <td><a href="section/${section.id}"/>${section.sectionName}</td>
                      <td>${section.descripton}</td>
                      <td>${section.classEntity.className}</td>
                      <td>${section.location}</td>
-                     <td>${section.classLimit}</td>
-                     
-                     <c:forEach items="${section.scheduleList}" var="schedule">
-                     
-                     <td>${schedule.dayOfWeek}</td>
-                     <td>${schedule.startDate}</td>
-                     <td>${schedule.endDate}</td>
-                     </c:forEach>
-                     
-
+                     <td>${section.classLimit}</td>                     
+                    
                 </tr>
                </c:forEach>
         </table>

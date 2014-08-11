@@ -20,23 +20,39 @@
                 <div class="container">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="border:none;background:none;">
-                            <h4>${sections.sectionName}
+                            <h4>Section name: ${section.sectionName}
                             </h4>
                         </div>
+                        <%java.text.DateFormat df = new java.text.SimpleDateFormat("HH:mm:ss"); %> 
+                            
                         <div class="panel-body">
-                         <div>Description: ${sections.description}</div>
-                         <div>Price: ${sections.location}</div>
-                         <div>Price: ${sections.fee}</div>
-                         <div>Prerequesties: 
-                         <c:if test="${not empty classes.prerequisteClasses}">
-                             <c:forEach items="${classes.prerequisteClasses}" var="preReq">                                 
-                                 ${classes.prerequisteClasse.className} &nbsp;&nbsp;
-                             </c:forEach>
-                         </c:if>
-                         </div>
+                        <div>Description: ${section.descripton}</div>
+                        <div>Class: ${section.classEntity.className}</div>
+                        <div>Location: ${section.location}</div>
+                        <div>Limit: ${section.classLimit}</div> 
+                         <br>
+                        <c:if test="${not empty section.scheduleList}"> <div>Schedule List: </div> </c:if>
+                        <c:forEach items="${section.scheduleList}" var="schedule">     
+                        
+                        <div>Day of week: ${schedule.dayOfWeek}</div>
+                        <div>Start date: ${schedule.getStartTime()}</div>
+                        <div>End date: ${schedule.getEndTime()}</div>
+                        </c:forEach>
                         </div>
                     </div>
-                </div>
-    </div> 
+                        <div>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')"> 
+                        <h5>
+                            <div>
+                             <td><a href="${pageContext.request.contextPath}/section/editSection/${section.id}">Edit Section</a></td>
+                            <td><a href="${pageContext.request.contextPath}/section/removeSection/${section.id}">Remove Section</a></td>
+                       
+                                 </div>
+                        </h5>
+                        </sec:authorize>
+                        </div>
+                 </div> 
+                        
+            </div>
     </body>
 </html>

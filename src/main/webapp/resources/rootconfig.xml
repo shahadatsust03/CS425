@@ -31,7 +31,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost/YogaStudio" />
+        <property name="url" value="jdbc:mysql://localhost/yogastudio" />
         <property name="username" value="root" />
         <property name="password" value="" />
     </bean>
@@ -60,23 +60,98 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true"/> 
     
-   
-    <bean id="registrationService" class="YogaStudio.service.RegistrationService">
-           <constructor-arg ref="registrationdao"/>            
-    
+    <!--user service bean -->
+    <bean id="userService" class="YogaStudio.service.UserService">
+           <constructor-arg ref="userDao"/>    
+                     
     </bean>
     
-    <bean id="registrationdao" class="YogaStudio.dao.generic.RegistrationDAO">
+     <!--user service bean -->
+    <bean id="customerService" class="YogaStudio.service.CustomerService">
+           <constructor-arg ref="customerdao"/>    
+                     
+    </bean>
+    
+    <!--user Dao bean -->
+    <bean id="userDao" class="YogaStudio.dao.generic.UserDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>
     
-    <bean id="logindao" class="YogaStudio.dao.generic.LoginDAO">
-         <property name="sf" ref="sessionFactory"/>
+    <!--product service bean -->
+    <bean id="productService" class="YogaStudio.service.ProductService">
+           <constructor-arg ref="productDao"/>              
     </bean>
     
-    <bean id="loginservice" class="YogaStudio.service.LoginService">
-         <constructor-arg ref="logindao"/>    
+    <bean id="semesterService" class="YogaStudio.service.SemesterService">
+            <constructor-arg ref="semesterdao"/>
     </bean>
-    <bean id="logAdvice" class="YogaStudio.service.LogAdvice" />
     
+    
+    <bean id="classservice" class="YogaStudio.service.ClassService">
+         <constructor-arg ref="classdao"/> 
+         <constructor-arg ref="enrollmentdao"/>    
+         <constructor-arg ref="customerdao"/> 
+         <constructor-arg ref="sectiondao"/> 
+    </bean>
+    
+    <bean id="sectionservice" class="YogaStudio.service.SectionService">
+         <constructor-arg ref="classdao"/> 
+         <constructor-arg ref="enrollmentdao"/>    
+         <constructor-arg ref="customerdao"/> 
+         <constructor-arg ref="sectiondao"/> 
+    </bean>
+    
+    
+    <bean id="scheduleservice" class="YogaStudio.service.ScheduleService">
+         <constructor-arg ref="classdao"/> 
+         <constructor-arg ref="enrollmentdao"/>    
+         <constructor-arg ref="customerdao"/> 
+         <constructor-arg ref="sectiondao"/> 
+         <constructor-arg ref="shceduledao"/> 
+    </bean>   
+    
+    <bean id="facultyservice" class="YogaStudio.service.FacultyService">
+         <constructor-arg ref="facultydao"/>         
+    </bean>   
+    <bean id="emailController" class="YogaStudio.Controller.EmailController">
+                  
+    </bean>   
+    
+    <bean id="logAdvice" class="YogaStudio.service.LogAdvice">
+              <constructor-arg ref="emailController"/>     
+    </bean>   
+    
+    <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="shceduledao" class="YogaStudio.dao.generic.ScheduleDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <bean id="classdao" class="YogaStudio.dao.generic.ClassDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="customerdao" class="YogaStudio.dao.generic.CustomerDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+     <bean id="sectiondao" class="YogaStudio.dao.generic.SectionDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="enrollmentdao" class="YogaStudio.dao.generic.EnrollmentDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+     <bean id="semesterdao" class="YogaStudio.dao.generic.SemesterDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>
+    
+    
+    <!--product Dao bean -->
+    <bean id="productDao" class="YogaStudio.dao.generic.ProductDAO">
+        <property name="sf" ref="sessionFactory"/>
+    </bean>       
 </beans>

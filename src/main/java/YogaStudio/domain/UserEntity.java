@@ -201,6 +201,21 @@ public class UserEntity {
     public Date getJoinDate() {
         return joinDate;
     }
+    
+    public UserEntity(String username, String password, String fullname, String email, String AUTHORITY, Date dateOfBirth, Long contactNum, String street, String city, String state, String country, Long zipcode) {
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.email = email;
+        this.AUTHORITY = AUTHORITY;
+        this.dateOfBirth = dateOfBirth;
+        this.contactNum = contactNum;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipcode = zipcode;
+    }
 
     /**
      * @param joinDate the joinDate to set

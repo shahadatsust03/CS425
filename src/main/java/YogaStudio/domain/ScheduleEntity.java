@@ -6,12 +6,16 @@
 
 package YogaStudio.domain;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,18 +35,19 @@ public class ScheduleEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate; 
     
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate; 
+    @ManyToMany
+    @JoinColumn
+    List<SectionEntity>  section;
 
     public ScheduleEntity(int dayOfWeek, Date startDate, Date endDate) {
         this.dayOfWeek = dayOfWeek;
         this.startDate = startDate;
         this.endDate = endDate;
-    }
-     
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn
-    SectionEntity  section;
+    }    
+    
 
     public ScheduleEntity() {
     }
@@ -68,6 +73,18 @@ public class ScheduleEntity {
     public Date getStartDate() {
         return startDate;
     }
+    
+    public String getStartTime() {
+        SimpleDateFormat formatter=new SimpleDateFormat("hh:mm:ss");
+        String time = formatter.format(this.startDate);
+        return time;
+    }
+    
+    public String getEndTime() {
+        SimpleDateFormat formatter=new SimpleDateFormat("hh:mm:ss");
+        String time = formatter.format(this.endDate);
+        return time;
+    }
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
@@ -84,7 +101,7 @@ public class ScheduleEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    public void setSection(SectionEntity section){
-        this.section = section;
+    public void addSection(SectionEntity section){
+        this.section.add(section);
     }
 }

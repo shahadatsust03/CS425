@@ -45,18 +45,19 @@ public class UserDAO {
         }
     }
 
-    public UserEntity get(int id) {
+    public UserEntity get(Long id) {
         return (UserEntity) sf.getCurrentSession().load(UserEntity.class, id);
     }
 
-    public void update(int userId, UserEntity userentity) {
+    public UserEntity update(Long userId, UserEntity userentity) {
         UserEntity user = get(userId);
         user.setUsername(userentity.getUsername());
         user.setFullname(userentity.getFullname());
         user.setEmail(userentity.getEmail());
+        return (UserEntity) sf.getCurrentSession().merge(user);
     }
 
-    public void delete(int userId) {
+    public void delete(Long userId) {
         UserEntity u = get(userId);
         sf.getCurrentSession().delete(u);
     }
@@ -112,7 +113,7 @@ public class UserDAO {
     }
 
     public UserEntity findUser(String username, String password) {
-       // UserEntity u = null;
+        // UserEntity u = null;
         Query result = sf.getCurrentSession().getNamedQuery("findUserByUsername");
         result.setParameter("username", username);
         result.setParameter("password", password);

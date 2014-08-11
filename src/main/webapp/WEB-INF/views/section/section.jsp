@@ -5,6 +5,7 @@
 
 <html>
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <%@include file="../header.jsp" %>
@@ -15,6 +16,7 @@
             <div class="container">
                   <%@include file="section_navigation.jsp" %>
                   <%@include file="main_section_list.jsp" %>
+               
             </div>
     </div> 
     </body>

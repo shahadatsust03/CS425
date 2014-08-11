@@ -7,6 +7,7 @@
 package YogaStudio.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,14 +26,58 @@ import javax.persistence.Table;
 public class FacultyEntity extends UserEntity {
     private String specialization;
     private int yearsOfExperience;
-    @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
-    Set<SectionEntity> sections = new HashSet<SectionEntity>();
+    @OneToMany(mappedBy="faculty")
+    List<SectionEntity> sections = new ArrayList<SectionEntity>();
     
-    @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
-    Set<CustomerEntity> customers = new HashSet<CustomerEntity>();
+    @OneToMany(mappedBy="faculty")
+    List<CustomerEntity> customers = new ArrayList<CustomerEntity>();
     
     @OneToMany(mappedBy="faculty",cascade={CascadeType.ALL})
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
+
+    public FacultyEntity() {
+    }
+
+    public List<SectionEntity> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<SectionEntity> sections) {
+        this.sections = sections;
+    }
+
+    public List<CustomerEntity> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<CustomerEntity> customers) {
+        this.customers = customers;
+    }
+
+    public List<WaiverEntity> getWaivers() {
+        return waivers;
+    }
+
+    public void setWaivers(List<WaiverEntity> waivers) {
+        this.waivers = waivers;
+    }
+
+    public FacultyEntity(String specialization, int yearsOfExperience) {
+        this.specialization = specialization;
+        this.yearsOfExperience = yearsOfExperience;
+    }
+    
+    public FacultyEntity(String specialization, int yearsOfExperience,String username, String password, String fullname, String email, String AUTHORITY, Date dateOfBirth, Long contactNum, String street, String city, String state, String country, Long zipcode) {
+             super(username, password, fullname, email, AUTHORITY, dateOfBirth, contactNum, street, city, state, country, zipcode);
+             this.specialization = specialization;
+             this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public FacultyEntity(String specialization, int yearsOfExperience, String username, String password, String fullname, String email) {
+        super(username, password, fullname, email);
+        this.specialization = specialization;
+        this.yearsOfExperience = yearsOfExperience;
+    }
     
     public void addWaivers(WaiverEntity waiver) {
         waiver.setFaculty(this);
@@ -51,6 +96,22 @@ public class FacultyEntity extends UserEntity {
      public void removeSection(SectionEntity section){
         section.setFaculty(null);
         sections.remove(section);
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public int getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(int yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
      
      
