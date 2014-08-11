@@ -25,20 +25,20 @@
                 <h1>My Profile!</h1>
                 <table>
                     <tr><td><b>Full Name</b></td>       <td>${not empty Profile.fullname ? Profile.fullname :""}</td> </tr>
-                    <tr><td><b>Email</b></td>     <td>${Profile.email}</td><td>(Use format name@company.com)</td></tr>
-                    <tr><td><b>User Role</b></td>      <td>${Profile.AUTHORITY}</td> </tr>
-                    <tr><td><b>Username</b></td>       <td>${Profile.username}</td> </tr>
-                    <tr><td><b>Password</b></td>  <td>${Profile.password}</td></tr>
-                    <tr><td><b>Date Of Birth</b></td> <td>${Profile.dateOfBirth}</td><td>(Use format yyyy-mm-dd)</td> </tr>
-                    <tr><td><b>Joined Date</b></td> <td>${Profile.joinDate}</td><td>(Use format yyyy-mm-dd)</td> </tr>
-                    <c:if test="${not empty Profile.contactNum}">
-                        <tr><td><b>Contact Number</b></td>  <td>${Profile.contactNum}</td> </tr>
-                    </c:if>
-                    <tr><td><b>Street</b></td> <td>${Profile.street}</td> </tr>
-                    <tr><td><b>City</b></td>   <td>${Profile.city}</td> </tr>
-                    <tr><td><b>State</b></td>  <td>${Profile.state}</td> </tr>
-                    <tr><td><b>Country</b></td> <td>${Profile.country}</td> </tr>
-                    <tr><td><b>Zipcode</b></td> <td>${Profile.zipcode}</td> </tr>  
+                    <tr><td><b>Email</b></td>     <td>${not empty Profile.email ? Profile.email:""}</td></tr>
+                    <tr><td><b>User Role</b></td>      <td>${not empty Profile.AUTHORITY? Profile.AUTHORITY : ""}</td> </tr>
+                    <tr><td><b>Username</b></td>       <td>${not empty Profile.username ? Profile.username : ""}</td> </tr>
+                    <tr><td><b>Password</b></td>  <td>${not empty Profile.password ? Profile.password : ""}</td></tr>
+                    <tr><td><b>Date Of Birth</b></td> <td>${not empty Profile.dateOfBirth ? Profile.dateOfBirth : ""}</td> </tr>
+                    <tr><td><b>Joined Date</b></td> <td>${not empty Profile.joinDate ? Profile.joinDate : ""}</td><td>(format yyyy-mm-dd)</td> </tr>
+                    
+                        <tr><td><b>Contact Number</b></td>  <td>${not empty Profile.contactNum ? Profile.contactNum : ""}</td> </tr>
+                    
+                    <tr><td><b>Street</b></td> <td>${not empty Profile.street ? Profile.street : ""}</td> </tr>
+                    <tr><td><b>City</b></td>   <td>${not empty Profile.city ? Profile.city : ""}</td> </tr>
+                    <tr><td><b>State</b></td>  <td>${not empty Profile.state ? Profile.state : ""}</td> </tr>
+                    <tr><td><b>Country</b></td> <td>${not empty Profile.country ? Profile.country : ""}</td> </tr>
+                    <tr><td><b>Zipcode</b></td> <td>${not empty Profile.zipcode ? Profile.zipcode : ""}</td> </tr>  
                 </table>
             </c:if>
                 <h5>
