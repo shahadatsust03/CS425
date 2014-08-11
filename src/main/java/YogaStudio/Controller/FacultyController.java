@@ -61,7 +61,7 @@ public class FacultyController {
     @Autowired
     private SectionService sectionService;
 
-    @RequestMapping(value = {"/faculty", "/user/faculty"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/faculty", "/user/faculty","/faculty/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
         ModelAndView view = new ModelAndView("/faculty/faculty");
@@ -70,12 +70,20 @@ public class FacultyController {
         return view;
     }
 
+    
     @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
     public String getFaculty(@PathVariable Long id, Model model) {
         model.addAttribute("faculty", facultyService.getFaculty(id));
-        return "faculty/editFaculty";        
-    } 
-    
+        model.addAttribute("sections", sectionService.getAllSections());
+        return "faculty/facultyDetail";
+    }
+
+    @RequestMapping(value = {"/faculty/editFaculty/{id}", "/user/faculty/editFaculty/{id}"}, method = RequestMethod.GET)
+    public String editFaculty(@PathVariable Long id, Model model) {
+        model.addAttribute("faculty", facultyService.getFaculty(id));
+        return "faculty/editFaculty";
+    }
+
     @RequestMapping(value = {"/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
     public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model)
     {       
@@ -85,10 +93,8 @@ public class FacultyController {
         facultyService.add(faculty);
         model.addAttribute("Message", "Successfull");
          
-        return "/faculty";        
-    }     
-    
-
+        return "faculty/faculty";        
+    } 
 
     @RequestMapping(value = {"/removeFaculty/{id}", "/YogaStudio/faculty/removeFaculty/{id}", "/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
     public RedirectView removeFaculty(HttpServletRequest request, @PathVariable Long id, final RedirectAttributes redirectAttributes) {

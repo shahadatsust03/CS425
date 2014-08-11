@@ -42,3 +42,41 @@
 
 
 <div id="fade" class="black_overlay"></div>
+
+<script type="text/javascript">
+$.fn.doSaveSection =  function(id) {  
+              console.log("do save");
+               var radioboxes = document.getElementsByName("radio_id");
+                         var value = "";
+                         // loop over them all
+                         var j = 0;
+                         for (var i=0; i<radioboxes.length; i++) {
+                            // And stick the checked ones onto an array...
+                            if (radioboxes[i].checked) {
+
+                                if(j == 0)
+                                 value += radioboxes[i].value ;
+
+                                else
+                                    value += "," + radioboxes[i].value;
+                                j++;
+
+                            }
+                         }               
+                            
+                  $.ajax({
+                    type: "GET",
+                                         
+                   url: "assignFaculty/" + id + "/"+value, 
+                    })
+                    .done(function( data ) {
+                        window.location.href = "faculty";
+                    });              
+                  
+             
+            
+            //
+            document.getElementById('sectionList').style.display='none';
+            document.getElementById('fade').style.display='none';
+          }
+                </script>>
