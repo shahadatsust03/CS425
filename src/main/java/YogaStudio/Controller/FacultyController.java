@@ -114,7 +114,7 @@ public class FacultyController {
         String message = "";
         redirectAttributes.addFlashAttribute("message", message);
         return "faculty/addFaculty";
-    }
+        }
 
     @RequestMapping(value = {"faculty/save", "/userfaculty/save"}, method = RequestMethod.POST)
     public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
