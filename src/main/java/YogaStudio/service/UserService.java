@@ -83,12 +83,11 @@ public class UserService {
         return userDao.update(userId, userentity);    
     }
        
-
     public void delete(Long userId) {    
         userDao.delete(userId);   
     }
     
-       public UserEntity findUser(String username, String password) {
+    public UserEntity findUser(String username, String password) {
         return  userDao.findUser( username,password);
     }
     

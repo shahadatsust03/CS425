@@ -6,9 +6,11 @@
 
 package YogaStudio.Controller;
 
+import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.service.ClassService;
+import YogaStudio.service.CustomerService;
 import YogaStudio.service.FacultyService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.SectionService;
@@ -27,6 +29,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -43,6 +46,10 @@ public class FacultyController {
     private ProductService productService;
     @Autowired
     private ClassService classService;
+    
+    @Autowired
+    private CustomerService customerService;
+    
     
     @Autowired
     private SectionService sectionService; 
@@ -69,11 +76,15 @@ public class FacultyController {
         return "faculty/editFaculty";        
     } 
     
-    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.POST,headers ="Accept:*/*")
     public String assignFaculty(HttpServletRequest request) {     
         String id = request.getParameter("id");
         String value = request.getParameter("value");
-        return "faculty/editFaculty";        
+        FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
+        CustomerEntity customer = customerService.get(Long.parseLong(value));
+        faculty.addCustomer(customer);
+        facultyService.add(faculty);
+        return "/faculty";        
     }     
     
     @RequestMapping(value = {"/removeFaculty/{id}","/YogaStudio/faculty/removeFaculty/{id}","/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
