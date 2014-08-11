@@ -23,9 +23,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,14 +78,15 @@ public class FacultyController {
         return "faculty/editFaculty";        
     } 
     
-    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.POST,headers ="Accept:*/*")
-    public String assignFaculty(HttpServletRequest request) {     
-        String id = request.getParameter("id");
-        String value = request.getParameter("value");
+    @RequestMapping(value = {"/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
+    public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model)
+    {       
         FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
-        CustomerEntity customer = customerService.get(Long.parseLong(value));
-        faculty.addCustomer(customer);
+        SectionEntity section = sectionService.getSection(Long.parseLong(value));
+        faculty.addSection(section);
         facultyService.add(faculty);
+        model.addAttribute("Message", "Successfull");
+         
         return "/faculty";        
     }     
     

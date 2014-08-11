@@ -33,7 +33,7 @@
                  </tr> 
         </table>
              
-        <input type="button" value="Save" onclick="doSaveSection(${faculty.id});document.getElementById('sectionList').style.display='none';document.getElementById('fade').style.display='none'"/>
+        <input type="button" value="Save" onclick="$(this).doSaveSection(${faculty.id});"/>
         <input type="button" value="Cancel" onclick="document.getElementById('sectionList').style.display='none';document.getElementById('fade').style.display='none'"/>
 
     </div>    
