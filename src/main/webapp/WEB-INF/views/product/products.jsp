@@ -15,7 +15,9 @@
             <div class="container">
                   ${message}
                   <%@include file="products_navigation.jsp" %>
-                  <%@include file="main_product_list.jsp" %>
+                  <div id="productsList">
+                     <%@include file="main_product_list.jsp" %>
+                  </div>
             </div>
     </div> 
     </body>

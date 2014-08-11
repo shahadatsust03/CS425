@@ -2,14 +2,19 @@
 <div>
     <div>
         <table class="table table-striped">    
-                     <td>Name</td>
-                     <td>Description</td>
-                     <td>Price</td>
                 <c:forEach items="${products}" var="product">
                  <tr>      
-                     <td><a href="products/${product.id}" >${product.name}</a></td>
-                     <td>${product.description}</td>
-                     <td>${product.price}</td>
+                     <td>
+                         <div>
+                             <a href="products/${product.id}" >${product.name}</a>
+                         </div>
+                         <div  class="badge">$ ${product.price}</div>
+                     </td>
+                     <td>
+                         <span>
+                           <img src="${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}" alt="${product.name}" style="width:80px;" />
+                         </span>  
+                     </td>
                  </tr>
                </c:forEach>
         </table>

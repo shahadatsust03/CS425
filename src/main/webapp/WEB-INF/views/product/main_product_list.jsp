@@ -4,19 +4,24 @@
     Author     : eTunkara
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div>
-    <div>
-        <table class="table table-striped">    
-            <td>Name</td>
-                     <td>Description</td>
-                     <td>Price</td>
-                <c:forEach items="${products}" var="product">
-                 <tr>      
-                     <td><a href="products/${product.id}" >${product.name}</a></td>
-                     <td>${product.description}</td>
-                     <td>${product.price}</td>
-                 </tr>
-               </c:forEach>
-        </table>
+  <div class="container" style="padding: 20px 0;background: #f5f5f5;width:auto;">    
+        <ul class="gallery col-4">
+            <c:forEach items="${products}" var="product">
+                 <li>
+                   <a href="products/${product.id}" style="text-decoration: none;">
+                    <div class="preview">
+                        <img src="${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}" alt="${product.name}" style="width:210px;" />
+                    </div>
+                    <div class="desc">
+                        <h5 style="font-weight: bold">${product.name}</h5>
+                         <span>$ ${product.price}</span>
+                           <button 
+                            onclick="simpleCart.add('id=${product.id}','name=${product.name}','price=${product.price}','image=${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}');" type="button" class="btn btn-success btn-primary btn-xs">
+                                 Add to order
+                          </button>
+                    </div>  
+                   </a>
+               </li>
+            </c:forEach>            
+        </ul>   
     </div>
-</div>

@@ -98,5 +98,14 @@ public class UserService {
         return null;
     }
     
+    public UserEntity findUserBy(String fieldName,String value){
+        List<UserEntity> list = userDao.findEntityBy("UserEntity",fieldName, value);
+        return (!list.isEmpty())? list.get(0): null;
+    }
 
+    public boolean updatePassword(UserEntity userentity) {
+        String password = Util.generatePassword();// auto generate password;//
+        userentity.setPassword(password);
+        return  userDao.updateUser(userentity);
+    }
 }

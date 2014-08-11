@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <%@include file="../header.jsp" %>
+	
     </head>
     <body>
         <%@include file="../nagivation.jsp" %>
@@ -20,18 +21,19 @@
                 <div class="container">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="border:none;background:none;">
-                            <h4>${product.name}</h4>
+                            <h4>My Cart
+                            </h4>
                         </div>
                         <div class="panel-body">
-                            <img src="${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}" alt="${product.name}" style="width:200px;"/>
-                         <div>Description: ${product.description}</div>
-                         <div>Price: ${product.price}</div>
-                         <div>   
-     
-                             <button 
-                                 onclick="simpleCart.add('name=${product.name}','price=${product.price}','image=${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}');" type="button" class="btn btn-success btn-primary btn-xs">
-                                 Add to order
-                             </button>
+                            <div id="cartMsg"></div>
+                            <!--Add a Div with the class "simpleCart_items" to show your shopping cart area.-->
+			     <div class="simpleCart_items" >
+		             </div>
+                            <div>
+                                <!--Here's the Links to Checkout and Empty Cart-->
+				<button class="simpleCart_empty btn btn-small">empty cart</button>
+				<button class="simpleCart_checkout btn btn-small">Checkout</button>
+                            </div>
                          </div>
                         </div>
                         

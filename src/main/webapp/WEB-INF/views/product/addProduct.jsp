@@ -13,13 +13,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <%@include file="../header.jsp" %>
+        <script>
+            $(document).ready(function(){
+                            $('input[type=file]').bootstrapFileInput();
+                            $('.file-inputs').bootstrapFileInput();
+                
+            });
+        </script>
     </head>
     <body>
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
                      ${message}
-                            <form role="form" method="post" action="${pageContext.request.contextPath}/product/save">
+                            <form role="form" method="post" action="${pageContext.request.contextPath}/product/save" enctype="multipart/form-data">
                            <div class="form-group">
                              <label for="price">Name:</label>
                              <input typ="text" class="form-control" id="price" name="name" value=''/>
@@ -36,7 +43,10 @@
                              <label for="description">Description</label>
                              <textarea class="form-control" id="description" placeholder="description"  name='description'></textarea>
                            </div>
-
+                           <div class="form-group">
+                             <input  type="file" placeholder="upload"  name="file" />
+                           </div>
+                         
                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                            <button type="submit" class="btn btn-primary">Cancel</button>
                            <button type="submit" class="btn btn-primary">Save</button>
