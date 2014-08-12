@@ -157,6 +157,12 @@ public class SectionController {
         model.addAttribute("faculty", sectionService.getSection(id));
         return "faculty/editFaculty";        
     } 
+    
+    @RequestMapping(value = {"section/editSection/{id}","../section/editSection/{id}","/section/editSection/{id}", "/user/section/editSection/{id}"}, method = RequestMethod.GET)
+    public String editSectionSection(@PathVariable Long id,Model model) {        
+        model.addAttribute("faculty", sectionService.getSection(id));
+        return "section/editSection";        
+    } 
      
        //private method to add add and update users
     private String addUpdateSection(HttpServletRequest request) throws ParseException{

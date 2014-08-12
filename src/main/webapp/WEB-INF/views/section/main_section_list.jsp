@@ -36,14 +36,11 @@
                          
                          <sec:authorize access="hasRole('ROLE_ADMIN')"> 
                              <div style="margin-top:10px;">
-                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/faculty/editFaculty/${faculty.id}">Edit Faculty</a>
-                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/faculty/removeFaculty/${faculty.id}">Remove Faculty</a>
-                            </div>
-                            <div style="margin-top:10px;">
-                              <a class="btn btn-small btn-primary  btn-xs" type="button" href = "javascript:void(0)" onclick = "document.getElementById('sectionList').style.display='block';document.getElementById('fade').style.display='block'">Assign Faculty</a>               
-                            </div>
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/section/editSection/${section.id}">Edit Section</a>
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/section/removeSection/${section.id}">Remove Section</a>
+                             </div>
                        </sec:authorize>
-</c:forEach>
+                       </c:forEach>
                       </div>
                     </div>
                   </div>
