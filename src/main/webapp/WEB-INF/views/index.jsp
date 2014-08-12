@@ -35,7 +35,7 @@
                                     </p>
                             </div>
                             <div class="col-sm-4 text-center feature">
-                                <c:if test="${user == null}">
+                                
                                     <p>
                                         <!-- Nav tabs -->
                                           <ul class="nav nav-tabs" role="tablist">
@@ -61,7 +61,7 @@
                                               </div>
                                           </div>
                                     </p>
-                                  </c:if>
+                                  
                                   <c:if test="${user != null}">
                                       <h3>User Profile</h3>
                                       ${pageContext.request.userPrincipal.name}
