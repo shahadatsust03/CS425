@@ -19,10 +19,13 @@
             </div>
             <div class="collapse navbar-collapse appiNav">
                     <ul class="nav navbar-nav">
-                        <li><a href="${pageContext.request.contextPath}/">Home</a></li>
-                            <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li>
-                            <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li>
-                            <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>
+                        <li><a href="${pageContext.request.contextPath}/">Home</a></li> 
+                        <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li>
+                            <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                                <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>
+                                <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li>
+                            </sec:authorize>
+              
                              <c:if test="${pageContext.request.userPrincipal.name != null}">                            
                             <sec:authorize ifAnyGranted="ROLE_USER">
                                  <li><a href="${pageContext.request.contextPath}/enrollments">Enrollment</a></li>
@@ -37,7 +40,6 @@
                              </li>  
                             
                             </c:if>
-                            <li><a href="${pageContext.request.contextPath}/contact">Contact Us</a></li>
                             <c:if test="${pageContext.request.userPrincipal.name == null}">
                               <li><a href="#testimonialsWrap">Login</a></li>
                             </c:if>
@@ -46,15 +48,18 @@
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
-                              <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
                             </c:if>
-                               <!--Add a Div with the class "simpleCart_items" to show your shopping cart area.-->
-                              <li>
-                                 <a href="${pageContext.request.contextPath}/products/cart" >
+                              <sec:authorize ifAnyGranted="ROLE_USER">
+                                <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
+                                <li>
+                                  <a href="${pageContext.request.contextPath}/products/cart" >
                                     <span class="badge pull-right" id="myCart">0</span>
                                     <span class="glyphicon glyphicon-shopping-cart"></span>
                                  </a>
-                              </li> 
+                              </li>  
+                              </sec:authorize>
+                               <!--Add a Div with the class "simpleCart_items" to show your shopping cart area.-->
+                          
                     </ul>
             </div><!--/.nav-collapse -->
     </div>

@@ -15,7 +15,7 @@
    
        <form class="navbar-form navbar-left" role="search" id="productSearch" action="products/query" onsubmit="$(this).search('#productSearch','#productsList');return false;">
          <div class="form-group">
-          <input type="text" class="form-control" name="product" placeholder="Search">
+          <input type="text" class="form-control" name="product" placeholder="Search" />
          </div>
 
         <button type="submit" class="btn btn-primary btn-sm" >Search</button>
@@ -34,7 +34,7 @@
                       </ul>
                     </li>
               </ul>
-         </sec:authorize>>
+         </sec:authorize>
      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

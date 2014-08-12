@@ -8,6 +8,7 @@ package YogaStudio.service;
 
 import YogaStudio.dao.generic.ProductDAO;
 import YogaStudio.domain.CustomerEntity;
+import YogaStudio.domain.FileEntity;
 import YogaStudio.domain.OrderEntity;
 import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.ProductOrderEntity;
@@ -47,6 +48,19 @@ public class ProductService {
         ProductEntity product = new ProductEntity(id, name,description,price,numberOfProducts);
         //set the user authority      
         return productDao.add(product);    
+    }
+    
+    public boolean add(String name, String description,int numberOfProducts,double price, String imagePath) 
+    {    
+        try{
+            ProductEntity product = new ProductEntity(name,description,price,numberOfProducts);
+            //String fileType = imagePath.split(".")[imagePath.split(".").length - 1];
+            product.addImage(new FileEntity(imagePath,"jpg"));
+          //set the user authority      
+            return productDao.add(product); 
+        }catch(Exception e){
+             return false;
+        }
     }
     public List<ProductEntity> findBy(String fieldName,String value) 
     {           
