@@ -12,7 +12,9 @@ import YogaStudio.dao.generic.EnrollmentDAO;
 import YogaStudio.dao.generic.SectionDAO;
 import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
+import YogaStudio.domain.ScheduleEntity;
 import YogaStudio.domain.SectionEntity;
+import java.util.HashMap;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +107,56 @@ public class SectionService {
     public boolean isEnrolled(Long customerId, Long sectionId) {
         return sectiondao.isEnrolled(customerId, sectionId);
     }
-   
+    
+    // chunming
+    public List getFacutlyCurrentSections(long faculId){
+        return sectiondao.getFacutlyCurrentSections(faculId);
+    }
+    // chunming
+    public List getFacultyNextSections(long faculId){
+        return sectiondao.getFacultyNextSections(faculId);
+    }  
+    
+    // chunming
+    public HashMap getFacutlyCurrentSchedule(long faculId){
+        List<SectionEntity> sectionList = sectiondao.getFacutlyCurrentSections(faculId);
+        HashMap scheduleMap = new HashMap();
+        for(SectionEntity sec : sectionList){
+            List<ScheduleEntity> scheduleList = sec.getScheduleList();
+            for(ScheduleEntity schedule : scheduleList){
+                if(schedule.getDayOfWeek() == 7)  
+                    schedule.setDayOfWeek(0); 
+                // A faculty can have only one section in the morning or afternoon
+                if(schedule.getStartTimeM().compareTo("12:00")<0){
+                    scheduleMap.put(schedule.getDayOfWeek()+"AM", schedule);
+                    scheduleMap.put(schedule.getDayOfWeek()+"AMSEC", sec);
+                }else{
+                    scheduleMap.put(schedule.getDayOfWeek()+"PM", schedule); 
+                    scheduleMap.put(schedule.getDayOfWeek()+"PMSEC", sec);
+                }
+            }
+        }
+        return scheduleMap;
+    }
+    // chunming
+    public HashMap getFacultyNextSchedule(long faculId){
+        List<SectionEntity> sectionList = sectiondao.getFacultyNextSections(faculId);
+        HashMap scheduleMap = new HashMap();
+        for(SectionEntity sec : sectionList){
+            List<ScheduleEntity> scheduleList = sec.getScheduleList();
+            for(ScheduleEntity schedule : scheduleList){
+                if(schedule.getDayOfWeek() == 7)  
+                    schedule.setDayOfWeek(0); 
+                // A faculty can have only one section in the morning or afternoon
+                if(schedule.getStartTimeM().compareTo("12:00")<0){
+                    scheduleMap.put(schedule.getDayOfWeek()+"AM", schedule);
+                    scheduleMap.put(schedule.getDayOfWeek()+"AMSEC", sec);
+                }else{
+                    scheduleMap.put(schedule.getDayOfWeek()+"PM", schedule); 
+                    scheduleMap.put(schedule.getDayOfWeek()+"PMSEC", sec);
+                }
+            }
+        }
+        return scheduleMap;
+    }
 }

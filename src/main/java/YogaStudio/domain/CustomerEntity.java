@@ -129,4 +129,13 @@ public class CustomerEntity extends UserEntity{
     public void setTranscripts(List<TranscriptEntity> transcripts) {
         this.transcripts = transcripts;
     }
+    
+    public FacultyEntity getAdvisor() {
+        return faculty;
+    }
+
+    public void setAdvisor(FacultyEntity advisor) {
+        this.faculty = advisor;
+    }
+    // caocm end    
 }
