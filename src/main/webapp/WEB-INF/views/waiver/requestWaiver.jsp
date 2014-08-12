@@ -20,6 +20,9 @@
                 User Not Found.
             </c:if>
             <c:if test="${not empty user}">
+                <c:if test="${not empty message}">
+                        <b> ${message}</b>
+                    </c:if>
                 <form action="../../waiver/submitWaiver/${user.id}" method="post">
                     <h1>Request Waiver Form:</h1>
 

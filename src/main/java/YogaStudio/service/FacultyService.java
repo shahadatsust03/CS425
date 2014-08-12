@@ -65,5 +65,9 @@ public class FacultyService {
     public FacultyEntity getFaculty(Long id) {
         return facultyDao.get(id);
     }
+
+    public UserEntity findFaculty(String faculty, String faculty0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
       
 }

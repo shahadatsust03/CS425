@@ -17,6 +17,9 @@
         <div id="featureWrap">   
            
             <div class="container">
+                <c:if test="${not empty message}">
+                        <b> ${message}</b>
+                    </c:if>
         <h1>Requested Waivers:</h1>
         <table class="table table-striped" align="center">    
             <td>Class</td>
