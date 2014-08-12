@@ -8,7 +8,7 @@
             <p>${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
         </c:if>
         
-<form role="form" method="post" action="<c:url value='j_spring_security_check' />">
+<form role="form" method="post" action="<c:url value="${pageContext.request.contextPath}/j_spring_security_check" />">
         <div class="form-group">
           <label for="username">Username</label>
 <!--          <input type="text" class="form-control" id="username" name="name" value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/>-->

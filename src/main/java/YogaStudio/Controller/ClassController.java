@@ -100,7 +100,7 @@ public class ClassController {
         classService.removeClass(id);
         return getClasses(null);
         }catch(Exception e){
-            ModelAndView view = new ModelAndView("classes/results");
+            ModelAndView view = new ModelAndView("classes/errorresults");
             String message = "Remove unsuccessful! You must remove successors of this class first";
             view.addObject("message", message);
             return view;

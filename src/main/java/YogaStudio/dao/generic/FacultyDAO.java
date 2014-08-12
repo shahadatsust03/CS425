@@ -54,7 +54,7 @@ public class FacultyDAO {
     // chunming
     public FacultyEntity getNewAdvisor(){
         // Select the faculty that has fewest advisees as advisor
-        String hql = "From FacultyEntity FE ORDER BY FE.advisees.size ASC";
+        String hql = "From FacultyEntity FE ORDER BY FE.customers.size ASC";
         Query q = sf.getCurrentSession().createQuery(hql);
         q.setMaxResults(1);
 

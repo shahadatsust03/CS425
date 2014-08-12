@@ -10,10 +10,10 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
-        <%@include file="../nagivation.jsp" %>        
+        <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">
             <div class="container">
-                <font color="green" size="5"> ${message} </font>
+                <font color="red" size="5"> ${message} </font>
             </div>
     </div> 
     </body>

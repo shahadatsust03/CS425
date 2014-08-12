@@ -58,6 +58,10 @@ public class SectionService {
         return sectiondao.getAllSections();
     }
     
+     public List<SectionEntity> getAllSections(Long semesterId) {        
+        return sectiondao.getAllSections(semesterId);
+    }
+    
     public SectionEntity getSection(Long id) {        
         return sectiondao.get(id);
     }

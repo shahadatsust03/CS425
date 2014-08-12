@@ -30,7 +30,6 @@ public class AdvisorService {
      
     public List getAdvisees(long facultyId){
 
-        System.out.println(facultyDao);
         FacultyEntity faculty = facultyDao.get(facultyId);
         
         return faculty.getAdvisees();

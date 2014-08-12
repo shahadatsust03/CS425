@@ -65,6 +65,15 @@ public class SectionDAO {
         Query q = sf.getCurrentSession().createQuery(hql);
         return q.list(); 
     }
+    
+     public List<SectionEntity> getAllSections(Long semesterId) {
+        
+        String hql = "From SectionEntity SE WHERE SE.semester.id = :semesterId";
+        Query q = sf.getCurrentSession().createQuery(hql);
+        q.setParameter("semesterId", semesterId);
+        return q.list(); 
+    }
+     
     public FacultyEntity getAssignedFaculty(Long sectionId) {
         SectionEntity sectionEntity = (SectionEntity) sf.getCurrentSession().load(SectionEntity.class, sectionId);
         return sectionEntity.getFaculty();
