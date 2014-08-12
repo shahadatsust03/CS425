@@ -1,22 +1,50 @@
 <%-- 
-    Document   : main_product_list
-    Created on : Aug 6, 2014, 5:35:15 PM
+    Document   : product_list
+    Created on : Jul 30, 2014, 2:14:09 PM
     Author     : Shahadat
 --%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div>
-    <div>
-       <table class="table table-striped">    
-                     <td>Name</td>
-                     <td>Description</td>
-                     <td>Tution Fee</td>
-                <c:forEach items="${classes}" var="classes">
-                 <tr>      
-                     <td><a href="${pageContext.request.contextPath}/classes/${classes.id}"/>${classes.className}</td>
-                     <td>${classes.description}</td>
-                     <td>${classes.fee}</td>
-                 </tr>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+
+               <div class="panel-group" id="accordion">
+                <c:forEach items="${classes}" var="classs" varStatus="loop">
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" h="classes/${classs.id} "href="#collapse${classs.id}">
+                         ${classs.className}
+                         
+                        </a>
+                      </h4>
+                    </div>
+                         <c:if test="${loop.index ==0}">
+                           <div id="collapse${classs.id}" class="panel-collapse collapse in">
+                         </c:if>
+                         <c:if test="${loop.index >0}">
+                             <div id="collapse${classs.id}" class="panel-collapse collapse">
+                         </c:if>
+                      <div class="panel-body">
+                        <div>${classs.description}</div>
+                       <div>${classs.fee}</div>
+                       <div><c:if test="${not empty classs.prerequisteClasses}">Prerequesties:</c:if> 
+                         <c:if test="${not empty classs.prerequisteClasses}">
+                             <c:forEach items="${classs.prerequisteClasses}" var="preReq">                                 
+                                 ${preReq.className} &nbsp;&nbsp;
+                             </c:forEach>
+                         </c:if>
+                         </div>
+                         <sec:authorize access="hasRole('ROLE_ADMIN')"> 
+                             <div style="margin-top:10px;">
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/editclassform/${classs.id}">Edit</a>
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/removeclass/${classs.id}">Remove</a>
+                            </div> 
+                       </sec:authorize>
+
+                      </div>
+                    </div>
+                  </div>
                </c:forEach>
-        </table>
-    </div>
-</div>
+              <div>
+</table>

@@ -17,7 +17,7 @@
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
       </form>
       <sec:authorize access="hasRole('ROLE_ADMIN')"> 
       <ul class="nav navbar-nav navbar-right">
