@@ -315,7 +315,7 @@ public class UserController {
 
     private String submitWaiver(HttpServletRequest request, RedirectView view, int id) {
         System.out.println("Id:" + Long.valueOf(id) + "  Class_Id:" + request.getParameter("class_id"));
-        CustomerEntity customer = customerService.getCustomer(Long.valueOf(id));
+        CustomerEntity customer = customerService.get(Long.valueOf(id));
         ClassEntity yogaClass = classService.getClass(Long.valueOf(request.getParameter("class_id")));
         String message = "Failed to submit waiver request.";
         if (yogaClass != null && customer != null) {
@@ -326,8 +326,7 @@ public class UserController {
                 WaiverEntity waiver = new WaiverEntity(customer, request.getParameter("reason"), yogaClass);
 
                 boolean submitStatus = waiverService.submitWaiverRequest(waiver, Long.valueOf(id));
-                //UserEntity updatedUser = userService.update(Long.valueOf(id), user);
-                view.setUrl(request.getContextPath() + "/waiver/viewWaivers");
+                //UserEntity updatedUser = userService.update(Long.valueOf(id), user);                
                 message = "Waiver Request Submitted Successfully.";
                 // view.setUrl("add");
                 if (submitStatus == false) {
@@ -336,13 +335,14 @@ public class UserController {
             } else {
                 message = message + "Request for waiver is already submitted.";
             }
+            view.setUrl(request.getContextPath() + "/waiver/viewWaivers/"+id);
         }
         return message;
     }
 
     @RequestMapping(value = "/waiver/viewWaivers/{id}", method = RequestMethod.GET)
     public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        
+        System.out.println("Id:" + Long.valueOf(id));
         CustomerEntity cust = customerService.get(Long.valueOf(id));
         List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);
         //List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();

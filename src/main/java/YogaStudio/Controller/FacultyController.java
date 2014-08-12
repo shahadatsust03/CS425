@@ -179,7 +179,7 @@ public class FacultyController {
         List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
         ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
         view.addObject("waivers", waivers);
-        view.addObject("faculty", faculty);
+        view.addObject("faculty", faculty.getId());
         // view.addObject("pageTitle", "Waivers");
         String message = "Waiver Request:";
         redirectAttributes.addFlashAttribute("message", message);

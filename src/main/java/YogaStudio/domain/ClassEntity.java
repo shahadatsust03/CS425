@@ -94,7 +94,7 @@ public class ClassEntity {
         return prerequisite;
     }
     
-    @OneToMany(mappedBy="yogaClass",cascade={CascadeType.ALL})
+    @OneToMany(mappedBy="yogaClass")
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
  
     //@ManyToMany(cascade={CascadeType.ALL})

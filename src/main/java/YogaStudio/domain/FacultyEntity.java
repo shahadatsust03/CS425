@@ -32,7 +32,7 @@ public class FacultyEntity extends UserEntity {
     @OneToMany(mappedBy = "faculty", cascade = {CascadeType.ALL})
     List<CustomerEntity> customers = new ArrayList<CustomerEntity>();
 
-    @OneToMany(mappedBy = "faculty", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "faculty")
     List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();
 
     public FacultyEntity() {
