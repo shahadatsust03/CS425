@@ -20,9 +20,9 @@
                 <c:if test="${not empty message}">
                         <b> ${message}</b>
                     </c:if>
-                <h1>Pending Waivers:</h1>                
-                    <c:forEach items="${waivers}" var="waiver">
-                        <div class="panel panel-default">
+                <h1>Pending Waivers:</h1> 
+                <div class="panel panel-default">
+                    <c:forEach items="${waivers}" var="waiver">                        
                         <div class="panel-heading" style="border:none;background:none;">
                             <h4>${waiver.id}
                             </h4>
@@ -35,9 +35,9 @@
                          <div>Comments : ${waiver.comments}</div>
                          <div>Status : ${waiver.status}</div>
                          <div>Updated Date : ${waiver.updateDate}</div>                         
-                         </div>
-                         </div>
-                         </c:forEach>                                        
+                         </div>                         
+                         </c:forEach>  
+                    </div>
                         <c:if test="${empty waivers}">
                         <b>No Pending requests. </b>
                     </c:if>

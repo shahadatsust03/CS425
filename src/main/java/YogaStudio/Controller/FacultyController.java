@@ -186,7 +186,7 @@ public class FacultyController {
         String name = auth.getName();
         Object object = auth.getPrincipal();
         String password = ((UserDetails) object).getPassword();
-        System.out.println("Customer :" + name + "  Password:" + password);
+        System.out.println("Faculty :" + name + "  Password:" + password);
         UserEntity user = userService.findUser("faculty", "faculty");
         FacultyEntity faculty = facultyService.getFaculty(user.getId());
         List<WaiverEntity> waivers = waiverService.getWaiversByFaId(user.getId());
@@ -224,16 +224,16 @@ public class FacultyController {
         return view;
     }
 
-    @RequestMapping(value = "/waiver/respondOnWaiver/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = {"/waiver/respondOnWaiver/{id}","/respondOnWaiver/{id}"}, method = RequestMethod.POST)
     public RedirectView respondOnWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         //if "name" value equals approve redirect to viewWaivers by updating status
         //else show reject popup with comments and redirect after submitting and updating to DB to viewWaivers
-//         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String name = auth.getName();
-//            Object object = auth.getPrincipal();
-//
-//            String password = ((UserDetails) object).getPassword();
-//            System.out.println("Faculty :" + name + "  Password:" + password);
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            Object object = auth.getPrincipal();
+
+            String password = ((UserDetails) object).getPassword();
+            System.out.println("Faculty :" + name + "  Password:" + password);
         UserEntity faculty = userService.findUser("faculty", "faculty");
         //UserEntity user = userService.findUser("devika", "devika");
         System.out.println("Faculty Found:" + faculty);
