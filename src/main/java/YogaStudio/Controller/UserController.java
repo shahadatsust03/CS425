@@ -10,6 +10,7 @@ import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
+import YogaStudio.service.AdvisorService;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.CustomerService;
 import YogaStudio.service.ProductService;
@@ -61,8 +62,10 @@ public class UserController {
     @Autowired
     private ClassService classService;
     @Autowired
-    private WaiverService waiverService;
-
+    private WaiverService waiverService;    
+   @Autowired
+    private AdvisorService advisorservice;
+     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
@@ -293,7 +296,6 @@ public class UserController {
     private HashMap registerUser(HttpServletRequest request) {
         HashMap response = new HashMap();
         List message = new ArrayList();
-        boolean saved  = false;
         try{
                 String firstname = request.getParameter("firstName"),
                         lastname = request.getParameter("lastName"),
@@ -321,13 +323,12 @@ public class UserController {
                     message.add("Username is required");
                 }
                 //if(dateOfBirth.)
-             // SimpleDateFormat formatter = new SimpleDateFormat("MMM/yyyy");
-                    //                         Date expDate = formatter.parse(expirydate);
+                
                 if (message.isEmpty()) {
                     String authority = request.getParameter("authority");
                     //set the role customer by default
                     authority = (authority == null) ? "ROLE_USER" : authority;
-                    saved = userService.add(username, 
+                    UserEntity user  = userService.add(username, 
                                                     email, 
                                                     username,
                                                     dateOfBirth, 
@@ -339,18 +340,19 @@ public class UserController {
                                                     Long.valueOf(contactnumber),
                                                     authority);
 
-                    if (saved) {
+                    if (user != null) {
+                        advisorservice.assignAdvisor(user.getId());
                         message.add("Registration successful saved");
+                        response.put("success",true);
                     } else {
                         message.add("Registration unsuccessful");
+                        response.put("success",false);
                     }
                 }
         }
         catch(Exception e){
             message.add("Registration unsuccessful");
         }
-        
-        response.put("success",saved);
         response.put("message",message.toString());
         return response;
     }

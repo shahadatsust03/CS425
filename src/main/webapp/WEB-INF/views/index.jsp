@@ -16,7 +16,7 @@
             
             <div class="container">
                     <!--display flash message-->
-                  
+                    <div id="serverResponseMsg"></div>
                     
               
                     <div class="row">
