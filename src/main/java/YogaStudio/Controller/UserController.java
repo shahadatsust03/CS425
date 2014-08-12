@@ -15,9 +15,15 @@ import YogaStudio.service.CustomerService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.UserService;
 import YogaStudio.service.WaiverService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +37,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -41,10 +48,10 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 @Controller
 public class UserController {
-    
+
     @Autowired
     private UserService userService;
-     
+
     @Autowired
     private CustomerService customerService;
     @Autowired
@@ -53,9 +60,9 @@ public class UserController {
     private ClassService classService;
     @Autowired
     private WaiverService waiverService;
-    
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
     public ModelAndView login(HttpServletRequest request) {
         String message = "Invalid credentials";
@@ -71,52 +78,59 @@ public class UserController {
         }
         return new ModelAndView("results", "message", message);
     }
-    
+
     @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
     public ModelAndView loginFailed(HttpServletRequest request) {
         return new ModelAndView("index", "message", "Invalid username/password. Please try again.");
     }
-    
+
     @RequestMapping(value = "/user/customer", method = RequestMethod.GET)
     public ModelAndView getCustomerPage(HttpServletRequest request) {
         List<ProductEntity> products = productService.getAll();
         List<ClassEntity> classes = classService.getClassList();
-        
+
         ModelAndView view = new ModelAndView("/user/customer");
         view.addObject("products", products.isEmpty() ? null : products);
         view.addObject("classes", classes.isEmpty() ? null : classes);
         return view;
     }
-    
+
     @RequestMapping(value = "/user/administrator", method = RequestMethod.GET)
     public ModelAndView getAdministratorPage(HttpServletRequest request) {
         List<ProductEntity> products = productService.getAll();
         List<ClassEntity> classes = classService.getClassList();
-        
+
         ModelAndView view = new ModelAndView("/user/administrator");
         view.addObject("products", products.isEmpty() ? null : products);
         view.addObject("classes", classes.isEmpty() ? null : classes);
-        
+
         return view;
     }
-    
+
     @RequestMapping(value = "/user/faculty", method = RequestMethod.GET)
     public ModelAndView getFacultyPage(HttpServletRequest request) {
-        return new ModelAndView("/user/faculty", "message", "nothing");
+        List<ProductEntity> products = productService.getAll();
+        List<ClassEntity> classes = classService.getClassList();
+
+        ModelAndView view = new ModelAndView("/user/faculty");
+        view.addObject("products", products.isEmpty() ? null : products);
+        view.addObject("classes", classes.isEmpty() ? null : classes);
+
+        return view;
     }
-    
+
     @RequestMapping(value = "/user/users", method = RequestMethod.GET)
     public String getAll(Model model) {
         model.addAttribute("users", userService.getAll());
         return "userList";
     }
-    
+
     @RequestMapping(value = "/user/addUser", method = RequestMethod.GET)
     public String addUser(@ModelAttribute("user") UserEntity userentity) {
-        
+
         return "addUser";
     }
-    
+
     @RequestMapping(value = "/user/addUser", method = RequestMethod.POST)
     public String add(@Valid UserEntity userentity, BindingResult result, RedirectAttributes re) {
         String view = "redirect:/users";
@@ -128,13 +142,13 @@ public class UserController {
         }
         return view;
     }
-    
+
     @RequestMapping(value = "/user/users/{id}", method = RequestMethod.GET)
     public String get(@PathVariable int id, Model model) {
         model.addAttribute("user", userService.get(Long.valueOf(id)));
         return "userDetail";
     }
-    
+
     @RequestMapping(value = "/user/users/{id}", method = RequestMethod.POST)
     public String update(@Valid UserEntity user, BindingResult result,
             @PathVariable int id) {
@@ -145,7 +159,7 @@ public class UserController {
             return "userDetail";
         }
     }
-    
+
     @RequestMapping(value = "/user/users/delete", method = RequestMethod.POST)
     public String delete(Long userId) {
         userService.delete(userId);
@@ -162,14 +176,14 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", message);
         return new RedirectView("/", true);//"redirect:/";
     }
-    
+
     @RequestMapping(value = "/user/myaccount", method = RequestMethod.GET)
     public ModelAndView viewProfile(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
             Object object = auth.getPrincipal();
-            
+
             String password = ((UserDetails) object).getPassword();
             System.out.println("User :" + name + "  Password:" + password);
             UserEntity user = userService.findUser(name, password);
@@ -187,7 +201,7 @@ public class UserController {
         return new ModelAndView("/user/myaccount", "Profile", "not found");
         //return "redirect:/";
     }
-    
+
     @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.GET)
     public ModelAndView editProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         UserEntity user = userService.get(Long.valueOf(id));
@@ -198,10 +212,10 @@ public class UserController {
         }
         return new ModelAndView("/user/editProfile", "Profile", "not found");
     }
-    
+
     @RequestMapping(value = "/user/editProfile/{id}", method = RequestMethod.POST)
     public RedirectView saveProfile(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        
+
         RedirectView view = new RedirectView();
         String message = updateProfile(request, view, id);
         redirectAttributes.addFlashAttribute("message", message);
@@ -210,10 +224,10 @@ public class UserController {
         //return new ModelAndView("/user/editProfile", "Profile", "not found");
         //return "redirect:/";
     }
-    
+
     private String updateProfile(HttpServletRequest request, RedirectView view, int id) {
         UserEntity user = userService.get(Long.valueOf(id));
-        
+
         user.setFullname(request.getParameter("fullname"));
         user.setEmail(request.getParameter("email"));
         user.setUsername(request.getParameter("username"));
@@ -230,7 +244,7 @@ public class UserController {
         user.setState(request.getParameter("state"));
         user.setCountry(request.getParameter("country"));
         user.setZipcode(Long.valueOf(request.getParameter("zipcode")));
-        
+
         UserEntity updatedUser = userService.update(Long.valueOf(id), user);
         view.setUrl(request.getContextPath() + "/user/myaccount");
         String message = "Profile Updated Successfully.";
@@ -240,10 +254,10 @@ public class UserController {
         }
         return message;
     }
-    
+
     @RequestMapping(value = "/waiver/requestWaiver/{id}", method = RequestMethod.GET)
     public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.get(Long.valueOf(1));
+        CustomerEntity user = customerService.get(Long.valueOf(id));
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/waiver/requestWaiver");
         view.addObject("classes", classes);
@@ -253,10 +267,10 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", message);
         return view;
     }
-    
+
     @RequestMapping(value = "/waiver/submitWaiver/{id}", method = RequestMethod.POST)
     public RedirectView submitRequest(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        
+
         RedirectView view = new RedirectView();
         String message = submitWaiver(request, view, id);
         redirectAttributes.addFlashAttribute("message", message);
@@ -265,14 +279,14 @@ public class UserController {
         //return new ModelAndView("/user/editProfile", "Profile", "not found");
         //return "redirect:/";
     }
-    
+
     private String addUser(HttpServletRequest request) {
         List message = new ArrayList();
         String firstName = request.getParameter("firstName"),
                 lastName = request.getParameter("lastName"),
                 email = request.getParameter("email"),
                 username = request.getParameter("username");
-        
+
         if (firstName.isEmpty()) {
             message.add("First name is required");
         }
@@ -285,14 +299,14 @@ public class UserController {
         if (username.isEmpty()) {
             message.add("Username is required");
         }
-        
+
         if (message.isEmpty()) {
             String fullname = firstName.concat(" " + lastName);
             String authority = request.getParameter("authority");
             //set the role customer by default
             authority = (authority == null) ? "ROLE_USER" : authority;
             boolean saved = userService.add(fullname, email, username, authority);
-            
+
             if (saved) {
                 message.add("Registration successful saved");
             } else {
@@ -306,22 +320,21 @@ public class UserController {
     private UserDetails currentUser() {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-    
+
     private String submitWaiver(HttpServletRequest request, RedirectView view, int id) {
-        System.out.println("Id:" +Long.valueOf(id) + "  Class_Id:" + request.getParameter("class_id"));
-        CustomerEntity customer = customerService.getCustomer(Long.valueOf(id));
+        System.out.println("Id:" + Long.valueOf(id) + "  Class_Id:" + request.getParameter("class_id"));
+        CustomerEntity customer = customerService.get(Long.valueOf(id));
         ClassEntity yogaClass = classService.getClass(Long.valueOf(request.getParameter("class_id")));
         String message = "Failed to submit waiver request.";
         if (yogaClass != null && customer != null) {
-            
+
             List<WaiverEntity> waiverList = waiverService.getWaiversByCustAndClass(customer.getId(), yogaClass.getId());
             if (waiverList == null || waiverList.isEmpty()) {
-                
+
                 WaiverEntity waiver = new WaiverEntity(customer, request.getParameter("reason"), yogaClass);
-                
+
                 boolean submitStatus = waiverService.submitWaiverRequest(waiver, Long.valueOf(id));
-                //UserEntity updatedUser = userService.update(Long.valueOf(id), user);
-                view.setUrl(request.getContextPath() + "/waiver/viewWaivers");
+                //UserEntity updatedUser = userService.update(Long.valueOf(id), user);                
                 message = "Waiver Request Submitted Successfully.";
                 // view.setUrl("add");
                 if (submitStatus == false) {
@@ -330,14 +343,19 @@ public class UserController {
             } else {
                 message = message + "Request for waiver is already submitted.";
             }
+            view.setUrl(request.getContextPath() + "/waiver/viewWaivers/"+id);
         }
         return message;
     }
-    
+
     @RequestMapping(value = "/waiver/viewWaivers/{id}", method = RequestMethod.GET)
     public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        List<WaiverEntity> waivers = waiverService.getWaiversByCust(id);
-        
+        System.out.println("Id:" + Long.valueOf(id));
+        CustomerEntity cust = customerService.get(Long.valueOf(id));
+        List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);
+        //List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();
+       // if(cust!=null)
+       // waivers = cust.getWaivers();
         ModelAndView view = new ModelAndView("/waiver/viewWaivers");
         view.addObject("waivers", waivers);
         view.addObject("pageTitle", "Waivers");
@@ -350,4 +368,116 @@ public class UserController {
         return view;
     }
     
+    //view customer orders     
+   @RequestMapping(value = "/user/orders", method = RequestMethod.GET)
+    public String viewUserOrders(Model model) {
+       // model.addAttribute("product", productService.get(id));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();          
+        Object object = auth.getPrincipal();   
+        UserDetails userDetails = (UserDetails)object; //
+        //TODO user by username and password
+        UserEntity user = userService.findCustomerBy("username",username);
+        if(user !=null)
+        {
+         model.addAttribute("orders", productService.getUserOrders((CustomerEntity) user));
+        }
+        return "product/customerOrders";
+    }
+    
+    @RequestMapping(value="/requestpassword", method=RequestMethod.POST, produces="text/plain")
+    @ResponseBody
+    public String requestPassword(HttpServletRequest request) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String json = "";
+                    HashMap response = new HashMap();
+                           try{
+                              String email  = request.getParameter("email");
+                              UserEntity user = userService.findUserBy("email", email);
+                              if(user != null){
+                                  boolean updated = userService.updatePassword(user);
+                                  response.put("success",updated);
+                                  response.put("message",
+                                              (updated)? "Password successfully reset,please check your inbox": "Sorry,we are unable to reset your password");
+                              }
+                              else{
+                               response.put("success", false);
+                               response.put("message", "Sorry ,no user with such with that email");
+                              }
+            }
+            catch(Exception e){
+              response.put("success", false);
+            }
+     
+            try {
+                //convert map to JSON string
+                json = mapper.writeValueAsString( response);
+            } catch (IOException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
+    }
+
+    @RequestMapping(value="/user/savecreditcard", method=RequestMethod.POST, produces="text/plain")
+    @ResponseBody
+    public String addCreditCard(HttpServletRequest request) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String json = "";
+                    HashMap response = new HashMap();
+                           try{
+                              Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                              String username = auth.getName();          
+                              Object object = auth.getPrincipal();   
+                              UserDetails userDetails = (UserDetails)object; //
+                              //TODO user by username and password
+                              UserEntity user = userService.findCustomerBy("username",username);
+                              if(user != null){
+                                  boolean valid = true;
+                                  String cardnumber  = request.getParameter("cardnumber");
+                                  String expirydate =  request.getParameter("expirydate");
+                                  //validate card number
+                                  if(!valiateParameter(cardnumber)){
+                                      valid = false;
+                                   }
+                                  //validate expiry date
+                                  if(!valiateParameter(expirydate)){
+                                      valid = false;
+                                  }
+                                  //validation failed
+                                  if(valid){
+                                     SimpleDateFormat formatter = new SimpleDateFormat("MMM/yyyy");
+                                     Date expDate = formatter.parse(expirydate);
+                                     boolean updated = userService.addCreditCard(user,Long.parseLong(cardnumber), expDate);
+                                     response.put("success",updated);
+                                     response.put("message", (updated)? "Credit card successfully added": "Sorry,unable to add credit card");
+                                  }
+                                  else{
+                                     response.put("success",false);
+                                     response.put("message","Entries are not valid!");
+                                  }
+                              }
+                              else{
+                               response.put("success", false);
+                               response.put("message", "Sorry , you dont have an account");
+                              }
+            }
+            catch(Exception e){
+              response.put("success", false);
+            }
+     
+            try {
+                //convert map to JSON string
+                json = mapper.writeValueAsString( response);
+            } catch (IOException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
+    }
+    
+    private boolean valiateParameter(String param){
+        
+       return false;
+    }
 }

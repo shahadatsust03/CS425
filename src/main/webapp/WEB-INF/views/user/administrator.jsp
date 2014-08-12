@@ -13,6 +13,7 @@
         <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">
             <div class="container">
+                ${message}
                     <div class="row">
                             <div class="col-sm-4 text-center feature">
                                     <h4>Lastest Classes</h4>

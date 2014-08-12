@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -33,8 +34,13 @@ public class ProductEntity {
     private String description;
     private Double price;
     private int numberOfProducts;
-    @ManyToMany(mappedBy="products",cascade={CascadeType.ALL})
-    private List<OrderEntity> orders = new ArrayList<OrderEntity>(); 
+    
+    @OneToMany(mappedBy="product",cascade={CascadeType.ALL})
+    private List<ProductOrderEntity> productOrders = new ArrayList<ProductOrderEntity>(); 
+    //product has many files
+    @OneToMany(mappedBy="product",cascade={CascadeType.ALL})
+    private List<FileEntity> images = new ArrayList<FileEntity>();
+    
     
     public ProductEntity(){}
 
@@ -92,7 +98,35 @@ public class ProductEntity {
     public void setNumberOfProducts(int numberOfProducts) {
         this.numberOfProducts = numberOfProducts;
     }
-
-   
     
+    public void addProductOrders(ProductOrderEntity productOrderEntity){
+        productOrderEntity.setProduct(this);
+        productOrders.add(productOrderEntity);
+    }
+    
+    public void removeProductOrders(ProductOrderEntity productOrderEntity){
+        productOrderEntity.setProduct(null);
+        productOrders.remove(productOrderEntity);
+    }
+    
+    public void addImage(FileEntity image){
+        image.setProduct(this);
+        images.add(image);
+    }
+    public void removeImage(FileEntity image){
+        image.setProduct(null);
+        images.remove(image);
+    }
+    
+    public FileEntity getFirstImage(){
+      return (images.size() >0)?(FileEntity) images.toArray()[0]:null;
+    }
+    
+    public List<ProductOrderEntity> getProductOrders() {
+        return productOrders;
+    }
+
+    public List<FileEntity> getImages() {
+        return images;
+    }
 }

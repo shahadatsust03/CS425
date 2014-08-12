@@ -24,13 +24,13 @@
                         <sec:authorize ifAnyGranted="ROLE_ADMIN">
                             <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li> 
                             <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>
-                            <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li> 
-                         </sec:authorize>
-                         <sec:authorize ifAnyGranted="ROLE_USER">
-                            <li><a href="${pageContext.request.contextPath}/enrollments">Enrollment</a></li> 
-                            <li><a href="${pageContext.request.contextPath}/unenrollments">Unenroll</a></li>
-                          </sec:authorize>
-                            <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
+                             <c:if test="${pageContext.request.userPrincipal.name != null}">                            
+                            <sec:authorize ifAnyGranted="ROLE_USER">
+                                 <li><a href="${pageContext.request.contextPath}/enrollments">Enrollment</a></li>
+                                <li><a href="${pageContext.request.contextPath}/unenrollments">Unenroll</a></li>
+                            </sec:authorize>
+                            </c:if>
+                                <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
                              <c:if test="${pageContext.request.userPrincipal.name != null}">
                              
                              <li>
@@ -48,14 +48,22 @@
                            <!--
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
+                              <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
                             </c:if>
-                           -->
+                               <!--Add a Div with the class "simpleCart_items" to show your shopping cart area.-->
+                              <li>
+                                 <a href="${pageContext.request.contextPath}/products/cart" >
+                                    <span class="badge pull-right" id="myCart">0</span>
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                 </a>
+                              </li> 
                     </ul>
             </div><!--/.nav-collapse -->
     </div>
 </div>
 
 <div id="topWrap" class="jumbotron">
+    
     <div style="text-align: center">
             <h4 style="color:#fff;margin:0;padding:0">${pageTitle}</h4>
       </div>

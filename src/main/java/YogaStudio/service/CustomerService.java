@@ -50,4 +50,8 @@ public class CustomerService {
         return customerdao.getCustomer(customerId);
     }
     
+     public CustomerEntity get(Long customerId){
+        return customerdao.get(customerId);
+    }
+    
 }

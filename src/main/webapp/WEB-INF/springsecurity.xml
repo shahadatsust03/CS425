@@ -25,9 +25,9 @@
         <intercept-url pattern="/user/customer/*" method="POST" access="ROLE_USER" />
         <intercept-url pattern="/user/administrator/*" method="GET" access="ROLE_ADMIN" />
         <intercept-url pattern="/user/administrator/*" method="POST" access="ROLE_ADMIN" />
-        <intercept-url pattern="/user/faculty/*" method="GET" access="ROLE_FACULTY" />
+<!--        <intercept-url pattern="/user/faculty/*" method="GET" access="ROLE_FACULTY" />
         <intercept-url pattern="/user/faculty/*" method="POST" access="ROLE_FACULTY" />
-        
+        -->
         <form-login login-page="/login_form" authentication-failure-url="/loginfailed" 
                     default-target-url="/login_success"/>
         <logout logout-success-url="/"  delete-cookies="JESSIONID"/>

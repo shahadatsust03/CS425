@@ -66,8 +66,12 @@ public class PaymentEntity {
     }
     
     public PaymentEntity() {
+    
     }
-
+    
+    public PaymentEntity(Double amount) {
+        this.amount = amount;
+    }
     public Date getPaymentDate() {
         return paymentDate;
     }

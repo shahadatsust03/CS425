@@ -67,7 +67,7 @@
                             
                         <c:if test="${not empty section.classEntity}"><div>Class: ${section.classEntity.className}</div>
                             </c:if>
-                        <c:if test="${not empty section.semester}"><div>Semester: ${section.semester.semestertName}</div>
+                        <c:if test="${not empty section.semester}"><div>Semester: ${section.semester.semesterName}</div>
                             </c:if>
                             <c:if test="${not empty section.scheduleList}"> <div>Schedule List: </div> </c:if>
                             <c:forEach items="${section.scheduleList}" var="schedule"> 
@@ -95,37 +95,6 @@
                  </div> 
                         
             </div>
-                      <script language="JavaScript">   
-                        function doSaveSection(id) {   
-                          
-                        var radioboxes = document.getElementsByName("radio_id");
-                         var value = "";
-                         // loop over them all
-                         var j = 0;
-                         for (var i=0; i<radioboxes.length; i++) {
-                            // And stick the checked ones onto an array...
-                            if (radioboxes[i].checked) {
-
-                                if(j == 0)
-                                 value += radioboxes[i].value ;
-
-                                else
-                                    value += "," + radioboxes[i].value;
-                                j++;
-
-                            }
-                         }               
-                    alert(value);                
-                    
-                    $.ajax({
-                        url: "assignFaculty",
-                       // context: document.body
-                        data: {value: value, id: id},
-                      }).done(function(data) {
-                          window.location.href = "/";
-                      });
-                   
-                }               
-             </script>    
+                     
     </body>
 </html>

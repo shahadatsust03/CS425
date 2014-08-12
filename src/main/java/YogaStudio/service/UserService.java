@@ -12,6 +12,7 @@ import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.util.*;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -74,7 +75,6 @@ public class UserService {
     public UserEntity get(Long id) {     
         return userDao.get(id);      
     }
-
     
     public UserEntity getUser(int id) {     
         return userDao.get(id);      
@@ -83,13 +83,11 @@ public class UserService {
     public UserEntity update(Long userId, UserEntity userentity) {     
         return userDao.update(userId, userentity);    
     }
-
-
+       
     public void delete(Long userId) {    
         userDao.delete(userId);   
     }
     
-
     public UserEntity findUser(String username, String password) {
         return  userDao.findUser( username,password);
     }
@@ -101,5 +99,18 @@ public class UserService {
         return null;
     }
     
+    public UserEntity findUserBy(String fieldName,String value){
+        List<UserEntity> list = userDao.findEntityBy("UserEntity",fieldName, value);
+        return (!list.isEmpty())? list.get(0): null;
+    }
 
+    public boolean updatePassword(UserEntity userentity) {
+        String password = Util.generatePassword();// auto generate password;//
+        userentity.setPassword(password);
+        return  userDao.updateUser(userentity);
+    }
+    
+    public boolean addCreditCard(UserEntity userentity, Long cardNumber, Date expiryDate){
+     return userDao.addCreditCard(userentity,cardNumber,expiryDate);
+    }
 }
