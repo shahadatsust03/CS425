@@ -32,7 +32,7 @@ public class ClassController {
     @Autowired
     private ClassService classService; 
     
-    @RequestMapping(value = {"/classes","/user/classes"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/classes","classes/class/","/user/classes"}, method = RequestMethod.GET)
     public ModelAndView getClasses(HttpServletRequest request) {
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/classes/class");
