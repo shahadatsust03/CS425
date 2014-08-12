@@ -109,7 +109,14 @@ public class UserController {
 
     @RequestMapping(value = "/user/faculty", method = RequestMethod.GET)
     public ModelAndView getFacultyPage(HttpServletRequest request) {
-        return new ModelAndView("/user/faculty", "message", "nothing");
+        List<ProductEntity> products = productService.getAll();
+        List<ClassEntity> classes = classService.getClassList();
+
+        ModelAndView view = new ModelAndView("/user/faculty");
+        view.addObject("products", products.isEmpty() ? null : products);
+        view.addObject("classes", classes.isEmpty() ? null : classes);
+
+        return view;
     }
 
     @RequestMapping(value = "/user/users", method = RequestMethod.GET)
@@ -250,7 +257,7 @@ public class UserController {
 
     @RequestMapping(value = "/waiver/requestWaiver/{id}", method = RequestMethod.GET)
     public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.get(Long.valueOf(1));
+        CustomerEntity user = customerService.get(Long.valueOf(id));
         List<ClassEntity> classes = classService.getClassList();
         ModelAndView view = new ModelAndView("/waiver/requestWaiver");
         view.addObject("classes", classes);
@@ -316,7 +323,7 @@ public class UserController {
 
     private String submitWaiver(HttpServletRequest request, RedirectView view, int id) {
         System.out.println("Id:" + Long.valueOf(id) + "  Class_Id:" + request.getParameter("class_id"));
-        CustomerEntity customer = customerService.getCustomer(Long.valueOf(id));
+        CustomerEntity customer = customerService.get(Long.valueOf(id));
         ClassEntity yogaClass = classService.getClass(Long.valueOf(request.getParameter("class_id")));
         String message = "Failed to submit waiver request.";
         if (yogaClass != null && customer != null) {
@@ -327,8 +334,7 @@ public class UserController {
                 WaiverEntity waiver = new WaiverEntity(customer, request.getParameter("reason"), yogaClass);
 
                 boolean submitStatus = waiverService.submitWaiverRequest(waiver, Long.valueOf(id));
-                //UserEntity updatedUser = userService.update(Long.valueOf(id), user);
-                view.setUrl(request.getContextPath() + "/waiver/viewWaivers");
+                //UserEntity updatedUser = userService.update(Long.valueOf(id), user);                
                 message = "Waiver Request Submitted Successfully.";
                 // view.setUrl("add");
                 if (submitStatus == false) {
@@ -337,13 +343,14 @@ public class UserController {
             } else {
                 message = message + "Request for waiver is already submitted.";
             }
+            view.setUrl(request.getContextPath() + "/waiver/viewWaivers/"+id);
         }
         return message;
     }
 
     @RequestMapping(value = "/waiver/viewWaivers/{id}", method = RequestMethod.GET)
     public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        
+        System.out.println("Id:" + Long.valueOf(id));
         CustomerEntity cust = customerService.get(Long.valueOf(id));
         List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);
         //List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();

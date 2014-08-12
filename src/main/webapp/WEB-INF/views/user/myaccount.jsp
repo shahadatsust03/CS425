@@ -90,22 +90,5 @@
 
             </div>
         </div> <!-- /featureWrap -->
-        <script>
-            $(document).ready(function() {   
-                   var content = '<form role="form"><div class="form-group">\n'
-                                      '<label for="exampleInputEmail1">Email address</label>\n'
-                                      '<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">\n'
-                                    '</div>\n'
-                                   ' <div class="form-group">\n'
-                                      '<label for="exampleInputPassword1">Password</label>\n'
-                                      '<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">\n'+
-                                    '</div>\n'
-                                    '<button type="submit" class="btn btn-default">Submit</button>\n'
-                                 ' </form>';
-                         
-                   $("#addCredit").popover({content: content,html:true});
-            });
-         
-        </script>
     </body>
 </html>

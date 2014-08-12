@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Customer")
 public class CustomerEntity extends UserEntity{
-    @OneToMany(mappedBy="customer",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="customer")
     private List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();  
 
     @OneToMany(mappedBy="customer",cascade={CascadeType.ALL})

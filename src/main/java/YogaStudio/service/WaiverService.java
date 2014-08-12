@@ -64,29 +64,49 @@ public class WaiverService {
         //need to verify whether waiver is for valid class in this semester
         return true;
     }
-
-    public boolean approveWaiverRequest(int waiverID) {
+    
+    public boolean rejectWaiverRequest(Long waiverID,String comments) {
         WaiverEntity waiver = waiverDAO.get(waiverID);
-        waiver.setStatus(STATUS.APPROVED.name());
-        waiver.setUpdateDate(new Date());
-        waiverDAO.update(waiver);
-        addClass(waiver);
-        return true;
+        if (waiver != null) {
+            waiver.setStatus(STATUS.REJECTED.name());
+            waiver.setComments(comments);
+            waiver.setUpdateDate(new Date());
+            waiverDAO.update(waiver);            
+            return true;
+        }
+        return false;
+    }
+
+    public boolean approveWaiverRequest(Long waiverID,String comments) {
+        WaiverEntity waiver = waiverDAO.get(waiverID);
+        if (waiver != null) {
+            waiver.setStatus(STATUS.APPROVED.name());
+            waiver.setUpdateDate(new Date());
+            waiver.setComments(comments);
+            waiverDAO.update(waiver);
+            addClass(waiver);
+            return true;
+        }
+        return false;
     }
 
     public void addClass(WaiverEntity waiver) {
-        byte b = 1;
-        waiver.getCustomer().addEnrollments(null);
+        byte b = 1;        
         //need to get class and add to customer        
         EnrollmentEntity enroll = new EnrollmentEntity(b, waiver.getCustomer(), waiver.getYogaClass());
         //Do we need to persist Enroll ?
         waiver.getYogaClass().addEnrollments(enroll);
+        waiver.getCustomer().addEnrollments(enroll);
         waiverDAO.update(waiver);
 
     }
 
-    public void getWaiversByFaId(Long faId) {
-        waiverDAO.getWaiversByFAId(faId);
+    public List<WaiverEntity> getWaiversByFaId(Long faId) {
+        return waiverDAO.getWaiversByFAId(faId);
+    }
+    
+    public WaiverEntity getWaiver(Long id){
+    return waiverDAO.get(id);
     }
 
     public List<WaiverEntity> getWaiversByCustAndClass(Long custId, Long classId) {
