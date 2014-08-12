@@ -29,8 +29,14 @@
                             <sec:authorize ifAnyGranted="ROLE_USER">
                                  <li><a href="${pageContext.request.contextPath}/enrollments">Enrollment</a></li>
                                 <li><a href="${pageContext.request.contextPath}/unenrollments">Unenroll</a></li>
+                                <li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li>   
                             </sec:authorize>
                             </c:if>
+                        <c:if test="${pageContext.request.userPrincipal.name != null}">                            
+                        <sec:authorize ifAnyGranted="ROLE_FACULTY">
+                             <li><a href="${pageContext.request.contextPath}/waiver/viewWaiversByFA">View Waivers</a></li>    
+                                </sec:authorize>
+                        </c:if>
                                 <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
                              <c:if test="${pageContext.request.userPrincipal.name != null}">
                              

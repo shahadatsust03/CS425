@@ -30,7 +30,7 @@
                                     <table>
                                         <tr><td><b>Full Name</b></td>       <td>${not empty Profile.fullname ? Profile.fullname :""}</td> </tr>
                                         <tr><td><b>Email</b></td>     <td>${not empty Profile.email ? Profile.email:""}</td></tr>
-                                        <tr><td><b>Username</b></td>      <td>${not empty Profile.username ? Profile.username : ""}></td> </tr>
+                                        <tr><td><b>Username</b></td>      <td>${not empty Profile.username ? Profile.username : ""}</td> </tr>
                                         <tr><td><b>User Role</b></td>      <td>${not empty Profile.AUTHORITY? Profile.AUTHORITY : ""}</td> </tr>
                                         <tr><td><b>Date Of Birth</b></td> <td>${not empty Profile.dateOfBirth ? Profile.dateOfBirth : ""}</td> </tr>
                                         <tr><td><b>Joined Date</b></td> <td>${not empty Profile.joinDate ? Profile.joinDate : ""}</td><td></td> </tr>

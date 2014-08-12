@@ -230,7 +230,7 @@ public class UserController {
 
         user.setFullname(request.getParameter("fullname"));
         user.setEmail(request.getParameter("email"));
-        user.setUsername(request.getParameter("username"));
+        //user.setUsername(request.getParameter("username"));
         user.setPassword(request.getParameter("password"));
         try {
             user.setDateOfBirth(sdf.parse(request.getParameter("dateOfBirth")));
@@ -371,6 +371,24 @@ public class UserController {
 //                return new ModelAndView("/user/requestWaiver", "user", user);
 //            }
 //        return new ModelAndView("/user/requestWaiver", "user", "not found");  
+        return view;
+    }
+    
+    @RequestMapping(value = "/waiver/viewWaivers", method = RequestMethod.GET)
+    public ModelAndView viewWaiversByCust(HttpServletRequest request) {        
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            Object object = auth.getPrincipal();
+            String password = ((UserDetails) object).getPassword();
+            System.out.println("Customer :" + name + "  Password:" + password);
+            UserEntity customer = userService.findUser("devika", "devika");
+        CustomerEntity cust = customerService.get(customer.getId());
+        List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);        
+        ModelAndView view = new ModelAndView("/waiver/viewWaivers");
+        view.addObject("waivers", waivers);
+        view.addObject("pageTitle", "Waivers");
+        String message = "Waiver Request:";//updateProfile(request, view, id);
+        //redirectAttributes.addFlashAttribute("message", message);
         return view;
     }
     

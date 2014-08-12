@@ -180,20 +180,39 @@ public class FacultyController {
         return message.toString();
     }
 
-    @RequestMapping(value = "/waiver/viewWaiversByFA/{id}", method = RequestMethod.GET)
-    public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
-        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
+    @RequestMapping(value = "/waiver/viewWaiversByFA", method = RequestMethod.GET)
+    public ModelAndView viewWaivers(HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object object = auth.getPrincipal();
+        String password = ((UserDetails) object).getPassword();
+        System.out.println("Customer :" + name + "  Password:" + password);
+        UserEntity user = userService.findUser("faculty", "faculty");
+        FacultyEntity faculty = facultyService.getFaculty(user.getId());
+        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(user.getId());
         ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
         view.addObject("waivers", waivers);
         view.addObject("faculty", faculty.getId());
+        // view.addObject("pageTitle", "Waivers");
+        //String message = "Waiver Request:";
+        //view.addFlashAttribute("message", message);
+        return view;
+    }
+
+    @RequestMapping(value = "/waiver/viewWaiversByFA/{id}", method = RequestMethod.GET)
+    public ModelAndView viewWaiversByFA(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        // FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
+        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
+        ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
+        view.addObject("waivers", waivers);
+        view.addObject("faculty", Long.valueOf(id));
         // view.addObject("pageTitle", "Waivers");
         String message = "Waiver Request:";
         redirectAttributes.addFlashAttribute("message", message);
         return view;
     }
 
-    @RequestMapping(value = "/waiver/waiverDetails/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/waiver/waiverDetails/{id}","/waiverDetails/{id}"}, method = RequestMethod.GET)
     public ModelAndView waiverDetails(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         //FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
         WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
@@ -219,23 +238,23 @@ public class FacultyController {
         //UserEntity user = userService.findUser("devika", "devika");
         System.out.println("Faculty Found:" + faculty);
         RedirectView view = new RedirectView();
-            String message = "Successfully updated Waiver status.";
-            System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
+        String message = "Successfully updated Waiver status.";
+        System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
         if (faculty == null) {
-            message="Failed to Update Waiver, Faculty is not valid.";
+            message = "Failed to Update Waiver, Faculty is not valid.";
             return view;
-        }                        
-            // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
-            String response = request.getParameter("response");
-            boolean status = false;
-            if (response.contains("Approve")) {
-                status = waiverService.approveWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
-            } else if (response.contains("Reject")) {
-                status = waiverService.rejectWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
-            }
-            if (status == false) {
-                message = "!!! Failed updating the waiver.";
-            }        
+        }
+        // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
+        String response = request.getParameter("response");
+        boolean status = false;
+        if (response.contains("Approve")) {
+            status = waiverService.approveWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+        } else if (response.contains("Reject")) {
+            status = waiverService.rejectWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+        }
+        if (status == false) {
+            message = "!!! Failed updating the waiver.";
+        }
         view.setUrl(request.getContextPath() + "/waiver/viewWaiversByFA/" + faculty.getId());
         redirectAttributes.addFlashAttribute("message", message);
         return view;//"redirect:/";       
