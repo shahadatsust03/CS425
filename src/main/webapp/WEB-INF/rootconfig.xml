@@ -135,7 +135,8 @@
     </bean>   
     
     <bean id="emailAdvice" class="YogaStudio.service.EmailAdvice">
-              <constructor-arg ref="emailService"/>     
+              <constructor-arg ref="emailService"/>
+              <constructor-arg ref="userService"/>     
     </bean>   
     
     <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">
