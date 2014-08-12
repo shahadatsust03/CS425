@@ -12,6 +12,7 @@ import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
+import YogaStudio.service.AdvisorService;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.CustomerService;
 import YogaStudio.service.FacultyService;
@@ -65,7 +66,11 @@ public class FacultyController {
 
     @Autowired
     private SectionService sectionService;
-
+    
+    @Autowired
+    private AdvisorService advisorService;
+    
+    
     @RequestMapping(value = {"/faculty", "/faculty/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
@@ -265,5 +270,50 @@ public class FacultyController {
         //return new ModelAndView("/user/editProfile", "Profile", "not found");
         //return "redirect:/";
     }
+    
+    // caocm
+    @RequestMapping(value="/faculty/advisees", method=RequestMethod.GET)
+    public ModelAndView  viewAdvisees(){
+      
+        long facultyId = getCurrentFacultyId();                    
+        ModelAndView model = new ModelAndView("faculty/advisees");
+        model.addObject("advisees", advisorService.getAdvisees(facultyId));
 
+        return model;
+    }
+    
+    @RequestMapping(value="/faculty/sectionlist", method=RequestMethod.GET)
+    public ModelAndView  viewCurrentSectionList(){
+         
+        long facultyId = getCurrentFacultyId();
+        ModelAndView model = new ModelAndView("faculty/facultysectionlist");
+        model.addObject("sectionlist", sectionService.getFacutlyCurrentSections(facultyId));
+        model.addObject("nextsectionlist", sectionService.getFacultyNextSections(facultyId));
+        
+        return model;
+    }
+    
+    @RequestMapping(value="/faculty/schedule", method=RequestMethod.GET)
+    public ModelAndView  viewCurrentSchedule(){ 
+        
+        long facultyId = getCurrentFacultyId();
+        ModelAndView model = new ModelAndView("faculty/facultyschedule");
+        model.addObject("schedulemap", sectionService.getFacutlyCurrentSchedule(facultyId));
+        model.addObject("schedulemap2", sectionService.getFacultyNextSchedule(facultyId));
+        
+        return model;
+    }
+    
+    private long getCurrentFacultyId(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object object = auth.getPrincipal();
+
+        String password = ((UserDetails) object).getPassword();
+        System.out.println("User :" + name + "  Password:" + password);
+        UserEntity user = userService.findUser(name, password); 
+        
+        return user.getId();
+    }
+    // caocm
 }

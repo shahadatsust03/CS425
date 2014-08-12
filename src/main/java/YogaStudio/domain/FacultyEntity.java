@@ -144,4 +144,19 @@ public class FacultyEntity extends UserEntity {
         customer.setFaculty(null);
         sections.remove(customer);
     }
+    
+    // chunming start
+    public void addAdvisee(CustomerEntity customer){
+        customer.setAdvisor(this);
+        customers.add(customer);
+    }
+    
+    public void removeAdvisee(CustomerEntity customer){
+        customer.setAdvisor(null);
+        customers.remove(customer);
+    }
+    public List getAdvisees(){
+        return customers;
+    }
+    // chunming end
 }
