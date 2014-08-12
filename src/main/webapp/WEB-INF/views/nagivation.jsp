@@ -4,7 +4,6 @@
     Author     : eTunkara
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
             <div class="navbar-header">
@@ -20,9 +19,9 @@
             </div>
             <div class="collapse navbar-collapse appiNav">
                     <ul class="nav navbar-nav">
-                        <li><a href="${pageContext.request.contextPath}/">Home</a></li>    
-                        <sec:authorize ifAnyGranted="ROLE_ADMIN">
-                            <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li> 
+                        <li><a href="${pageContext.request.contextPath}/">Home</a></li>
+                            <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li>
+                            <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li>
                             <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>
                              <c:if test="${pageContext.request.userPrincipal.name != null}">                            
                             <sec:authorize ifAnyGranted="ROLE_USER">
@@ -45,7 +44,6 @@
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="<c:url value="j_spring_security_logout"/>">Logout</a></li>
                             </c:if>
-                           <!--
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
                               <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
