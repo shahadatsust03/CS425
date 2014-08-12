@@ -8,6 +8,7 @@ package YogaStudio.Controller;
 import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
+import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
@@ -61,7 +62,7 @@ public class FacultyController {
     @Autowired
     private SectionService sectionService;
 
-    @RequestMapping(value = {"/faculty", "/user/faculty","/faculty/faculty"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/faculty", "/faculty/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
         ModelAndView view = new ModelAndView("/faculty/faculty");
@@ -70,7 +71,7 @@ public class FacultyController {
         return view;
     }
 
-    
+        
     @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
     public String getFaculty(@PathVariable Long id, Model model) {
         model.addAttribute("faculty", facultyService.getFaculty(id));

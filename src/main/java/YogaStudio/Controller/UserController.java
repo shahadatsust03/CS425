@@ -108,7 +108,14 @@ public class UserController {
 
     @RequestMapping(value = "/user/faculty", method = RequestMethod.GET)
     public ModelAndView getFacultyPage(HttpServletRequest request) {
-        return new ModelAndView("/user/faculty", "message", "nothing");
+        List<ProductEntity> products = productService.getAll();
+        List<ClassEntity> classes = classService.getClassList();
+
+        ModelAndView view = new ModelAndView("/user/faculty");
+        view.addObject("products", products.isEmpty() ? null : products);
+        view.addObject("classes", classes.isEmpty() ? null : classes);
+
+        return view;
     }
 
     @RequestMapping(value = "/user/users", method = RequestMethod.GET)
