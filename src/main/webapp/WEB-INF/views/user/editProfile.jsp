@@ -17,8 +17,8 @@
                     $("#dateOfBirth").datepicker({ dateFormat: "yyyy-mm-dd" });
                     });        
         </script>
-        <script language="JavaScript">
-                    function validate()
+        <script type="text/javascript" language="JavaScript">
+               function validate(form)
                             {
                             var vFullname = trim(document.frm.fullname.value);
                                     var vPassword = trim(document.frm.password.value);
@@ -161,7 +161,7 @@
                             Profile Not Found.
                         </c:if>
                         <c:if test="${not empty Profile}">
-                            <form name="frm" onSubmit="return validate();" role="form" action="../../user/editProfile/${Profile.id}" method="post">
+                            <form name="frm" onSubmit="return validate(this);" role="form" action="../../user/editProfile/${Profile.id}" method="post">
                                 <table>
                                     <tr><td><b>Full Name:</b></td><td><input type="text" name="fullname" value="${not empty Profile.fullname ? Profile.fullname :""}"></td></tr>
 
@@ -179,7 +179,7 @@
                                 </table>
                                 <div><br/>
                                     <a  class="btn btn-primary" type="button" href="../../user/myaccount" value="Cancel">Cancel</a>
-                                    <button  class="btn btn-primary" type="submit" onclick="javascript:validate();" value="Save Profile">Save</button>
+                                    <button  class="btn btn-primary" type="submit" onclick="return validate(this);" value="Save Profile">Save</button>
                             </form>
                         </div>
                     </c:if>
