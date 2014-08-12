@@ -16,7 +16,7 @@
             
             <div class="container">
                     <!--display flash message-->
-                  
+                    <div id="serverResponseMsg"></div>
                     
               
                     <div class="row">
@@ -34,6 +34,8 @@
                                        <%@include file="product/product_list.jsp" %>
                                     </p>
                             </div>
+                                    <c:if test="${pageContext.request.userPrincipal.name == null}">
+                            
                             <div class="col-sm-4 text-center feature">                               
                                     <p>
                                           <ul class="nav nav-tabs" role="tablist">
@@ -61,6 +63,7 @@
                                       ${pageContext.request.userPrincipal.name}
                                   </c:if>
                             </div>
+                                    </c:if>
                     </div>
             </div>
     </div> <!-- /featureWrap -->

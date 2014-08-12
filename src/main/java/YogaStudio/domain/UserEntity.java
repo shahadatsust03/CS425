@@ -336,8 +336,5 @@ public class UserEntity {
         this.creditCard = creditCard;
     }
 
-   
-    
-    
-    
+     
 }

@@ -15,7 +15,7 @@
             <div class="container">
                 ${message}
                     <div class="row">
-                            <div class="col-sm-8 text-center feature">
+                            <div class="col-sm-9 text-center feature">
                                <h3>My Advisees</h3>
 			       <table class="table table-striped">    
 					     <td>Name</td>
@@ -23,14 +23,14 @@
 					     <td>Phone</td>
 					<c:forEach items="${advisees}" var="advisee">
 					 <tr>      
-					     <td><a href="${pageContext.request.contextPath}/user/users/${advisee.id}"/>${advisee.username}</td>
+					     <td><!a href="${pageContext.request.contextPath}/user/users/${advisee.id}"/-->${advisee.username}</td>
 					     <td><a href="mailto:${advisee.email}">${advisee.email}</a></td>
 					     <td>${advisee.contactNum}</td>
 					 </tr>
 				       </c:forEach>
 				</table>
                             </div>
-                            <div class="col-sm-4 text-center feature">
+                            <div class="col-sm-3 text-center feature">
 				    <h4></h4>
 				    <p>
 				      

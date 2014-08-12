@@ -10,6 +10,7 @@ import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
+import YogaStudio.service.AdvisorService;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.CustomerService;
 import YogaStudio.service.ProductService;
@@ -17,6 +18,7 @@ import YogaStudio.service.UserService;
 import YogaStudio.service.WaiverService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,8 +62,10 @@ public class UserController {
     @Autowired
     private ClassService classService;
     @Autowired
-    private WaiverService waiverService;
-
+    private WaiverService waiverService;    
+   @Autowired
+    private AdvisorService advisorservice;
+     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
@@ -291,7 +296,6 @@ public class UserController {
     private HashMap registerUser(HttpServletRequest request) {
         HashMap response = new HashMap();
         List message = new ArrayList();
-        boolean saved  = false;
         try{
                 String firstname = request.getParameter("firstName"),
                         lastname = request.getParameter("lastName"),
@@ -319,13 +323,12 @@ public class UserController {
                     message.add("Username is required");
                 }
                 //if(dateOfBirth.)
-             // SimpleDateFormat formatter = new SimpleDateFormat("MMM/yyyy");
-                    //                         Date expDate = formatter.parse(expirydate);
+                
                 if (message.isEmpty()) {
                     String authority = request.getParameter("authority");
                     //set the role customer by default
                     authority = (authority == null) ? "ROLE_USER" : authority;
-                    saved = userService.add(username, 
+                    UserEntity user  = userService.add(username, 
                                                     email, 
                                                     username,
                                                     dateOfBirth, 
@@ -337,18 +340,19 @@ public class UserController {
                                                     Long.valueOf(contactnumber),
                                                     authority);
 
-                    if (saved) {
+                    if (user != null) {
+                        advisorservice.assignAdvisor(user.getId());
                         message.add("Registration successful saved");
+                        response.put("success",true);
                     } else {
                         message.add("Registration unsuccessful");
+                        response.put("success",false);
                     }
                 }
         }
         catch(Exception e){
             message.add("Registration unsuccessful");
         }
-        
-        response.put("success",saved);
         response.put("message",message.toString());
         return response;
     }
@@ -501,8 +505,11 @@ public class UserController {
                                   }
                                   //validation failed
                                   if(valid){
-                                     SimpleDateFormat formatter = new SimpleDateFormat("MMM/yyyy");
-                                     Date expDate = formatter.parse(expirydate);
+                                     //date format 
+                                      DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                                      Date expDate = DateUtils.parseDate(expirydate,"MM/yyyy"); 
+                                     //formattedDate = formatter.format(today); 
+
                                      boolean updated = userService.addCreditCard(user,Long.parseLong(cardnumber), expDate);
                                      response.put("success",updated);
                                      response.put("message", (updated)? "Credit card successfully added": "Sorry,unable to add credit card");
@@ -532,7 +539,7 @@ public class UserController {
     }
     
     private boolean valiateParameter(String param){
-        
-       return false;
+         
+       return true;
     }
 }

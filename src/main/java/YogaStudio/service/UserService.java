@@ -57,7 +57,7 @@ public class UserService {
        // email.generateEmailForNewAppRegistration("shohagcoe@gmail.com");   
     }
     
-    public boolean add(String fullname, 
+    public UserEntity add(String fullname, 
                        String email,
                        String username, 
                        Date dateOfBirth,
@@ -70,7 +70,7 @@ public class UserService {
                        String authority) 
          {    
         String password = Util.generatePassword();// auto generate password;//
-  
+        boolean saved = false;
         UserEntity user = new CustomerEntity(username, 
                                              password, 
                                              fullname, 
@@ -90,11 +90,9 @@ public class UserService {
         //determine if a user with such email already exists
         if (!userDao.userExists("email", user.getEmail()))
         {
-              return userDao.add(user);   
+              saved =userDao.add(user);   
         } 
-        else
-            return false;
-       // email.generateEmailForNewAppRegistration("shohagcoe@gmail.com");   
+        return (saved)? user: null; 
     }
     
     public List<UserEntity> findBy(String fieldName,String value) 

@@ -3,7 +3,12 @@
         .on('hidden.bs.modal', function(){
             $("#request-password-model-msg").html("");
         });
-
+   
+    $('#creditcard-modal')
+        .on('hidden.bs.modal', function(){
+            $("#credit-card-model-msg").html("");
+        });
+        
    linkClicked("#addproduct",function(url){
         console.debug(url);
        $.get( url, function( data ) {
@@ -162,7 +167,7 @@
                                         '<strong>Warning!</strong> '+data.message+
                                         '</div>';
                                 
-                         $("#request-password-model-msg").html(alert);
+                         $("#credit-card-model-msg").html(alert);
                       }
    
                 },
