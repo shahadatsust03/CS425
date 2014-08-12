@@ -8,6 +8,7 @@ package YogaStudio.Controller;
 import YogaStudio.domain.ClassEntity;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
+import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
@@ -26,9 +27,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,7 +62,7 @@ public class FacultyController {
     @Autowired
     private SectionService sectionService;
 
-    @RequestMapping(value = {"/faculty", "/user/faculty"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/faculty", "/faculty/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
         ModelAndView view = new ModelAndView("/faculty/faculty");
@@ -68,6 +71,7 @@ public class FacultyController {
         return view;
     }
 
+        
     @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
     public String getFaculty(@PathVariable Long id, Model model) {
         model.addAttribute("faculty", facultyService.getFaculty(id));
@@ -81,16 +85,17 @@ public class FacultyController {
         return "faculty/editFaculty";
     }
 
-    @RequestMapping(value = {"/faculty/assignFaculty/", "/user/faculty/assignFaculty/"}, method = RequestMethod.POST, headers = "Accept:*/*")
-    public String assignFaculty(HttpServletRequest request) {
-        String id = request.getParameter("id");
-        String value = request.getParameter("value");
+    @RequestMapping(value = {"/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
+    public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model)
+    {       
         FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
-        CustomerEntity customer = customerService.get(Long.parseLong(value));
-        faculty.addCustomer(customer);
+        SectionEntity section = sectionService.getSection(Long.parseLong(value));
+        faculty.addSection(section);
         facultyService.add(faculty);
-        return "/faculty";
-    }
+        model.addAttribute("Message", "Successfull");
+         
+        return "faculty/faculty";        
+    } 
 
     @RequestMapping(value = {"/removeFaculty/{id}", "/YogaStudio/faculty/removeFaculty/{id}", "/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
     public RedirectView removeFaculty(HttpServletRequest request, @PathVariable Long id, final RedirectAttributes redirectAttributes) {
@@ -110,7 +115,7 @@ public class FacultyController {
         String message = "";
         redirectAttributes.addFlashAttribute("message", message);
         return "faculty/addFaculty";
-    }
+        }
 
     @RequestMapping(value = {"faculty/save", "/userfaculty/save"}, method = RequestMethod.POST)
     public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {

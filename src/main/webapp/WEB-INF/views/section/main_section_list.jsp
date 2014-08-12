@@ -28,7 +28,7 @@ $( "input[type=checkbox]" ).on( "click", countChecked );
                 <c:forEach items="${sections}" var="section">
                  <tr>                           
                      <td><a href="section/${section.id}"/>${section.sectionName}</td>
-                     <td>${section.descripton}</td>
+                     <td>${section.description}</td>
                      <td>${section.classEntity.className}</td>
                      <td>${section.location}</td>
                      <td>${section.classLimit}</td>                     

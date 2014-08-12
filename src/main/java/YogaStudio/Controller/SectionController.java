@@ -73,7 +73,7 @@ public class SectionController {
      @RequestMapping(value = {"section/addSchedule","../section/addSchedule","/section/addSchedule", "/section/section/addSchedule"}, method = RequestMethod.GET)
     public ModelAndView addSchedulePage(HttpServletRequest request) {        
         ModelAndView view = new ModelAndView("/section/addSchedule"); 
-         view.addObject("pageTitle", "Schedule");
+        view.addObject("pageTitle", "Schedule");
         return  view;
     }    
      
@@ -198,15 +198,15 @@ public class SectionController {
                       startTime = request.getParameter("startTime"),
                       endTime = request.getParameter("endTime");
                  if(DayOfWeek.isEmpty())
-                     message.add("Product name is required. ");
+                     message.add("Day of week is required. ");
                  if(startTime.isEmpty())
-                     message.add("Class is required");
+                     message.add("Start time is required");
                  if(DayOfWeek.isEmpty())
-                     message.add("Semester is required. ");
+                     message.add("End time is required. ");
                    
                  if(message.isEmpty()){                     
                      
-                    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+                     SimpleDateFormat df = new SimpleDateFormat("HH:mm");
                      Date ds = df.parse(startTime); 
                      Date de = df.parse(endTime); 
                     

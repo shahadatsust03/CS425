@@ -34,7 +34,7 @@ public class CreditCardEntity {
     @Temporal(TemporalType.DATE)
     private Date expiryDate;
     //@OneToOne(cascade={CascadeType.ALL})
-    @OneToOne()
+    @OneToOne
     UserEntity user;
     
     @OneToMany(mappedBy="creditcard", cascade={CascadeType.ALL})
