@@ -34,7 +34,7 @@
                     <td>${waiver.yogaClass.className}</td>
                     <td>${waiver.reason}</td>
                     <td>${waiver.submissionDate}</td>
-                    <td>${waiver.faculty.fullname}</td>
+                    <td>${not empty waiver.faculty ? waiver.faculty.fullname : ""}</td>
                     <td>${waiver.comments}</td>
                     <td>${waiver.status}</td>
                     <td>${waiver.updateDate}</td>

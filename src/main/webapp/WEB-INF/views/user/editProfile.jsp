@@ -17,7 +17,7 @@
                     $("#dateOfBirth").datepicker({ dateFormat: "yyyy-mm-dd" });
                     });        
         </script>
-        <script>
+        <script language="JavaScript">
                     function validate()
                             {
                             var vFullname = trim(document.frm.fullname.value);
@@ -179,7 +179,7 @@
                                 </table>
                                 <div><br/>
                                     <a  class="btn btn-primary" type="button" href="../../user/myaccount" value="Cancel">Cancel</a>
-                                    <button  class="btn btn-primary" type="submit" value="Save Profile">Save</button>
+                                    <button  class="btn btn-primary" type="submit" onclick="javascript:validate();" value="Save Profile">Save</button>
                             </form>
                         </div>
                     </c:if>

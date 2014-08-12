@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,6 +23,7 @@ import javax.persistence.TemporalType;
  *
  * @author sMazumder
  */
+         @NamedQueries({ @NamedQuery(name = "enrollmentByCust", query = "select e from EnrollmentEntity e where e.customer.id=:customer" )})
 @Entity
 @Table(name = "Enrollment")
 public class EnrollmentEntity {
