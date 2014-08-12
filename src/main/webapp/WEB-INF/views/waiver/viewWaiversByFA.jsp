@@ -42,6 +42,9 @@
                             <td>${waiver.updateDate}</td>                            
                         </tr>
                     </c:forEach>
+                        <c:if test="${empty waivers}">
+                        <b>No Pending requests. </b>
+                    </c:if>
                 </table>
                <!-- </form> -->
             </div></div>
