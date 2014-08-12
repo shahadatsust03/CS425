@@ -104,4 +104,16 @@ public class ScheduleEntity {
     public void addSection(SectionEntity section){
         this.section.add(section);
     }
+    //caocm
+    public String getStartTimeM() {
+        SimpleDateFormat formatter=new SimpleDateFormat("HH:mm");
+        String time = formatter.format(this.startDate);
+        return time;
+    }
+    //caocm
+    public String getEndTimeM() {
+        SimpleDateFormat formatter=new SimpleDateFormat("HH:mm");
+        String time = formatter.format(this.endDate);
+        return time;
+    }
 }

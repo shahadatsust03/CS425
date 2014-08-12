@@ -145,4 +145,14 @@ public class EnrollmentDAO {
         }
     }
 
+    public List<EnrollmentEntity> getEnrollments(Long id) {
+        Query result = sf.getCurrentSession().getNamedQuery("enrollmentByCust");
+        result.setParameter("customer", id);                
+        List<EnrollmentEntity> enrollList = result.list();
+        if (enrollList.isEmpty()) {
+            return null;
+        }
+        return enrollList;
+    }
+
 }

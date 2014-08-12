@@ -31,7 +31,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost/YogaStudio" />
+        <property name="url" value="jdbc:mysql://localhost/yogastudio" />
         <property name="username" value="root" />
         <property name="password" value="" />
     </bean>
@@ -130,12 +130,13 @@
          <constructor-arg ref="waiverDAO"/>
     </bean>  
     
-    <bean id="emailController" class="YogaStudio.Controller.EmailController">
+    <bean id="emailService" class="YogaStudio.service.EmailService">
                   
     </bean>   
     
-    <bean id="logAdvice" class="YogaStudio.service.LogAdvice">
-              <constructor-arg ref="emailController"/>     
+    <bean id="emailAdvice" class="YogaStudio.service.EmailAdvice">
+              <constructor-arg ref="emailService"/>
+              <constructor-arg ref="userService"/>     
     </bean>   
     
     <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">
@@ -191,5 +192,9 @@
     <!--file Dao bean -->
     <bean id="fileDao" class="YogaStudio.dao.generic.FileDAO">
         <property name="sf" ref="sessionFactory"/>
+    </bean>
+    <bean id="advisorservice" class="YogaStudio.service.AdvisorService">
+         <constructor-arg ref="facultydao"/>  
+         <constructor-arg ref="customerdao"/>  
     </bean>
 </beans>

@@ -3,7 +3,12 @@
         .on('hidden.bs.modal', function(){
             $("#request-password-model-msg").html("");
         });
-
+   
+    $('#creditcard-modal')
+        .on('hidden.bs.modal', function(){
+            $("#credit-card-model-msg").html("");
+        });
+        
    linkClicked("#addproduct",function(url){
         console.debug(url);
        $.get( url, function( data ) {
@@ -98,6 +103,43 @@
              return false;
          }
          
+            //forget password
+         $.fn.registerUser = function(formId){
+             console.log("request password");
+              var form = $(formId);
+              $.ajax({
+              url: $(form).attr('action'),
+              data: $(form).serialize(), 
+              type: 'POST',
+              success: function(resp) {
+                   var data = $.parseJSON( resp );
+                     console.log(data);
+                      if(data.success){
+                         console.log(data.message);
+                         $("#regisration-modal").modal('hide');
+                         var message =  '<div class="alert alert-success">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong>Success!</strong> '+data.message+
+                                        '</div>';
+                                
+                         $("#serverResponseMsg").html(message);
+                      }
+                      else{
+                          var alert ='<div class="alert alert-warning">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong>Warning!</strong> '+data.message+
+                                        '</div>';
+                                
+                         $("#registration-model-msg").html(alert);
+                      }
+   
+                },
+                error:function(data,status,er) { 
+                    alert("error: "+data+" status: "+status+" er:"+er);
+                }
+            });
+             return false;
+         }
          //save credit card
          $.fn.saveCreditCard = function(formId){
              console.log("save credit ");
@@ -125,7 +167,7 @@
                                         '<strong>Warning!</strong> '+data.message+
                                         '</div>';
                                 
-                         $("#request-password-model-msg").html(alert);
+                         $("#credit-card-model-msg").html(alert);
                       }
    
                 },

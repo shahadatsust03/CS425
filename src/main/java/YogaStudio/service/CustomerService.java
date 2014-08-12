@@ -7,7 +7,6 @@
 package YogaStudio.service;
 
 
-import YogaStudio.Controller.EmailController;
 import YogaStudio.dao.generic.ClassDAO;
 import YogaStudio.dao.generic.CustomerDAO;
 import YogaStudio.dao.generic.EnrollmentDAO;
@@ -52,6 +51,14 @@ public class CustomerService {
     
      public CustomerEntity get(Long customerId){
         return customerdao.get(customerId);
+    }
+
+    public List<CustomerEntity> getAllCustomer() {
+        return customerdao.getAll();
+    }
+
+    public void removeCustomer(Long id) {
+        customerdao.delete(id);
     }
     
 }

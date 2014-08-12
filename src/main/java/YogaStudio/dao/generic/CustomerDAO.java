@@ -58,7 +58,8 @@ public class CustomerDAO {
 
     public void delete(Long customerId) {
         CustomerEntity customer = get(customerId);
-        sf.getCurrentSession().delete(customer);
+        Byte activest = 0;
+        customer.setActivests(activest);
     }
     
    

@@ -29,11 +29,9 @@
                             </div>
                             <div class="col-sm-4 text-center feature">
                                     <h4></h4>
-                                    <p>
-                                      
+                                    <p>                                     
                                            <%@include file="userprofile.jsp" %>
-                                      
-                                   
+                                           <%@include file="../faculty/navi.jsp" %>
                                     </p>
                             </div>
                     </div>

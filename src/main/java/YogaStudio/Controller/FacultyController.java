@@ -12,6 +12,7 @@ import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.SectionEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
+import YogaStudio.service.AdvisorService;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.CustomerService;
 import YogaStudio.service.FacultyService;
@@ -65,12 +66,19 @@ public class FacultyController {
 
     @Autowired
     private SectionService sectionService;
-
+    
+    @Autowired
+    private AdvisorService advisorService;
+    
+    
     @RequestMapping(value = {"/faculty", "/faculty/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
+        List<SectionEntity> sections = sectionService.getAllSections();
+        
         ModelAndView view = new ModelAndView("/faculty/faculty");
         view.addObject("facultys", facultys);
+        view.addObject("sections", sections);        
         view.addObject("pageTitle", "Faculty");
         return view;
     }
@@ -88,7 +96,7 @@ public class FacultyController {
         return "faculty/editFaculty";
     }
 
-    @RequestMapping(value = {"/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/assignFaculty/{id}/{value}","/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
     public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model) {
         FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
         SectionEntity section = sectionService.getSection(Long.parseLong(value));
@@ -180,20 +188,39 @@ public class FacultyController {
         return message.toString();
     }
 
-    @RequestMapping(value = "/waiver/viewWaiversByFA/{id}", method = RequestMethod.GET)
-    public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
-        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
+    @RequestMapping(value = "/waiver/viewWaiversByFA", method = RequestMethod.GET)
+    public ModelAndView viewWaivers(HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object object = auth.getPrincipal();
+        String password = ((UserDetails) object).getPassword();
+        System.out.println("Faculty :" + name + "  Password:" + password);
+        UserEntity user = userService.findUser("faculty", "faculty");
+        FacultyEntity faculty = facultyService.getFaculty(user.getId());
+        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(user.getId());
         ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
         view.addObject("waivers", waivers);
         view.addObject("faculty", faculty.getId());
+        // view.addObject("pageTitle", "Waivers");
+        //String message = "Waiver Request:";
+        //view.addFlashAttribute("message", message);
+        return view;
+    }
+
+    @RequestMapping(value = "/waiver/viewWaiversByFA/{id}", method = RequestMethod.GET)
+    public ModelAndView viewWaiversByFA(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        // FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
+        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
+        ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
+        view.addObject("waivers", waivers);
+        view.addObject("faculty", Long.valueOf(id));
         // view.addObject("pageTitle", "Waivers");
         String message = "Waiver Request:";
         redirectAttributes.addFlashAttribute("message", message);
         return view;
     }
 
-    @RequestMapping(value = "/waiver/waiverDetails/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/waiver/waiverDetails/{id}","/waiverDetails/{id}"}, method = RequestMethod.GET)
     public ModelAndView waiverDetails(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         //FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
         WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
@@ -205,37 +232,37 @@ public class FacultyController {
         return view;
     }
 
-    @RequestMapping(value = "/waiver/respondOnWaiver/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = {"/waiver/respondOnWaiver/{id}","/respondOnWaiver/{id}"}, method = RequestMethod.POST)
     public RedirectView respondOnWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         //if "name" value equals approve redirect to viewWaivers by updating status
         //else show reject popup with comments and redirect after submitting and updating to DB to viewWaivers
-//         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String name = auth.getName();
-//            Object object = auth.getPrincipal();
-//
-//            String password = ((UserDetails) object).getPassword();
-//            System.out.println("Faculty :" + name + "  Password:" + password);
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            Object object = auth.getPrincipal();
+
+            String password = ((UserDetails) object).getPassword();
+            System.out.println("Faculty :" + name + "  Password:" + password);
         UserEntity faculty = userService.findUser("faculty", "faculty");
         //UserEntity user = userService.findUser("devika", "devika");
         System.out.println("Faculty Found:" + faculty);
         RedirectView view = new RedirectView();
-            String message = "Successfully updated Waiver status.";
-            System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
+        String message = "Successfully updated Waiver status.";
+        System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
         if (faculty == null) {
-            message="Failed to Update Waiver, Faculty is not valid.";
+            message = "Failed to Update Waiver, Faculty is not valid.";
             return view;
-        }                        
-            // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
-            String response = request.getParameter("response");
-            boolean status = false;
-            if (response.contains("Approve")) {
-                status = waiverService.approveWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
-            } else if (response.contains("Reject")) {
-                status = waiverService.rejectWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
-            }
-            if (status == false) {
-                message = "!!! Failed updating the waiver.";
-            }        
+        }
+        // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
+        String response = request.getParameter("response");
+        boolean status = false;
+        if (response.contains("Approve")) {
+            status = waiverService.approveWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+        } else if (response.contains("Reject")) {
+            status = waiverService.rejectWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+        }
+        if (status == false) {
+            message = "!!! Failed updating the waiver.";
+        }
         view.setUrl(request.getContextPath() + "/waiver/viewWaiversByFA/" + faculty.getId());
         redirectAttributes.addFlashAttribute("message", message);
         return view;//"redirect:/";       
@@ -243,5 +270,50 @@ public class FacultyController {
         //return new ModelAndView("/user/editProfile", "Profile", "not found");
         //return "redirect:/";
     }
+    
+    // caocm
+    @RequestMapping(value="/faculty/advisees", method=RequestMethod.GET)
+    public ModelAndView  viewAdvisees(){
+      
+        long facultyId = getCurrentFacultyId();                    
+        ModelAndView model = new ModelAndView("faculty/advisees");
+        model.addObject("advisees", advisorService.getAdvisees(facultyId));
 
+        return model;
+    }
+    
+    @RequestMapping(value="/faculty/sectionlist", method=RequestMethod.GET)
+    public ModelAndView  viewCurrentSectionList(){
+         
+        long facultyId = getCurrentFacultyId();
+        ModelAndView model = new ModelAndView("faculty/facultysectionlist");
+        model.addObject("sectionlist", sectionService.getFacutlyCurrentSections(facultyId));
+        model.addObject("nextsectionlist", sectionService.getFacultyNextSections(facultyId));
+        
+        return model;
+    }
+    
+    @RequestMapping(value="/faculty/schedule", method=RequestMethod.GET)
+    public ModelAndView  viewCurrentSchedule(){ 
+        
+        long facultyId = getCurrentFacultyId();
+        ModelAndView model = new ModelAndView("faculty/facultyschedule");
+        model.addObject("schedulemap", sectionService.getFacutlyCurrentSchedule(facultyId));
+        model.addObject("schedulemap2", sectionService.getFacultyNextSchedule(facultyId));
+        
+        return model;
+    }
+    
+    private long getCurrentFacultyId(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object object = auth.getPrincipal();
+
+        String password = ((UserDetails) object).getPassword();
+        System.out.println("User :" + name + "  Password:" + password);
+        UserEntity user = userService.findUser(name, password); 
+        
+        return user.getId();
+    }
+    // caocm
 }

@@ -1,40 +1,51 @@
+
 <%-- 
-    Document   : main_product_list
+    Document   : main_Section_list
     Created on : Aug 6, 2014, 5:35:15 PM
     Author     : Shahadat
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script>
-/*var countChecked = function() {
-  var n = $( "input:checked" ).length;
-  console.debug(n);
-  console.debug("number of i")
-};
-countChecked();
- 
-$( "input[type=checkbox]" ).on( "click", countChecked );
-*/
-</script>
+
 <div>
-    <div>
-       <table class="table table-striped">    
-                     
-                     <td>Name</td>
-                     <td>Description</td>
-                     <td>Class Name</td>
-                     <td>Location</td>
-                     <td>Class limit</td>
-                   
-                <c:forEach items="${sections}" var="section">
-                 <tr>                           
-                     <td><a href="section/${section.id}"/>${section.sectionName}</td>
-                     <td>${section.description}</td>
-                     <td>${section.classEntity.className}</td>
-                     <td>${section.location}</td>
-                     <td>${section.classLimit}</td>                     
-                    
-                </tr>
-               </c:forEach>
-        </table>
+    <div class="panel-group" id="accordion">
+                              
+                <c:forEach items="${sections}" var="section" varStatus="loop">
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" h="section/${section.id} "href="#collapse${section.id}">
+                         ${section.sectionName}
+                         
+                        </a>
+                      </h4>
+                    </div>    
+                    <c:if test="${loop.index ==0}">
+                      <div id="collapse${section.id}" class="panel-collapse collapse in">
+                    </c:if>
+                    <c:if test="${loop.index >0}">
+                        <div id="collapse${section.id}" class="panel-collapse collapse">
+                    </c:if>
+                                          <div class="panel-body">
+                        <div>Description ${section.description}</div>
+                       <div>Class: ${section.classEntity.className}</div>
+                       <div>Location: ${section.location}</div>
+                       <div>Limit: ${section.classLimit}</div>      
+                        <div>Total Enrollments: ${section.getTotalEnrollment()} &nbsp;&nbsp;</div>
+                         <c:if test="${not empty section.faculty}">Faculty:
+                               <div>${section.faculty.fullname} &nbsp;&nbsp;</div></c:if>
+                         
+                         <sec:authorize access="hasRole('ROLE_ADMIN')"> 
+                             <div style="margin-top:10px;">
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/section/editSection/${section.id}">Edit Section</a>
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/section/removeSection/${section.id}">Remove Section</a>
+                             </div>
+                       </sec:authorize>
+                       </c:forEach>
+                      </div>
+                    </div>
+                  </div>
+               
+              <div>
     </div>
+</div>
 </div>

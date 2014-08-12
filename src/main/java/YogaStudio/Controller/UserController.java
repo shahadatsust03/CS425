@@ -10,6 +10,7 @@ import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.ProductEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.domain.WaiverEntity;
+import YogaStudio.service.AdvisorService;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.CustomerService;
 import YogaStudio.service.ProductService;
@@ -17,6 +18,7 @@ import YogaStudio.service.UserService;
 import YogaStudio.service.WaiverService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,8 +62,10 @@ public class UserController {
     @Autowired
     private ClassService classService;
     @Autowired
-    private WaiverService waiverService;
-
+    private WaiverService waiverService;    
+   @Autowired
+    private AdvisorService advisorservice;
+     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
@@ -80,8 +85,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
-    public ModelAndView loginFailed(HttpServletRequest request) {
-        return new ModelAndView("index", "message", "Invalid username/password. Please try again.");
+    public RedirectView loginFailed(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
+        RedirectView view = new RedirectView("/", true);
+        redirectAttributes.addFlashAttribute("message","Invalid username/password. Please try Again.");
+        return view;
     }
 
     @RequestMapping(value = "/user/customer", method = RequestMethod.GET)
@@ -167,14 +174,20 @@ public class UserController {
     }
 
     //controller action for user registeration
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
-        String message = addUser(request);
-        //RedirectView view = new RedirectView("redirect:/");
-        //ModelAndView view = new ModelAndView(new RedirectView("/", true));
-        //view.addObject("message", message);
-        redirectAttributes.addFlashAttribute("message", message);
-        return new RedirectView("/", true);//"redirect:/";
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces="text/plain")
+    @ResponseBody
+    public String register(HttpServletRequest request) {
+           ObjectMapper mapper = new ObjectMapper();
+           HashMap response = registerUser(request);
+           String json = ""; 
+           try {
+                //convert map to JSON string
+                json = mapper.writeValueAsString( response);
+            } catch (IOException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+         return json;
     }
 
     @RequestMapping(value = "/user/myaccount", method = RequestMethod.GET)
@@ -230,11 +243,11 @@ public class UserController {
 
         user.setFullname(request.getParameter("fullname"));
         user.setEmail(request.getParameter("email"));
-        user.setUsername(request.getParameter("username"));
+        //user.setUsername(request.getParameter("username"));
         user.setPassword(request.getParameter("password"));
         try {
             user.setDateOfBirth(sdf.parse(request.getParameter("dateOfBirth")));
-            user.setJoinDate(sdf.parse(request.getParameter("joinDate")));
+            //user.setJoinDate(sdf.parse(request.getParameter("joinDate")));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -280,46 +293,68 @@ public class UserController {
         //return "redirect:/";
     }
 
-    private String addUser(HttpServletRequest request) {
+    private HashMap registerUser(HttpServletRequest request) {
+        HashMap response = new HashMap();
         List message = new ArrayList();
-        String firstName = request.getParameter("firstName"),
-                lastName = request.getParameter("lastName"),
-                email = request.getParameter("email"),
-                username = request.getParameter("username"),
-                street =  request.getParameter("street"),
-                city =  request.getParameter("city"),
-                country =  request.getParameter("country"),
-                state =  request.getParameter("state"),
-                zipcode =  request.getParameter("zipcode"),
-                contactNum =  request.getParameter("contactNum");
+        try{
+                String firstname = request.getParameter("firstName"),
+                        lastname = request.getParameter("lastName"),
+                        email = request.getParameter("email"),
+                        username = request.getParameter("username"),
+                        street =  request.getParameter("street"),
+                        city =  request.getParameter("city"),
+                        country =  request.getParameter("country"),
+                        state =  request.getParameter("state"),
+                        zipcode =  request.getParameter("zipcode"),
+                        contactnumber =  request.getParameter("contactNum");
 
-        if (firstName.isEmpty()) {
-            message.add("First name is required");
-        }
-        if (lastName.isEmpty()) {
-            message.add("Last name is required");
-        }
-        if (email.isEmpty()) {
-            message.add("Email is required");
-        }
-        if (username.isEmpty()) {
-            message.add("Username is required");
-        }
+                Date dateOfBirth = new Date();
 
-        if (message.isEmpty()) {
-            String fullname = firstName.concat(" " + lastName);
-            String authority = request.getParameter("authority");
-            //set the role customer by default
-            authority = (authority == null) ? "ROLE_USER" : authority;
-            boolean saved = userService.add(fullname, email, username, authority);
+                if (firstname.isEmpty()) {
+                    message.add("First name is required");
+                }
+                if (lastname.isEmpty()) {
+                    message.add("Last name is required");
+                }
+                if (email.isEmpty()) {
+                    message.add("Email is required");
+                }
+                if (username.isEmpty()) {
+                    message.add("Username is required");
+                }
+                //if(dateOfBirth.)
+                
+                if (message.isEmpty()) {
+                    String authority = request.getParameter("authority");
+                    //set the role customer by default
+                    authority = (authority == null) ? "ROLE_USER" : authority;
+                    UserEntity user  = userService.add(username, 
+                                                    email, 
+                                                    username,
+                                                    dateOfBirth, 
+                                                    street, 
+                                                    city, 
+                                                    country,
+                                                    state, 
+                                                    Long.valueOf(zipcode),
+                                                    Long.valueOf(contactnumber),
+                                                    authority);
 
-            if (saved) {
-                message.add("Registration successful saved");
-            } else {
-                message.add("Registration unsuccessful");
-            }
+                    if (user != null) {
+                        advisorservice.assignAdvisor(user.getId());
+                        message.add("Registration successful saved");
+                        response.put("success",true);
+                    } else {
+                        message.add("Registration unsuccessful");
+                        response.put("success",false);
+                    }
+                }
         }
-        return message.toString();
+        catch(Exception e){
+            message.add("Registration unsuccessful");
+        }
+        response.put("message",message.toString());
+        return response;
     }
 
     //get current context user
@@ -371,6 +406,24 @@ public class UserController {
 //                return new ModelAndView("/user/requestWaiver", "user", user);
 //            }
 //        return new ModelAndView("/user/requestWaiver", "user", "not found");  
+        return view;
+    }
+    
+    @RequestMapping(value = "/waiver/viewWaivers", method = RequestMethod.GET)
+    public ModelAndView viewWaiversByCust(HttpServletRequest request) {        
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            Object object = auth.getPrincipal();
+            String password = ((UserDetails) object).getPassword();
+            System.out.println("Customer :" + name + "  Password:" + password);
+            UserEntity customer = userService.findUser("devika", "devika");
+        CustomerEntity cust = customerService.get(customer.getId());
+        List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);        
+        ModelAndView view = new ModelAndView("/waiver/viewWaivers");
+        view.addObject("waivers", waivers);
+        view.addObject("pageTitle", "Waivers");
+        String message = "Waiver Request:";//updateProfile(request, view, id);
+        //redirectAttributes.addFlashAttribute("message", message);
         return view;
     }
     
@@ -452,8 +505,11 @@ public class UserController {
                                   }
                                   //validation failed
                                   if(valid){
-                                     SimpleDateFormat formatter = new SimpleDateFormat("MMM/yyyy");
-                                     Date expDate = formatter.parse(expirydate);
+                                     //date format 
+                                      DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                                      Date expDate = DateUtils.parseDate(expirydate,"MM/yyyy"); 
+                                     //formattedDate = formatter.format(today); 
+
                                      boolean updated = userService.addCreditCard(user,Long.parseLong(cardnumber), expDate);
                                      response.put("success",updated);
                                      response.put("message", (updated)? "Credit card successfully added": "Sorry,unable to add credit card");
@@ -483,7 +539,7 @@ public class UserController {
     }
     
     private boolean valiateParameter(String param){
-        
-       return false;
+         
+       return true;
     }
 }

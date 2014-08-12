@@ -13,20 +13,57 @@
     <body>
         <%@include file="home_nagivation.jsp" %>
         <div id="featureWrap">
-
+            
             <div class="container">
-                <!--display flash message-->
+                    <!--display flash message-->
+                    <div id="serverResponseMsg"></div>
+                    
+              
+                    <div class="row">
+                            <div class="col-sm-4 text-center feature">
+                                  <p>
+                                      <h4>Lastest Classes</h4>
+                                       <p>
+                                          <%@include file="classes/class_list.jsp" %>
+                                       </p>
+                                    </p>
+                            </div>
+                            <div class="col-sm-4 text-center feature">
+                                    <h4>Lastest Products</h4>
+                                    <p>
+                                       <%@include file="product/product_list.jsp" %>
+                                    </p>
+                            </div>
+                                    <c:if test="${pageContext.request.userPrincipal.name == null}">
+                            
+                            <div class="col-sm-4 text-center feature">                               
+                                    <p>
+                                          <ul class="nav nav-tabs" role="tablist">
+                                            <li class="active">
+                                                <a href="#login" role="tab" data-toggle="tab">
+                                                    <h5 style="margin-bottom:0px;margin-top:0px">Log in</h5>
+                                                </a>
+                                            </li>
+         
+                                          </ul>
 
-                <div id="serverResponseMsg">${message}</div>
-
-                <div class="row">
-                    <div class="col-sm-4 text-center feature">
-                        <p>
-                        <h4>Lastest Classes</h4>
-                        <p>
-                            <%@include file="classes/class_list.jsp" %>
-                        </p>
-                        </p>
+                                         <!-- Tab panes -->
+                                          <div class="tab-content">
+                                              <div class="tab-pane active" id="login" style="padding:20px;text-align: left;">
+                                                    <%@include file="user/login_form.jsp" %>
+                                              </div>
+                                              <!--<div class="tab-pane" id="register" style="padding:20px;text-align: left;">
+                                              </div>
+                                              -->
+                                          </div>
+                                    </p>
+                                  
+                                  <c:if test="${user != null}">
+                                      <h3>User Profile</h3>
+                                      ${pageContext.request.userPrincipal.name}
+                                  </c:if>
+                            </div>
+                                    </c:if>
                     </div>
                     <div class="col-sm-4 text-center feature">
                         <h4>Lastest Products</h4>

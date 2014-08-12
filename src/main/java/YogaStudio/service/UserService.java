@@ -57,18 +57,32 @@ public class UserService {
        // email.generateEmailForNewAppRegistration("shohagcoe@gmail.com");   
     }
     
-    public boolean add(String fullname, 
+    public UserEntity add(String fullname, 
                        String email,
-                       String userName, 
-                       String authority,
+                       String username, 
+                       Date dateOfBirth,
                        String street,
                        String city,
                        String country,
-                       String zipcode,
-                       Long contactNum) 
+                       String state,
+                       Long zipcode,
+                       Long contactNum,
+                       String authority) 
          {    
         String password = Util.generatePassword();// auto generate password;//
-        UserEntity user = new CustomerEntity(userName,password,fullname,email);
+        boolean saved = false;
+        UserEntity user = new CustomerEntity(username, 
+                                             password, 
+                                             fullname, 
+                                             email,
+                                             authority, 
+                                             dateOfBirth, 
+                                             contactNum, 
+                                             street,  
+                                             city, 
+                                             state,
+                                             country, 
+                                             zipcode);
         //set the user authority
         user.setAUTHORITY(authority);
         //enable the user account
@@ -76,11 +90,9 @@ public class UserService {
         //determine if a user with such email already exists
         if (!userDao.userExists("email", user.getEmail()))
         {
-              return userDao.add(user);   
+              saved =userDao.add(user);   
         } 
-        else
-            return false;
-       // email.generateEmailForNewAppRegistration("shohagcoe@gmail.com");   
+        return (saved)? user: null; 
     }
     
     public List<UserEntity> findBy(String fieldName,String value) 

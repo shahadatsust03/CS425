@@ -372,5 +372,39 @@ public class EnrollmentController {
         }
 
     }
+     @RequestMapping(value = "/viewEnrollments", method = RequestMethod.GET)
+    public ModelAndView viewEnrollments(HttpServletRequest request) {        
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            Object object = auth.getPrincipal();
+            String password = ((UserDetails) object).getPassword();
+            System.out.println("Customer :" + name + "  Password:" + password);
+            UserEntity customer = userService.findUser("devika", "devika");
+        CustomerEntity cust = customerService.get(customer.getId());
+        List<EnrollmentEntity> enrollments = enrollmentService.getEnrollments(cust.getId());        
+        ModelAndView view = new ModelAndView("/enrollments/viewEnrollments");
+        view.addObject("enrollments", enrollments);
+        view.addObject("pageTitle", "Enrollments");
+        String message = "Enrollments List:";//updateProfile(request, view, id);
+        //redirectAttributes.addFlashAttribute("message", message);
+        return view;
+    }
+    
+     @RequestMapping(value = "/viewEnrollments/{id}", method = RequestMethod.GET)
+    public ModelAndView viewEnrollments(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        System.out.println("Id:" + Long.valueOf(id));
+        CustomerEntity cust = customerService.get(Long.valueOf(id));
+        List<EnrollmentEntity> enrollments = enrollmentService.getEnrollments(cust.getId());               
+        ModelAndView view = new ModelAndView("/enrollments/viewEnrollments");
+        view.addObject("enrollments", enrollments);
+        view.addObject("pageTitle", "Enrollments");
+        String message = "Enrollments List::";//updateProfile(request, view, id);
+        redirectAttributes.addFlashAttribute("message", message);
+//         if (user != null) {                
+//                return new ModelAndView("/user/requestWaiver", "user", user);
+//            }
+//        return new ModelAndView("/user/requestWaiver", "user", "not found");  
+        return view;
+    }
 
 }

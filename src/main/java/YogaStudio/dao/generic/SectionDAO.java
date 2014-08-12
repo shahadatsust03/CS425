@@ -121,5 +121,30 @@ public class SectionDAO {
         else
             return true;
     }
-    
+    // chunming
+    public List getFacutlyCurrentSections(long faculId){
+        //Assuming the className for classes is unique
+        String hql = "From SectionEntity SE WHERE SE.faculty.id = :faculId " + 
+        " AND SE.semester.startDate <= :startDate AND SE.semester.endDate >= :endDate";
+        Query q = sf.getCurrentSession().createQuery(hql);
+        q.setParameter("faculId", faculId);
+        
+        Date today = new Date();
+        q.setParameter("startDate", today);
+        q.setParameter("endDate", today);
+        return q.list();
+    }  
+    // chunming
+    public List getFacultyNextSections(long faculId){
+        //Assuming the className for classes is unique
+        String hql = "From SectionEntity SE WHERE SE.faculty.id = :faculId " + 
+        " AND SE.semester.startDate > :startDate";
+        Query q = sf.getCurrentSession().createQuery(hql);
+        q.setParameter("faculId", faculId);
+        
+        Date today = new Date();
+        q.setParameter("startDate", today);
+        
+        return q.list();
+    }    
 }

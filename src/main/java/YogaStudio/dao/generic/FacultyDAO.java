@@ -51,5 +51,13 @@ public class FacultyDAO {
         FacultyEntity faculty = get(facultyId);
         sf.getCurrentSession().delete(faculty);
     }
+    // chunming
+    public FacultyEntity getNewAdvisor(){
+        // Select the faculty that has fewest advisees as advisor
+        String hql = "From FacultyEntity FE ORDER BY FE.customers.size ASC";
+        Query q = sf.getCurrentSession().createQuery(hql);
+        q.setMaxResults(1);
 
+        return (FacultyEntity)q.uniqueResult();
+    } 
 }
