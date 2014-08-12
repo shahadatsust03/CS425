@@ -6,10 +6,10 @@
 
 package YogaStudio.domain;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -93,15 +93,6 @@ public class SectionEntity {
     @OneToMany(mappedBy="section",cascade={CascadeType.ALL})
     List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();
     public int getTotalEnrollment(){
-        int totalEnrollment = 0;
-        Iterator<EnrollmentEntity> iterator = enrollments.iterator();
-        while(iterator.hasNext()){
-            EnrollmentEntity enrollmentEntity = iterator.next();
-            if(enrollmentEntity.getStatus() == 0)
-                totalEnrollment++;
-            return totalEnrollment;
-            
-        }
         return enrollments.size();
     }
     public void addEnrollments(EnrollmentEntity enrollment){
@@ -204,4 +195,16 @@ public class SectionEntity {
         this.classLimit = classLimit;
     }
     
+    // caocm
+    public String getScheduleText(){
+        String text = "";
+        for(ScheduleEntity schedule : scheduleList ){
+            int day = schedule.getDayOfWeek();
+            text += DayOfWeek.of(day).toString();
+            text += "    " + schedule.getStartTimeM();
+            text += " - " + schedule.getEndTimeM();
+            text += "</br>";
+        }
+        return text;       
+    }    
 }
