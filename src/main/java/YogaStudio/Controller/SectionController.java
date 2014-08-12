@@ -84,7 +84,22 @@ public class SectionController {
          view.addObject("schedules", schedules);
         view.addObject("pageTitle", "Sections");
         return  view;
+    } 
+    
+    @RequestMapping(value = {"/section/add/","../section/add/","section/add/"}, method = RequestMethod.GET)
+    public ModelAndView addSectionPage(HttpServletRequest request, @PathVariable Long id) {        
+        ModelAndView view = new ModelAndView("/section/addSection");   
+        List<ClassEntity> classes = classService.getClassList();
+        List<SemesterEntity> semesters = semesterService.getSemesterList();
+        List<ScheduleEntity> schedules = scheduleService.getAllSchedules();
+        
+        view.addObject("classes", classes);
+        view.addObject("semesters", semesters);
+         view.addObject("schedules", schedules);
+        view.addObject("pageTitle", "Sections");
+        return  view;
     }    
+    
     
      @RequestMapping(value = {"section/add/section/addSchedule","section/addSchedule","../section/addSchedule","/section/addSchedule", "/section/section/addSchedule"}, method = RequestMethod.GET)
     public ModelAndView addSchedulePage(HttpServletRequest request) {        

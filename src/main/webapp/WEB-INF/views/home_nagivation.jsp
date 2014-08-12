@@ -22,6 +22,8 @@
                         <li><a href="${pageContext.request.contextPath}/">Home</a></li> 
                         <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li>
                             <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                                <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li>
+                                
                                 <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>                                
                             </sec:authorize>
               
