@@ -17,6 +17,7 @@ import YogaStudio.service.UserService;
 import YogaStudio.service.WaiverService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -481,8 +483,11 @@ public class UserController {
                                   }
                                   //validation failed
                                   if(valid){
-                                     SimpleDateFormat formatter = new SimpleDateFormat("MMM/yyyy");
-                                     Date expDate = formatter.parse(expirydate);
+                                     //date format 
+                                      DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                                      Date expDate = DateUtils.parseDate(expirydate,"MM/yyyy"); 
+                                     //formattedDate = formatter.format(today); 
+
                                      boolean updated = userService.addCreditCard(user,Long.parseLong(cardnumber), expDate);
                                      response.put("success",updated);
                                      response.put("message", (updated)? "Credit card successfully added": "Sorry,unable to add credit card");
@@ -512,7 +517,7 @@ public class UserController {
     }
     
     private boolean valiateParameter(String param){
-        
-       return false;
+         
+       return true;
     }
 }

@@ -556,4 +556,8 @@ footer .social a .fa-inverse {
 		}
                 
    
-                
+                #registration-model-msg  input.form-control{
+                 font-size: 13px;
+                  height: 25px;    
+                    
+                }
