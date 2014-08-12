@@ -23,7 +23,7 @@
 					     <td>Phone</td>
 					<c:forEach items="${advisees}" var="advisee">
 					 <tr>      
-					     <td><a href="${pageContext.request.contextPath}/user/users/${advisee.id}"/>${advisee.username}</td>
+					     <td><!a href="${pageContext.request.contextPath}/user/users/${advisee.id}"/-->${advisee.username}</td>
 					     <td><a href="mailto:${advisee.email}">${advisee.email}</a></td>
 					     <td>${advisee.contactNum}</td>
 					 </tr>

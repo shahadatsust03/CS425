@@ -30,7 +30,6 @@ public class AdvisorService {
      
     public List getAdvisees(long facultyId){
 
-        System.out.println(facultyDao);
         FacultyEntity faculty = facultyDao.get(facultyId);
         
         return faculty.getAdvisees();
@@ -43,7 +42,8 @@ public class AdvisorService {
         return customer.getAdvisor();
     }
     
-    public void assignAdvisor(long customerId){      
+    public void assignAdvisor(long customerId){
+        
         FacultyEntity faculty = facultyDao.getNewAdvisor();
         CustomerEntity cs = customerDao.get(customerId);
         faculty.addAdvisee(cs);
