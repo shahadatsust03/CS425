@@ -9,9 +9,35 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>View Enrollments</title>
+        <%@include file="../header.jsp" %>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <%@include file="../nagivation.jsp" %>
+        <div id="featureWrap">   
+           
+            <div class="container">
+                <c:if test="${not empty message}">
+                        <b> ${message}</b>
+                    </c:if>
+        <h1>Enrollments:</h1>
+        <table class="table table-striped" align="center">
+        <td>Id</td>
+            <td>Class</td>
+            <td>Section </td>
+            <td>Enrolled Date</td>            
+            <td>Status</td>            
+            <c:forEach items="${enrollments}" var="enrollment">
+                <tr>      
+                    <td>${enrollment.id}</td>
+                    <td>${not empty enrollment.classEn ? enrollment.classEn.className : ""}</td>
+                    <td>${not empty enrollment.section ? enrollment.section.sectionName : ""}</td>
+                    <td>${enrollment.enrolledDate}</td>                                        
+                    <td>${waiver.status}</td>                    
+                </tr>
+            </c:forEach>
+        </table>
+        </div>
+            </div>
     </body>
 </html>

@@ -4,6 +4,7 @@
     Author     : eTunkara
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
             <div class="navbar-header">
@@ -31,7 +32,8 @@
                             <sec:authorize ifAnyGranted="ROLE_USER">
                                  <li><a href="${pageContext.request.contextPath}/enrollments">Enrollment</a></li>
                                 <li><a href="${pageContext.request.contextPath}/unenrollments">Unenroll</a></li>
-                                <li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li> 
+                                <li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li>
+                               <!-- <li><a href="${pageContext.request.contextPath}/viewEnrollments">View Enrollment</a></li> -->
                             </sec:authorize>                            
                             </c:if>
                         <c:if test="${pageContext.request.userPrincipal.name != null}">                            

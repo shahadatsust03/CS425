@@ -24,7 +24,7 @@
                                      
                         <c:if test="${not empty Profile}">
                               <c:if test="${not empty message}">
-                                  <b> ${message}</b>
+                                  <b> ${message}</b></br></br>
                               </c:if>
                                   <div style="display: inline-block;vertical-align: top;width:70%">
                                     <table>
