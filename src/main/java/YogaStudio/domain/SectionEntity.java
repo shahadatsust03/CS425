@@ -91,7 +91,9 @@ public class SectionEntity {
     
     @OneToMany(mappedBy="section",cascade={CascadeType.ALL})
     List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();
-    
+    public int getTotalEnrollment(){
+        return enrollments.size();
+    }
     public void addEnrollments(EnrollmentEntity enrollment){
         enrollment.setSection(this);
         enrollments.add(enrollment);

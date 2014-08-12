@@ -26,12 +26,26 @@
                              <div id="collapse${classs.id}" class="panel-collapse collapse">
                          </c:if>
                       <div class="panel-body">
-                        <div>${classs.description}</div>
-                       <div>${classs.fee}</div>
+                        <div>Description: ${classs.description}</div>
+                       <div>Tution Fee: ${classs.fee}</div>
                        <div><c:if test="${not empty classs.prerequisteClasses}">Prerequesties:</c:if> 
                          <c:if test="${not empty classs.prerequisteClasses}">
                              <c:forEach items="${classs.prerequisteClasses}" var="preReq">                                 
                                  ${preReq.className} &nbsp;&nbsp;
+                             </c:forEach>
+                         </c:if>
+                         </div>
+                         <div><c:if test="${not empty classs.sections}">Sections:</c:if> 
+                         <c:if test="${not empty classs.sections}">
+                             <c:forEach items="${classs.sections}" var="section">                                 
+                             <div>Section name: ${section.sectionName} &nbsp;&nbsp;</div>
+                             <div>Location: ${section.location} &nbsp;&nbsp;</div>
+                             <div>Limit: ${section.classLimit} &nbsp;&nbsp;</div>
+                             
+                                <div>Total Enrollments: ${section.getTotalEnrollment()} &nbsp;&nbsp;</div>
+                             
+                             <c:if test="${not empty section.faculty}">Faculty:
+                                <div>${section.faculty.fullname} &nbsp;&nbsp;</div></c:if>
                              </c:forEach>
                          </c:if>
                          </div>
