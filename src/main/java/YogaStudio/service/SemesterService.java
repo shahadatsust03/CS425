@@ -7,7 +7,6 @@
 package YogaStudio.service;
 
 
-import YogaStudio.Controller.EmailController;
 import YogaStudio.dao.generic.ClassDAO;
 import YogaStudio.dao.generic.CustomerDAO;
 import YogaStudio.dao.generic.EnrollmentDAO;
@@ -100,14 +99,12 @@ public class SemesterService {
                 
                 CustomerEntity customerEntity = customerdao.getCustomer(id);
                 
-                EmailController eController = new EmailController();
-                //eController.sendEmail(customerEntity.getEmail(), "Semester Removal" , "The section " + section.getSectionName() + " is removed");
+                EmailService eController = new EmailService();
                 
             }
             
             FacultyEntity facultyEntity = sectiondao.getAssignedFaculty(section.getId());
-            EmailController eController = new EmailController();
-            //eController.sendEmail(facultyEntity.getEmail(), "Semester Removal" , "The section " + section.getSectionName() + " is removed");
+            EmailService eController = new EmailService();
             
              
             
@@ -132,14 +129,12 @@ public class SemesterService {
                 
                 CustomerEntity customerEntity = customerdao.getCustomer(id2);
                 
-                EmailController eController = new EmailController();
-                //eController.sendEmail(customerEntity.getEmail(), "Semester Removal" , "The section " + section.getSectionName() + " is removed");
+                EmailService eController = new EmailService();
                 
             }
             
             FacultyEntity facultyEntity = sectiondao.getAssignedFaculty(section.getId());
-            EmailController eController = new EmailController();
-            //eController.sendEmail(facultyEntity.getEmail(), "Semester Removal" , "The section " + section.getSectionName() + " is removed");
+            EmailService eController = new EmailService();
             
              
             

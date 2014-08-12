@@ -69,8 +69,11 @@ public class FacultyController {
     @RequestMapping(value = {"/faculty", "/faculty/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
+        List<SectionEntity> sections = sectionService.getAllSections();
+        
         ModelAndView view = new ModelAndView("/faculty/faculty");
         view.addObject("facultys", facultys);
+        view.addObject("sections", sections);        
         view.addObject("pageTitle", "Faculty");
         return view;
     }
@@ -88,7 +91,7 @@ public class FacultyController {
         return "faculty/editFaculty";
     }
 
-    @RequestMapping(value = {"/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/assignFaculty/{id}/{value}","/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
     public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model) {
         FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
         SectionEntity section = sectionService.getSection(Long.parseLong(value));

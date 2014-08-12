@@ -42,6 +42,7 @@
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/faculty/removeFaculty/${faculty.id}">Remove Faculty</a>
                             </div>
                             <div style="margin-top:10px;">
+                              <input type="hidden" id="currentFaculty" value="${faculty.id}"/>
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href = "javascript:void(0)" onclick = "document.getElementById('sectionList').style.display='block';document.getElementById('fade').style.display='block'">Assign Faculty</a>               
                             </div>
                        </sec:authorize>
@@ -52,4 +53,5 @@
                </c:forEach>
               <div>
     </div>
+</div>
 </div>
