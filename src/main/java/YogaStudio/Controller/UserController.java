@@ -80,8 +80,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
-    public ModelAndView loginFailed(HttpServletRequest request) {
-        return new ModelAndView("index", "message", "Invalid username/password. Please try again.");
+    public RedirectView loginFailed(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
+        RedirectView view = new RedirectView("/", true);
+        redirectAttributes.addFlashAttribute("message","Invalid username/password. Please try Again.");
+        return view;
     }
 
     @RequestMapping(value = "/user/customer", method = RequestMethod.GET)

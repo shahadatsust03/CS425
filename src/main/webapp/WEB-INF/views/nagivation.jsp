@@ -44,7 +44,8 @@
                               <li><a href="#testimonialsWrap">Login</a></li>
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                              <li><a href="<c:url value="j_spring_security_logout"/>">Logout</a></li>
+                              <c:url value="${pageContext.request.contextPath}/j_spring_security_logout" var="logoutUrl" />
+                              <li><a href="${logoutUrl}">Logout</a></li>
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>

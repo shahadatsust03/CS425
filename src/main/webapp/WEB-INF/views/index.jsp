@@ -17,7 +17,7 @@
             <div class="container">
                     <!--display flash message-->
                   
-                    <div id="serverResponseMsg">${message}</div>
+                    
               
                     <div class="row">
                             <div class="col-sm-4 text-center feature">
@@ -34,10 +34,8 @@
                                        <%@include file="product/product_list.jsp" %>
                                     </p>
                             </div>
-                            <div class="col-sm-4 text-center feature">
-                                
+                            <div class="col-sm-4 text-center feature">                               
                                     <p>
-                                        <!-- Nav tabs -->
                                           <ul class="nav nav-tabs" role="tablist">
                                             <li class="active">
                                                 <a href="#login" role="tab" data-toggle="tab">
