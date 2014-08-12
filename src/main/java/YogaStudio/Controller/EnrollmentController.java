@@ -176,6 +176,7 @@ public class EnrollmentController {
                         //if no to waiver, redirect to enrollments page, *
                         ModelAndView view = new ModelAndView("enrollments/waiverneedconfirmation");                        
                         view.addObject("class", sectionEntity.getClassEntity());
+                        //view.addObject("customerId", user.getId());
                         return view;
 
                     }

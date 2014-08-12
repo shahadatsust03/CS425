@@ -33,21 +33,6 @@
                 </ul>
             </sec:authorize>
             
-            <div class="nav navbar-nav navbar-right">
-
-                <button data-toggle="dropdown" class="btn dropdown-toggle">Manage<span class="caret"></span></button>
-
-                <ul class="dropdown-menu">           
-                    <li><a href="${pageContext.request.contextPath}/editsemesterform/${semester.id}">Edit Semester</a></li>
-                     <li class="divider"></li>  
-                     <li><a href="${pageContext.request.contextPath}/removesemester/${semester.id}">Remove Semester</a></li>
-                     <li class="divider"></li> 
-
-                </ul>
-
-            </div>
-            
-            
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

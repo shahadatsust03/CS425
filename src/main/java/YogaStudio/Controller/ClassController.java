@@ -64,7 +64,7 @@ public class ClassController {
     }
     
      @RequestMapping(value = {"/classes/{id}", "/user/classes/{id}"}, method = RequestMethod.GET)
-    public ModelAndView get(@PathVariable Long id, Model model) {
+    public ModelAndView getClassDetail(@PathVariable Long id, Model model) {
         //model.addAttribute("classes", classService.getClass(id));
         //return "classes/classDetail";
         ModelAndView view = new ModelAndView("classes/classDetail");

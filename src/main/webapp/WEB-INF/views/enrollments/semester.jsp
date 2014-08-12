@@ -10,9 +10,10 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
-        <%@include file="../nagivation.jsp" %>
+        <%@include file="../nagivation.jsp" %>       
         <div id="featureWrap">
-            <div class="container">                  
+            <div class="container">    
+                <h3>Choose the semester containing the section you want to enroll to.</h3>
                   <%@include file="semesterlist.jsp" %>
             </div>
     </div> 

@@ -10,11 +10,12 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
-        <%@include file="../nagivation.jsp" %>
+        <%@include file="../nagivation.jsp" %>        
         <div id="featureWrap">
             <div class="container">
                   <%@include file="class_navigation.jsp" %>
                   <%@include file="main_class_list.jsp" %>
+                  
             </div>
     </div> 
     </body>
