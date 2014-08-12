@@ -70,6 +70,20 @@ public class SectionController {
         return  view;
     }    
     
+    @RequestMapping(value = {"/section/add/{id}","../section/add/{id}","section/add/{id}"}, method = RequestMethod.GET)
+    public ModelAndView addSectionPageForClass(HttpServletRequest request, @PathVariable Long id) {        
+        ModelAndView view = new ModelAndView("/section/addSection");   
+        List<ClassEntity> classes = classService.getClassList();
+        List<SemesterEntity> semesters = semesterService.getSemesterList();
+        List<ScheduleEntity> schedules = scheduleService.getAllSchedules();
+        view.addObject("classID", id);        
+        view.addObject("classes", classes);
+        view.addObject("semesters", semesters);
+         view.addObject("schedules", schedules);
+        view.addObject("pageTitle", "Sections");
+        return  view;
+    }    
+    
      @RequestMapping(value = {"section/addSchedule","../section/addSchedule","/section/addSchedule", "/section/section/addSchedule"}, method = RequestMethod.GET)
     public ModelAndView addSchedulePage(HttpServletRequest request) {        
         ModelAndView view = new ModelAndView("/section/addSchedule"); 
@@ -85,7 +99,7 @@ public class SectionController {
            }catch(Exception ex){
                 redirectAttributes.addFlashAttribute("message", ex.toString());
            }
-         return new RedirectView("/section/add", true);
+         return new RedirectView("/classes/class", true);
     }
     
     @RequestMapping(value = {"section/saveSchedule","../section/saveSchedule","/section/saveSchedule","/user/section/saveSchedule"}, method = RequestMethod.POST)

@@ -37,9 +37,12 @@
                          </div>
                          <sec:authorize access="hasRole('ROLE_ADMIN')"> 
                              <div style="margin-top:10px;">
-                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/editclassform/${classs.id}">Edit</a>
-                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/removeclass/${classs.id}">Remove</a>
-                            </div> 
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/editclassform/${classs.id}">Edit Class</a>
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/removeclass/${classs.id}">Remove Class</a>
+                            </div>
+                            <div style="margin-top:10px;">
+                              <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/section/add/${classs.id}">Add Section</a>
+                            </div>
                        </sec:authorize>
 
                       </div>
