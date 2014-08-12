@@ -12,16 +12,28 @@
     <body>
         <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">       
-              <div class="container"> 
-                  <div class="row">
-                     <div class="col-md-4" style="width:20%">
-                         <ul class="nav nav-pills nav-stacked">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Messages</a></li>
-                         </ul>
-                       </div>
-                        <div class="col-md-8">
+              <div class="container">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">My Profile!</h3>
+                    </div>
+                    <div class="panel-body">
+                         <c:if test="${empty Profile}">
+                            Profile Not Found.
+                        </c:if>
+                                     
+                        <c:if test="${not empty Profile}">
+                              <c:if test="${not empty message}">
+                                  <b> ${message}</b></br></br>
+                              </c:if>
+                                  <div style="display: inline-block;vertical-align: top;width:70%">
+                                    <table>
+                                        <tr><td><b>Full Name</b></td>       <td>${not empty Profile.fullname ? Profile.fullname :""}</td> </tr>
+                                        <tr><td><b>Email</b></td>     <td>${not empty Profile.email ? Profile.email:""}</td></tr>
+                                        <tr><td><b>Username</b></td>      <td>${not empty Profile.username ? Profile.username : ""}</td> </tr>
+                                        <tr><td><b>User Role</b></td>      <td>${not empty Profile.AUTHORITY? Profile.AUTHORITY : ""}</td> </tr>
+                                        <tr><td><b>Date Of Birth</b></td> <td>${not empty Profile.dateOfBirth ? Profile.dateOfBirth : ""}</td> </tr>
+                                        <tr><td><b>Joined Date</b></td> <td>${not empty Profile.joinDate ? Profile.joinDate : ""}</td><td></td> </tr>
 
                                        <c:if test="${empty Profile}">
                                           Profile Not Found.

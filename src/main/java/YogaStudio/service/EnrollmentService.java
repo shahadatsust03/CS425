@@ -110,6 +110,10 @@ public class EnrollmentService {
     public void removeEnrollment(EnrollmentEntity enrollmentEntity){
         enrollmentdao.removeEnrollment(enrollmentEntity);
     }
+
+    public List<EnrollmentEntity> getEnrollments(Long id) {
+      return  enrollmentdao.getEnrollments(id);
+    }
     
     
     
