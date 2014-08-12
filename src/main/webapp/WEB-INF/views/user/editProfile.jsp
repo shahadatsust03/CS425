@@ -8,6 +8,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <%@include file="../header.jsp" %>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script>
+        $(function() {
+        $( "#dateOfBirth" ).datepicker({ dateFormat: "yyyy-mm-dd" });
+        });
+        </script>
+        <script>
+        $(function() {
+        $( "#password" ).datepicker({ dateFormat: "yyyy-mm-dd" });
+        });
+        </script>        
     </head>
     <body>
         <%@include file="../nagivation.jsp" %>
@@ -28,8 +42,8 @@
                                     <tr><td><b>Email</b></td>     <td><input type="text" name="email" value="${not empty Profile.email ? Profile.email:""}"></td><td>(Use format name@company.com)</td> </tr>
                                    <!-- <tr><td>User Role</td>       <td><input type="label" name="AUTHORITY" value="${Profile.AUTHORITY}"</td> </tr> -->
                                     <tr><td><b>Username</b></td>      <td><input type="text" name="username" value="${not empty Profile.username ? Profile.username : ""}"></td> </tr>
-                                    <tr><td><b>Full Name</b></td>  <td><input type="text" name="password" value="${not empty Profile.password ? Profile.password : ""}"></td></tr>
-                                    <tr><td><b>Date Of Birth</b></td> <td><input type="date" name="dateOfBirth" value="${not empty Profile.dateOfBirth ? Profile.dateOfBirth : ""}"></td><td></td> </tr>
+                                    <tr><td><b>Password</b></td>  <td><input type="text" name="password" value="${not empty Profile.password ? Profile.password : ""}"></td></tr>
+                                    <tr><td><b>Date Of Birth</b></td> <td><input type="date" name="dateOfBirth" value="${not empty Profile.dateOfBirth ? Profile.dateOfBirth : ""}"></td><td>(Format: yyyy-mm-dd)</td> </tr>
                                     <tr><td><b>Contact Number</b></td>  <td><input type="text" name="contactNum" value="${not empty Profile.contactNum ? Profile.contactNum : ""}"></td> </tr>
                                     <tr><td><b>Street</b></td>  <td><input type="text" name="street" value="${not empty Profile.street ? Profile.street : ""}"></td> </tr>
                                     <tr><td><b>City</b></td> <td><input type="text" name="city" value="${not empty Profile.city ? Profile.city : ""}"></td> </tr>
@@ -38,8 +52,8 @@
                                     <tr><td><b>Zipcode</b></td> <td><input type="text" name="zipcode" value="${not empty Profile.zipcode ? Profile.zipcode : ""}"></td> </tr>  
                                 </table>
                                 <div><br/>
-                                    <a  class="btn btn-primary" type="button" href="../../user/myaccount" value="Save Profile">Cancel</a>
-                                    <button  class="btn btn-primary" type="button"type="submit" value="Save Profile">Save</button>
+                                    <a  class="btn btn-primary" type="button" href="../../user/myaccount" value="Cancel">Cancel</a>
+                                    <button  class="btn btn-primary" type="submit" value="Save Profile">Save</button>
                                   </form>
                                   </div>
                             </c:if>

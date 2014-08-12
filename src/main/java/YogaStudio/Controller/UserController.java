@@ -240,7 +240,7 @@ public class UserController {
         user.setPassword(request.getParameter("password"));
         try {
             user.setDateOfBirth(sdf.parse(request.getParameter("dateOfBirth")));
-            user.setJoinDate(sdf.parse(request.getParameter("joinDate")));
+            //user.setJoinDate(sdf.parse(request.getParameter("joinDate")));
         } catch (Exception e) {
             e.printStackTrace();
         }

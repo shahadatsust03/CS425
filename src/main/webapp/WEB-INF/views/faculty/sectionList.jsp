@@ -45,8 +45,12 @@
 
 <script type="text/javascript">
 $.fn.doSaveSection =  function(id) {  
-              console.log("do save");
-               var radioboxes = document.getElementsByName("radio_id");
+                console.log("do save");
+               if(id ==null || id ===undefined){
+                   id = $("#currentFaculty").val();
+                   console.log(id);
+               }
+                var radioboxes = document.getElementsByName("radio_id");
                          var value = "";
                          // loop over them all
                          var j = 0;
@@ -71,12 +75,10 @@ $.fn.doSaveSection =  function(id) {
                     })
                     .done(function( data ) {
                         window.location.href = "faculty";
-                    });              
-                  
-             
+                    });             
             
             //
             document.getElementById('sectionList').style.display='none';
             document.getElementById('fade').style.display='none';
           }
-                </script>>
+                </script>

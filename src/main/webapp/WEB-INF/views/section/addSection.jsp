@@ -67,11 +67,23 @@
                              <label for="descripton">Description:</label>
                              <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton"/>
                            </div>
-                           <div class="form-group" style="display:none" >
+                            <c:if test="${empty classID}">
+                           <div class="form-group" >
+                             <label for="descripton">Class:</label>
+                               <div class="form-group" type = "display: none">
+                                    <textarea readonly class="form-control" id="classToAssign" placeholder="Class To Assign"  name="classToAssign"></textarea>
+                                    <a href = "javascript:void(0)" onclick = "document.getElementById('classList').style.display='block';document.getElementById('fade').style.display='block'">Add Class</a>
+                               </div>
+                             
+                           </div>
+                            </c:if>
+                           <c:if test="${not empty classID}">  
+                               <div class="form-group" style="display:none" >
                              <label for="classToAssign">Class: ${classID}</label>
                              <input type="text" name="classToAssign" value="${classID}">
-                           </div>
-                          
+                               </div>
+     
+                           </c:if>
                            <div class="form-group">
                            <label for="semesterToAssign">Semester </label>
                              <textarea readonly class="form-control" id="semesterToAssign" placeholder="Semester To Assign"  name="semesterToAssign"></textarea>
