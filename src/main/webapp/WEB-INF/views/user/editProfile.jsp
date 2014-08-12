@@ -38,8 +38,8 @@
                                     <tr><td><b>Zipcode</b></td> <td><input type="text" name="zipcode" value="${not empty Profile.zipcode ? Profile.zipcode : ""}"></td> </tr>  
                                 </table>
                                 <div><br/>
-                                    <a  class="btn btn-primary" type="button" href="../../user/myaccount" value="Save Profile">Cancel</a>
-                                    <button  class="btn btn-primary" type="button"type="submit" value="Save Profile">Save</button>
+                                    <a  class="btn btn-primary" type="button" href="../../user/myaccount" value="Cancel">Cancel</a>
+                                    <button  class="btn btn-primary" type="submit" value="Save Profile">Save</button>
                                   </form>
                                   </div>
                             </c:if>
