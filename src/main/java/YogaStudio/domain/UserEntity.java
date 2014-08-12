@@ -135,6 +135,20 @@ public class UserEntity {
         this.fullname=fullname;
         this.email=email;     
     }
+
+    public UserEntity(String username, String password, String fullname, String email, Date dateOfBirth, Long contactNum, String street, String city, String state, String country, Long zipcode) {
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
+        this.contactNum = contactNum;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipcode = zipcode;
+    }
     
    
     public String getUsername() {

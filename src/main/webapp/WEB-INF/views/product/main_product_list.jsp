@@ -10,15 +10,17 @@
                  <li>
                    <a href="products/${product.id}" style="text-decoration: none;">
                     <div class="preview">
-                        <img src="${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}" alt="${product.name}" style="width:210px;" />
+                        <img src="${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}" alt="${product.name}" style="width:200px;" />
                     </div>
                     <div class="desc">
                         <h5 style="font-weight: bold">${product.name}</h5>
                          <span>$ ${product.price}</span>
-                           <button 
-                            onclick="simpleCart.add('id=${product.id}','name=${product.name}','price=${product.price}','image=${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}');" type="button" class="btn btn-success btn-primary btn-xs">
-                                 Add to order
-                          </button>
+                            <sec:authorize access="hasRole('ROLE_USER')">                  
+                                <button 
+                                 onclick="simpleCart.add('id=${product.id}','name=${product.name}','price=${product.price}','image=${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}');" type="button" class="btn btn-success btn-primary btn-xs">
+                                      Add to order
+                               </button>
+                          </sec:authorize>
                     </div>  
                    </a>
                </li>

@@ -26,8 +26,10 @@
 
         <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
         <button type="submit" class="btn btn-primary" >Submit</button>
-         <a href="#" id="forgetPassword" onclick="function request(){return false;}" data-toggle="modal" data-target="#password-request">Request Password</a>
-      </form> 
+       </form> 
+       <div style="margin-top:20px">
+           <a href="#" id="forgetPassword" onclick="function request(){return false;}" data-toggle="modal" data-target="#password-request">Request Password</a>
+       </div>
          <!-- forget password -->
             <div class="modal fade" id="password-request" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">

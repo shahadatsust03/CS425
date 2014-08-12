@@ -35,6 +35,10 @@ public class ProductService {
     public List<ProductEntity> getAll() {
         return productDao.getAll();     
     }
+    
+     public List<ProductEntity> getAll(int start, int limit) {
+        return productDao.getAll(start,limit);     
+    }
 
     public boolean add(String name, String description,int numberOfProducts,double price) 
     {    

@@ -86,7 +86,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/customer", method = RequestMethod.GET)
     public ModelAndView getCustomerPage(HttpServletRequest request) {
-        List<ProductEntity> products = productService.getAll();
+        List<ProductEntity> products = productService.getAll(0,4);
         List<ClassEntity> classes = classService.getClassList();
 
         ModelAndView view = new ModelAndView("/user/customer");
@@ -97,7 +97,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/administrator", method = RequestMethod.GET)
     public ModelAndView getAdministratorPage(HttpServletRequest request) {
-        List<ProductEntity> products = productService.getAll();
+        List<ProductEntity> products = productService.getAll(0,4);
         List<ClassEntity> classes = classService.getClassList();
 
         ModelAndView view = new ModelAndView("/user/administrator");
@@ -285,7 +285,13 @@ public class UserController {
         String firstName = request.getParameter("firstName"),
                 lastName = request.getParameter("lastName"),
                 email = request.getParameter("email"),
-                username = request.getParameter("username");
+                username = request.getParameter("username"),
+                street =  request.getParameter("street"),
+                city =  request.getParameter("city"),
+                country =  request.getParameter("country"),
+                state =  request.getParameter("state"),
+                zipcode =  request.getParameter("zipcode"),
+                contactNum =  request.getParameter("contactNum");
 
         if (firstName.isEmpty()) {
             message.add("First name is required");

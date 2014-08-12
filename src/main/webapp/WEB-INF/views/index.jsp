@@ -11,7 +11,7 @@
         <%@include file="header.jsp" %>
     </head>
     <body>
-        <%@include file="nagivation.jsp" %>
+        <%@include file="home_nagivation.jsp" %>
         <div id="featureWrap">
             
             <div class="container">
@@ -41,12 +41,12 @@
                                           <ul class="nav nav-tabs" role="tablist">
                                             <li class="active">
                                                 <a href="#login" role="tab" data-toggle="tab">
-                                                    <h4>Log in</h4>
+                                                    <h5 style="margin-bottom:0px;margin-top:0px">Log in</h5>
                                                 </a>
                                             </li>
                                              <li>
                                               <a href="#register" role="tab" data-toggle="tab">
-                                                  <h4>Register</h4>
+                                                  <h5 style="margin-bottom:0px;margin-top:0px">Register</h5>
                                                </a>
                                              </li>      
                                           </ul>

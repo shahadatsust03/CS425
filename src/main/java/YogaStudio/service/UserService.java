@@ -57,6 +57,32 @@ public class UserService {
        // email.generateEmailForNewAppRegistration("shohagcoe@gmail.com");   
     }
     
+    public boolean add(String fullname, 
+                       String email,
+                       String userName, 
+                       String authority,
+                       String street,
+                       String city,
+                       String country,
+                       String zipcode,
+                       Long contactNum) 
+         {    
+        String password = Util.generatePassword();// auto generate password;//
+        UserEntity user = new CustomerEntity(userName,password,fullname,email);
+        //set the user authority
+        user.setAUTHORITY(authority);
+        //enable the user account
+        user.setActivests(Byte.valueOf("1"));
+        //determine if a user with such email already exists
+        if (!userDao.userExists("email", user.getEmail()))
+        {
+              return userDao.add(user);   
+        } 
+        else
+            return false;
+       // email.generateEmailForNewAppRegistration("shohagcoe@gmail.com");   
+    }
+    
     public List<UserEntity> findBy(String fieldName,String value) 
     {           
       return userDao.findBy(fieldName, value);

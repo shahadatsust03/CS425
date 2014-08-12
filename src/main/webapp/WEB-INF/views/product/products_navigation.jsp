@@ -23,7 +23,9 @@
          <sec:authorize access="hasRole('ROLE_ADMIN')">
             <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <span class="caret"></span></a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          <span class="glyphicon glyphicon-cog"></span>
+                          Manage <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
                         <li><a href="product/add">Add</a></li>
                         <li class="divider"></li>

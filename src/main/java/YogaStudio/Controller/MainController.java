@@ -51,7 +51,7 @@ public class MainController {
     public ModelAndView index(HttpServletRequest request) {
         ModelAndView view = new ModelAndView("/index");
         
-        List<ProductEntity> products = productService.getAll();
+        List<ProductEntity> products = productService.getAll(0,4);
         List<ClassEntity> classes = classService.getClassList();
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

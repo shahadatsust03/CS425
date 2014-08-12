@@ -10,7 +10,7 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
-        <%@include file="../nagivation.jsp" %>
+        <%@include file="../home_nagivation.jsp" %>
         <div id="featureWrap">
             <div class="container">
                 ${message}
