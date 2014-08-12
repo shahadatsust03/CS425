@@ -55,7 +55,7 @@
                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
                            <input type="hidden" name="idsPrereq" value="">
                          
-                           <button type="submit" class="btn btn-primary">Cancel</button>
+                           <a type="button" href="${pageContext.request.contextPath}/classes" class="btn btn-primary">Cancel</a>
                            <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>

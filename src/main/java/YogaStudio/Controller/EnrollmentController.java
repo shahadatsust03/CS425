@@ -67,7 +67,7 @@ public class EnrollmentController {
 
     @Autowired
     private CustomerService customerService;
-    
+
     @RequestMapping(value = {"/enrollments", "/user/enrollments"}, method = RequestMethod.GET)
     public ModelAndView getSemesters(HttpServletRequest request) {
         List<SemesterEntity> semesters = semesterService.getSemesterList();
@@ -81,7 +81,8 @@ public class EnrollmentController {
     public ModelAndView getSections(@PathVariable Long id, Model model) {
         //model.addAttribute("classes", classService.getClass(id));
         //return "classes/classDetail";
-        List<SectionEntity> sections = sectionService.getAllSections();
+        //List<SectionEntity> sections = sectionService.getAllSections();
+        List<SectionEntity> sections = sectionService.getAllSections(id);
         ModelAndView view = new ModelAndView("enrollments/section");
         view.addObject("sections", sections);
         return view;
@@ -123,15 +124,80 @@ public class EnrollmentController {
                 Long customerId = user.getId();
                 SectionEntity sectionEntity = sectionService.getSection(sectionid);
                 boolean spaceAvailable = sectionService.checkSpace(sectionEntity);
-                
+
                 //Check if customer has already enrolled
-                if(sectionService.isEnrolled(customerId, sectionid) == true){
-                    ModelAndView view = new ModelAndView("enrollments/results");
-                    String message = "You have already enrolled for " + sectionEntity.getSectionName();
-                    view.addObject("message", message);
-                    return view;
+                if (sectionService.isEnrolled(customerId, sectionid) == true) {
+
+                    //if some one has unenrolled
+                    if (sectionEntity.getTotalEnrollment() < sectionEntity.getClassLimit()) {
+                        //if the current customer is at front of waiting list
+                        if (customerEntity.getId() == enrollmentService.getCustoemrAtFrontOfWaitingList(sectionEntity.getId()).getId()) {
+                            //enroll him/her
+
+                            EnrollmentEntity alreadyExistingEnrollment = enrollmentService.getEnrollment(customerEntity.getId(), sectionEntity.getId());
+                            boolean prerequisteMet = enrollmentService.checkPrerequisites(customerId, sectionid);
+
+                            if (prerequisteMet == true) {
+
+                                //validate credit card
+                                if (user.getCreditCard() != null)//credit card is valid
+                                {
+                                    ClassEntity classEntity = sectionEntity.getClassEntity();
+
+                                    PaymentEntity paymentEntity = new PaymentEntity();
+
+                                    paymentEntity.setAmount(classEntity.getFee());
+                                    paymentEntity.setPaymentDate(new Date());
+                                    paymentEntity.setCreditcard(user.getCreditCard());
+                                    paymentEntity.setClasses(classEntity);
+
+                                    classEntity.addPayments(paymentEntity);
+
+                                    paymentService.savePayment(paymentEntity);
+                                    classService.saveClass(classEntity);
+
+                                    //EnrollmentEntity enrollmentEntity = new EnrollmentEntity(Byte.parseByte("0"), customerEntity, sectionEntity, classEntity);
+                                    alreadyExistingEnrollment.setStatus(Byte.valueOf("0"));
+                                    enrollmentService.saveEnrollment(alreadyExistingEnrollment);
+
+                                    ModelAndView view = new ModelAndView("enrollments/results");
+                                    view.addObject("message", "Enrollment successfully completed");
+                                    return view;
+
+                                } else {//credit card not valid
+
+                                    ModelAndView view = new ModelAndView("enrollments/errorresults");
+                                    view.addObject("message", "Invalid credit card. Enrollment unsuccessful!!");
+                                    return view;
+                                }
+
+                            } else {//prerequisite not met  ** waiverneedconfirmation page
+                                //Prerequisite not met, Do you want a waiver? 
+                                // if yes to waiver, redirect to waiver form //*for now redirect to enrollment page
+                                //if no to waiver, redirect to enrollments page, *
+                                ModelAndView view = new ModelAndView("enrollments/waiverneedconfirmation");
+                                view.addObject("class", sectionEntity.getClassEntity());
+                                //view.addObject("customerId", user.getId());
+                                return view;
+
+                            }
+
+                        ///////////////////////////
+                        } else {
+                            ModelAndView view = new ModelAndView("enrollments/errorresults");
+                            String message = "You have already enrolled(beeen waitlisted) for " + sectionEntity.getSectionName();
+                            view.addObject("message", message);
+                            return view;
+                        }
+
+                    } else {
+                        ModelAndView view = new ModelAndView("enrollments/errorresults");
+                        String message = "You have already enrolled(beeen waitlisted) for " + sectionEntity.getSectionName();
+                        view.addObject("message", message);
+                        return view;
+                    }
                 }
-                
+
                 if (spaceAvailable == true) {
 
                     boolean prerequisteMet = enrollmentService.checkPrerequisites(customerId, sectionid);
@@ -165,7 +231,7 @@ public class EnrollmentController {
 
                         } else {//credit card not valid
 
-                            ModelAndView view = new ModelAndView("enrollments/results");
+                            ModelAndView view = new ModelAndView("enrollments/errorresults");
                             view.addObject("message", "Invalid credit card. Enrollment unsuccessful!!");
                             return view;
                         }
@@ -174,7 +240,7 @@ public class EnrollmentController {
                         //Prerequisite not met, Do you want a waiver? 
                         // if yes to waiver, redirect to waiver form //*for now redirect to enrollment page
                         //if no to waiver, redirect to enrollments page, *
-                        ModelAndView view = new ModelAndView("enrollments/waiverneedconfirmation");                        
+                        ModelAndView view = new ModelAndView("enrollments/waiverneedconfirmation");
                         view.addObject("class", sectionEntity.getClassEntity());
                         //view.addObject("customerId", user.getId());
                         return view;
@@ -186,91 +252,89 @@ public class EnrollmentController {
                     //If no to waiving list, redirect to enrollment  page *
 
                     ModelAndView view = new ModelAndView("enrollments/waitinglistneedconfirmation");
-                    view.addObject("section", sectionEntity);                    
+                    view.addObject("section", sectionEntity);
                     return view;
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
 
+            ModelAndView view = new ModelAndView("enrollments/errorresults");
+            view.addObject("message", "Exception error!!");
+            return view;
+        }
+
+        ModelAndView view = new ModelAndView("enrollments/errorresults");
+        view.addObject("message", "Unkown error!!");
+        return view;
+
+    }
+
+    @RequestMapping(value = {"/addtowaitinglist/{id}", "/user/addtowaitinglist/{id}"}, method = RequestMethod.GET)
+    public ModelAndView addToWaitingList(@PathVariable Long id, Model model) {
+
+        SectionEntity sectionEntity = sectionService.getSection(id);
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+
+            //System.out.println("User :" + name+"  Password:"+password);
+            UserEntity user = userService.findUser(name);
+            CustomerEntity customerEntity = customerService.getCustomer(user.getId());
+            if (user != null) {
+
+                //Check if customer has already enrolled
+                if (sectionService.isEnrolled(customerEntity.getId(), id) == true) {
+                    ModelAndView view = new ModelAndView("enrollments/errorresults");
+                    String message = "You have already enrolled(beeen waitlisted) for " + sectionEntity.getSectionName();
+                    view.addObject("message", message);
+                    return view;
+                }
+
+                EnrollmentEntity enrollmentEntity = new EnrollmentEntity(Byte.parseByte("1"), customerEntity, sectionEntity, sectionEntity.getClassEntity());
+
+                enrollmentService.saveEnrollment(enrollmentEntity);
+
+                ModelAndView view = new ModelAndView("enrollments/results");
+                view.addObject("message", "You are successfully added to waiting list");
+                return view;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
             ModelAndView view = new ModelAndView("enrollments/results");
             view.addObject("message", "Exception error!!");
             return view;
         }
 
-        ModelAndView view = new ModelAndView("enrollments/results");
+        ModelAndView view = new ModelAndView("enrollments/errorresults");
         view.addObject("message", "Unkown error!!");
         return view;
 
     }
-    
-     @RequestMapping(value = {"/addtowaitinglist/{id}", "/user/addtowaitinglist/{id}"}, method = RequestMethod.GET)
-    public ModelAndView addToWaitingList(@PathVariable Long id, Model model) {
-        
-         SectionEntity sectionEntity = sectionService.getSection(id);
-         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String name = auth.getName();
-            
 
-            //System.out.println("User :" + name+"  Password:"+password);
-            UserEntity user = userService.findUser(name);
-            CustomerEntity customerEntity = customerService.getCustomer(user.getId());
-            if(user!= null){
-                
-                //Check if customer has already enrolled
-                if(sectionService.isEnrolled(customerEntity.getId(), id) == true){
-                    ModelAndView view = new ModelAndView("enrollments/results");
-                    String message = "You have already enrolled for " + sectionEntity.getSectionName();
-                    view.addObject("message", message);
-                    return view;
-                }
-                
-                EnrollmentEntity enrollmentEntity = new EnrollmentEntity(Byte.parseByte("1"), customerEntity, sectionEntity, sectionEntity.getClassEntity());
-
-                enrollmentService.saveEnrollment(enrollmentEntity);
-
-                 ModelAndView view = new ModelAndView("enrollments/results");
-                 view.addObject("message", "You are successfully added to waiting list");
-                 return view;
-            }
-         } catch (Exception ex) {
-            ex.printStackTrace();
-             ModelAndView view = new ModelAndView("enrollments/results");
-             view.addObject("message", "Exception error!!");
-             return view;
-         }
-        
-        
-        ModelAndView view = new ModelAndView("enrollments/results");
-        view.addObject("message", "Unkown error!!");
-        return view;
-
-    }
-    
     @RequestMapping(value = {"/unenrollments", "/user/unenrollments"}, method = RequestMethod.GET)
     public ModelAndView getEnrolledSections(HttpServletRequest request) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
             UserEntity user = userService.findUser(name);
-            
+
             CustomerEntity customerEntity = customerService.getCustomer(user.getId());
             List<SectionEntity> sections = enrollmentService.getEnrolledSections(customerEntity.getId());
-            
+
             ModelAndView view = new ModelAndView("unenrollments/enrolledsections");
             view.addObject("sections", sections);
             return view;
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
-             ModelAndView view = new ModelAndView("unenrollments/results");
-             view.addObject("message", "Exception error!!");
-             return view;
-         }
+            ModelAndView view = new ModelAndView("unenrollments/errorresults");
+            view.addObject("message", "Exception error!!");
+            return view;
+        }
     }
-    
-     @RequestMapping(value = {"/unenrollmentsection/{id}", "/user/unenrollmentsection/{id}"}, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/unenrollmentsection/{id}", "/user/unenrollmentsection/{id}"}, method = RequestMethod.GET)
     public ModelAndView getEnrolledSectionDetail(@PathVariable Long id, Model model) {
         //model.addAttribute("classes", classService.getClass(id));
         //return "classes/classDetail";
@@ -280,35 +344,33 @@ public class EnrollmentController {
         return view;
 
     }
-    
+
     @RequestMapping(value = {"/processunenrollment/{sectionid}", "/user/processunenrollment/{id}"}, method = RequestMethod.GET)
     public ModelAndView processUnenrollment(@PathVariable Long sectionid, Model model) {
-         try {
+        try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
-            UserEntity user = userService.findUser(name);            
+            UserEntity user = userService.findUser(name);
             CustomerEntity customerEntity = customerService.getCustomer(user.getId());
             SectionEntity sectionEntity = sectionService.getSection(sectionid); //???
             EnrollmentEntity enrollmentEntity = enrollmentService.getEnrollment(customerEntity.getId(), sectionid);
             enrollmentService.removeEnrollment(enrollmentEntity);
-           /* if(enrollmentService.waitingListIsEmpty(sectionid) ==  false){
+            if (enrollmentService.waitingListIsEmpty(sectionid) == false) {
                 CustomerEntity customerToNotify = enrollmentService.getCustoemrAtFrontOfWaitingList(sectionid);
-                EmailController emailController = new EmailController();
+                //EmailController emailController = new EmailController();
                 //emailController.sendEmail(customerToNotify.getEmail(), "Please", "Space is now availabele for the section : " + sectionEntity.getSectionName() + " Please enroll as soon as possible");
-            }*/
-             ModelAndView view = new ModelAndView("unenrollments/results");
-                 view.addObject("message", "You have successfully droped " + sectionEntity.getSectionName());
-                 return view;
-            
+            }
+            ModelAndView view = new ModelAndView("unenrollments/results");
+            view.addObject("message", "You have successfully unenrolled from " + sectionEntity.getSectionName());
+            return view;
+
         } catch (Exception ex) {
-         ex.printStackTrace();
-             ModelAndView view = new ModelAndView("unenrollments/results");
-             view.addObject("message", "Exception error!!");
-             return view;
+            ex.printStackTrace();
+            ModelAndView view = new ModelAndView("unenrollments/errorresults");
+            view.addObject("message", "Exception error!!");
+            return view;
         }
-        
-        
-    
+
     }
 
 }

@@ -13,7 +13,7 @@
         <%@include file="../nagivation.jsp" %>
         <div id="featureWrap">
             <div class="container">
-                <h3>${message}</he>
+               <font color="green" size="5"> ${message} </font>
             </div>
     </div> 
     </body>

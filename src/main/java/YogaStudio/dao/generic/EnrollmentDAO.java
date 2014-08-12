@@ -63,7 +63,7 @@ public class EnrollmentDAO {
     
      public List<SectionEntity> getEnrolledSections(Long customerId) {
         
-        String hql = "SELECT EE.section From EnrollmentEntity EE WHERE EE.customer.id = :customerId";
+        String hql = "SELECT EE.section From EnrollmentEntity EE WHERE EE.customer.id = :customerId AND EE.status = 0";
         Query q = sf.getCurrentSession().createQuery(hql);    
         q.setParameter("customerId", customerId);
         return q.list(); 

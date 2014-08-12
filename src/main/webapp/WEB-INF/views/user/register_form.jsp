@@ -5,9 +5,9 @@
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<form role="form" method="post" action="register">
+<form role="form" method="post" action="${pageContext.request.contextPath}/register">
         <div class="form-group">
-          <input typ="text" class="form-control" id="firstName" placeholder="First Name"   name="firstName" value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/>
+          <input type="text" class="form-control" id="firstName" placeholder="First Name"   name="firstName" value='<c:if test="${not empty param.login_error}"><c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" id="lastName" placeholder="Last Name"  name='lastName'/>

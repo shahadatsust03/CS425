@@ -40,7 +40,7 @@
                            <input type="hidden" name="idsPrereq" value="">
                            
                            <input type="hidden" name="id" value="${classes.id}" />
-                           <button type="submit" name="cancelbutton" class="btn btn-primary">Cancel</button>
+                           <a type="button" href="${pageContext.request.contextPath}/classes" class="btn btn-primary">Cancel</a>
                            <button type="submit" name="updatebutton" class="btn btn-primary">Update</button>
                     </form>
                 </div>

@@ -12,8 +12,7 @@
     <body>
         <%@include file="../nagivation.jsp" %>       
         <div id="featureWrap">
-            <div class="container">    
-                <h3>Choose the semester containing the section you want to enroll to.</h3>
+            <div class="container">                  
                   <%@include file="semesterlist.jsp" %>
             </div>
     </div> 
