@@ -153,5 +153,9 @@
     <!--product Dao bean -->
     <bean id="productDao" class="YogaStudio.dao.generic.ProductDAO">
         <property name="sf" ref="sessionFactory"/>
-    </bean>       
+    </bean> 
+    <bean id="advisorservice" class="YogaStudio.service.AdvisorService">
+         <constructor-arg ref="facultydao"/>  
+         <constructor-arg ref="customerdao"/>  
+    </bean>      
 </beans>

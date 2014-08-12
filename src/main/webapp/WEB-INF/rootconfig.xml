@@ -192,4 +192,8 @@
     <bean id="fileDao" class="YogaStudio.dao.generic.FileDAO">
         <property name="sf" ref="sessionFactory"/>
     </bean>
+    <bean id="advisorservice" class="YogaStudio.service.AdvisorService">
+         <constructor-arg ref="facultydao"/>  
+         <constructor-arg ref="customerdao"/>  
+    </bean>
 </beans>

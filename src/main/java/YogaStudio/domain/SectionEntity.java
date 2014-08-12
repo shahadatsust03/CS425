@@ -6,6 +6,7 @@
 
 package YogaStudio.domain;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -182,5 +183,16 @@ public class SectionEntity {
         this.location = location;
         this.classLimit = classLimit;
     }
-    
+    // caocm
+    public String getScheduleText(){
+        String text = "";
+        for(ScheduleEntity schedule : scheduleList ){
+            int day = schedule.getDayOfWeek();
+            text += DayOfWeek.of(day).toString();
+            text += "    " + schedule.getStartTimeM();
+            text += " - " + schedule.getEndTimeM();
+            text += "</br>";
+        }
+        return text;       
+    }    
 }
