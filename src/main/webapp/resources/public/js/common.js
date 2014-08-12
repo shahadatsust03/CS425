@@ -97,6 +97,44 @@
             });
              return false;
          }
+         
+         //save credit card
+         $.fn.saveCreditCard = function(formId){
+             console.log("save credit ");
+              var form = $(formId);
+              $.ajax({
+              url: $(form).attr('action'),
+              data: $(form).serialize(), 
+              type: 'POST',
+              success: function(resp) {
+                   var data = $.parseJSON( resp );
+                     console.log(data);
+                      if(data.success){
+                         console.log(data.message);
+                         $("#password-request").modal('hide');
+                         var message =  '<div class="alert alert-success">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong>Success!</strong> '+data.message+
+                                        '</div>';
+                                
+                         $("#serverResponseMsg").html(message);
+                      }
+                      else{
+                          var alert ='<div class="alert alert-warning">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong>Warning!</strong> '+data.message+
+                                        '</div>';
+                                
+                         $("#request-password-model-msg").html(alert);
+                      }
+   
+                },
+                error:function(data,status,er) { 
+                    alert("error: "+data+" status: "+status+" er:"+er);
+                }
+            });
+             return false;
+         }
          //search for product
            $.fn.searchProducts = function(data) {
                $(this).search("pro");

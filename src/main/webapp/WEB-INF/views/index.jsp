@@ -13,12 +13,12 @@
     <body>
         <%@include file="nagivation.jsp" %>
         <div id="featureWrap">
+            
             <div class="container">
                     <!--display flash message-->
                   
                     <div id="serverResponseMsg">${message}</div>
-               
-
+              
                     <div class="row">
                             <div class="col-sm-4 text-center feature">
                                   <p>

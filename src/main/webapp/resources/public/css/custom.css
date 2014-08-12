@@ -100,7 +100,7 @@ h3.sectionTitle {
 	font-family: 'Roboto Condensed',sans-serif;
 	color: #333333;
     display: block;
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 400;
     padding: 30px 15px;
     text-shadow: none;
@@ -555,4 +555,5 @@ footer .social a .fa-inverse {
 			margin-top:-6px
 		}
                 
-            
+   
+                

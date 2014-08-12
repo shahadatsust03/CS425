@@ -5,8 +5,10 @@
  */
 package YogaStudio.dao.generic;
 
+import YogaStudio.domain.CreditCardEntity;
 import YogaStudio.domain.UserEntity;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -150,6 +152,18 @@ public class UserDAO {
         }
         catch(Exception e){
             return false;
-        }
+         }
     }
+    
+        public boolean addCreditCard(UserEntity userentity, Long cardNumber, Date expiryDate) {          
+          try{
+             CreditCardEntity card = new CreditCardEntity(cardNumber,expiryDate);
+             card.setUser(userentity);
+             sf.getCurrentSession().saveOrUpdate(card);
+             return true;
+            }
+            catch(Exception e){
+                return false;
+             }
+        }
 }
