@@ -61,9 +61,10 @@
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
                             </c:if>
-                              <sec:authorize access="!hasRole('ROLE_USER')">
+                              <sec:authorize access="hasRole('ROLE_USER')">
                                 <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
                               </sec:authorize>
+                                <li><a href="${pageContext.request.contextPath}/contact">Contact Us</a></li>
                                 <li>
                                   <a href="${pageContext.request.contextPath}/products/cart" >
                                     <span class="badge pull-right" id="myCart">0</span>

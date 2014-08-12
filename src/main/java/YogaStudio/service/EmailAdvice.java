@@ -61,8 +61,8 @@ public class EmailAdvice {
     public void sendEmailFaculty(JoinPoint joinpoint, FacultyEntity facultyEntity) {
         try{
             String subject = "Welcome YogaStudio.";
-            String message = "Dear " + facultyEntity.getFullname() + ",\r\n\r\n" + "Welcome to YogaStudio.\r\n\r\n" + "You added as a faculty.\r\n\r\nYour user name is: "+ facultyEntity.getUsername()+ " \r\n\r\nYour password is: " + facultyEntity.getPassword() + 
-                    ". \r\n\r\n" + "Regards\r\n\r\nYogaStudio INC.\r\n\r\n"
+            String message = "Dear " + facultyEntity.getFullname() + ",\r\n\r\n" + "Welcome to YogaStudio.\r\n\r\n" + "You added as a faculty or you have assigned a section.\r\n\r\nYour user name is: "+ facultyEntity.getUsername()+ " \r\n\r\nYour password is: " + facultyEntity.getPassword() + 
+                    ". \r\n\r\nPlease login to see details\r\n\r\n" + "Regards\r\n\r\nYogaStudio INC.\r\n\r\n"
                     ;
                     
             emailservice.sendEmail(facultyEntity.getEmail(),subject,message);

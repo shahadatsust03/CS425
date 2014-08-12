@@ -103,7 +103,6 @@ public class FacultyController {
         faculty.addSection(section);
         facultyService.add(faculty);
         model.addAttribute("Message", "Successfull");
-
         return "faculty/faculty";
     }
 

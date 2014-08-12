@@ -74,5 +74,11 @@ public class MainController {
         view.addObject("pageTitle", "Welcome");
         return  view;
     }
+    
+    @RequestMapping(value = {"/contact","index"}, method = RequestMethod.GET)
+    public String contact(HttpServletRequest request) {       
+        return  "contact";
+    }
+    
 }
 
