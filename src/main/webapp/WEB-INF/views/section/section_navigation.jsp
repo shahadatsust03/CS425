@@ -21,9 +21,7 @@
             <li><a href="section/add">Add Section</a></li>
             <li class="divider"></li>
             <li><a href="section/addSchedule">Add Schedule</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Remove</a></li>
-            <li class="divider"></li>
+            <li class="divider"></li>            
           </ul>
           </sec:authorize>
         </li>

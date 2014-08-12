@@ -9,12 +9,12 @@
 <table class="table table-striped">    
                      <td>Name</td>
                      <td>Description</td>
-                     <td>Tution Fee</td>
+                     
                 <c:forEach items="${classes}" var="classs">
                  <tr>      
                      <td><a href="classes/${classs.id}"/>${classs.className}</td>
                      <td>${classs.description}</td>
-                     <td>${classs.fee}</td>
+                     
                  </tr>
                </c:forEach>
 </table>

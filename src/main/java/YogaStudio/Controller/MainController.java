@@ -12,12 +12,16 @@ import YogaStudio.domain.ProductEntity;
 import YogaStudio.service.ClassService;
 import YogaStudio.service.ProductService;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,10 +49,26 @@ public class MainController {
     
     @RequestMapping(value = {"/","/index"}, method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request) {
-        List<ProductEntity> products = productService.getAll();
+        ModelAndView view = new ModelAndView("/index");
+        
+        List<ProductEntity> products = productService.getAll(0,4);
         List<ClassEntity> classes = classService.getClassList();
         
-        ModelAndView view = new ModelAndView("/index");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        try{
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
+                view = new ModelAndView("/user/administrator");
+            }
+            if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
+                view = new ModelAndView("/user/customer");
+            }            
+            if (grantedAuthority.getAuthority().equals("ROLE_FACULTY")) {
+                view = new ModelAndView("/user/faculty");
+            }
+        }
+        }catch(Exception ex){}
         view.addObject("products", products.isEmpty()? null: products);
         view.addObject("classes", classes.isEmpty()? null: classes);
         view.addObject("pageTitle", "Welcome");

@@ -20,6 +20,9 @@
             </c:if>
             <c:if test="${not empty waiver}">
                 <div class="container">
+                    <c:if test="${not empty message}">
+                        <b> ${message}</b>
+                    </c:if>
                     <h1>Waiver Details:</h1>
                     <form action="../../waiver/respondOnWaiver/${waiver.id}" method="post">
                         <table class="table table-striped" align="center">    
@@ -47,7 +50,8 @@
                             <label for="reason">Comments:</label>
                             <input type="text" class="form-control" id="comments" placeholder="Comments"  name="comments"/>
                         </div>
-                        <div align="center"><br/><input name="response" type="submit" value="Approve Waiver"><br><<input name="response" type="submit" value="Reject Waiver">></div>               
+                        <div align="center"><input name="response" type="submit" value="Approve Waiver">  
+                        <input name="response" type="submit" value="Reject Waiver"></div>               
                     </form>
                 </c:if>
             </div></div>

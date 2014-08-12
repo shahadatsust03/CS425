@@ -130,12 +130,12 @@
          <constructor-arg ref="waiverDAO"/>
     </bean>  
     
-    <bean id="emailController" class="YogaStudio.Controller.EmailController">
+    <bean id="emailService" class="YogaStudio.service.EmailService">
                   
     </bean>   
     
-    <bean id="logAdvice" class="YogaStudio.service.LogAdvice">
-              <constructor-arg ref="emailController"/>     
+    <bean id="emailAdvice" class="YogaStudio.service.EmailAdvice">
+              <constructor-arg ref="emailService"/>     
     </bean>   
     
     <bean id="facultydao" class="YogaStudio.dao.generic.FacultyDAO">

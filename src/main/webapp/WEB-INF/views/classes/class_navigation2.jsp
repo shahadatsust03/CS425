@@ -17,7 +17,7 @@
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
       </form>
       <sec:authorize access="hasRole('ROLE_ADMIN')"> 
       <ul class="nav navbar-nav navbar-right">
@@ -32,24 +32,6 @@
         </li>
       </ul>
       </sec:authorize>
-        
-        
-        <div class="nav navbar-nav navbar-right">
-
-                <button data-toggle="dropdown" class="btn dropdown-toggle">Manage<span class="caret"></span></button>
-
-                <ul class="dropdown-menu">           
-                    <li><a href="${pageContext.request.contextPath}/editclassform/${classes.id}">Edit Class</a></li>
-                     <li class="divider"></li>  
-                     <li><a href="${pageContext.request.contextPath}/removeclass/${classes.id}">Remove Class</a></li>
-                     <li class="divider"></li> 
-
-                </ul>
-
-            </div>
-        
-        
-        
         
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

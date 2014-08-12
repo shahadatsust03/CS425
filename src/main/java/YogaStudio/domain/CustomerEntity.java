@@ -7,6 +7,7 @@
 package YogaStudio.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -58,6 +59,14 @@ public class CustomerEntity extends UserEntity{
 
     public void setOrders(List<OrderEntity> orders) {
         this.orders = orders;
+    }
+
+    public CustomerEntity(String username, String password, String fullname, String email, Date dateOfBirth, Long contactNum, String street, String city, String state, String country, Long zipcode) {
+        super(username, password, fullname, email, dateOfBirth, contactNum, street, city, state, country, zipcode);
+    }
+
+    public CustomerEntity(String username, String password, String fullname, String email, String AUTHORITY, Date dateOfBirth, Long contactNum, String street, String city, String state, String country, Long zipcode) {
+        super(username, password, fullname, email, AUTHORITY, dateOfBirth, contactNum, street, city, state, country, zipcode);
     }
     
     

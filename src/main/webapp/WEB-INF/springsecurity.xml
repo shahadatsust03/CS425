@@ -21,16 +21,17 @@
         <intercept-url pattern="/login_form" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/loginfailed" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/addUser" method="GET" access="ROLE_ADMIN" />
-        <intercept-url pattern="/user/customer/*" method="GET" access="ROLE_USER" />
-        <intercept-url pattern="/user/customer/*" method="POST" access="ROLE_USER" />
-        <intercept-url pattern="/user/administrator/*" method="GET" access="ROLE_ADMIN" />
-        <intercept-url pattern="/user/administrator/*" method="POST" access="ROLE_ADMIN" />
-<!--        <intercept-url pattern="/user/faculty/*" method="GET" access="ROLE_FACULTY" />
-        <intercept-url pattern="/user/faculty/*" method="POST" access="ROLE_FACULTY" />
-        -->
-        <form-login login-page="/login_form" authentication-failure-url="/loginfailed" 
+        <intercept-url pattern="/user/customer" method="GET" access="ROLE_USER" />
+        <intercept-url pattern="/user/customer" method="POST" access="ROLE_USER" />
+        <intercept-url pattern="/user/administrator" method="GET" access="ROLE_ADMIN" />
+        <intercept-url pattern="/user/administrator" method="POST" access="ROLE_ADMIN" />
+        <intercept-url pattern="/user/faculty" method="GET" access="ROLE_FACULTY" />
+        <intercept-url pattern="/user/faculty" method="POST" access="ROLE_FACULTY" />
+        
+        
+        <form-login login-page="/" authentication-failure-url="/" 
                     default-target-url="/login_success"/>
-        <logout logout-success-url="/"  delete-cookies="JESSIONID"/>
+        <logout logout-success-url="/"  delete-cookies="JESSIONID" logout-url="/j_spring_security_logout"/>
         
     </http>
     

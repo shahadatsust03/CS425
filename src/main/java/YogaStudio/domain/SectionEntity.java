@@ -6,7 +6,6 @@
 
 package YogaStudio.domain;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -37,7 +36,7 @@ public class SectionEntity {
     @GeneratedValue
     private Long id;
     private String sectionName;
-    private String description;
+    private String descripton;
     private String location;
     private int classLimit;
 
@@ -45,6 +44,15 @@ public class SectionEntity {
     @ManyToOne
     @JoinColumn
     ClassEntity classEntity;   
+
+    public String getDescripton() {
+        return descripton;
+    }
+
+    public void setDescripton(String descripton) {
+        this.descripton = descripton;
+    }
+    
     
     @ManyToMany(cascade=CascadeType.ALL)
     List<ScheduleEntity> scheduleList = new ArrayList<ScheduleEntity>();
@@ -83,7 +91,9 @@ public class SectionEntity {
     
     @OneToMany(mappedBy="section",cascade={CascadeType.ALL})
     List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();
-    
+    public int getTotalEnrollment(){
+        return enrollments.size();
+    }
     public void addEnrollments(EnrollmentEntity enrollment){
         enrollment.setSection(this);
         enrollments.add(enrollment);
@@ -105,11 +115,11 @@ public class SectionEntity {
     }
 
     public String getDescription() {
-        return description;
+        return descripton;
     }
 
     public void setDescripiton(String descripton) {
-        this.description = descripton;
+        this.descripton = descripton;
     }
 
     public String getLocation() {
@@ -179,20 +189,9 @@ public class SectionEntity {
 
     public SectionEntity(String sectionName, String descripton, String location, int classLimit) {
         this.sectionName = sectionName;
-        this.description = descripton;
+        this.descripton = descripton;
         this.location = location;
         this.classLimit = classLimit;
     }
-    // caocm
-    public String getScheduleText(){
-        String text = "";
-        for(ScheduleEntity schedule : scheduleList ){
-            int day = schedule.getDayOfWeek();
-            text += DayOfWeek.of(day).toString();
-            text += "    " + schedule.getStartTimeM();
-            text += " - " + schedule.getEndTimeM();
-            text += "</br>";
-        }
-        return text;       
-    }    
+    
 }

@@ -15,7 +15,7 @@
         <%@include file="../header.jsp" %>
     </head>
     <body>
-        <%@include file="../nagivation.jsp" %>
+        <%@include file="../nagivation.jsp" %>        
             <div id="featureWrap">
                 <div class="container">
                             <form role="form" method="post" action="${pageContext.request.contextPath}/updateclass">
@@ -33,7 +33,7 @@
                            </div>
                             <div class="form-group">
                              <label for="description">Description</label>
-                             <textarea class="form-control" id="description" placeholder="${classes.description}"  name="description" value="${classes.description}"></textarea>
+                             <textarea class="form-control" id="description" placeholder="${classes.description}"  name="description" value="${classes.description}">${classes.description}</textarea>
                            </div>
 
                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
@@ -58,6 +58,17 @@ function updateValue(value)
 }
                            
                            </script>
+                           
+                           <script language="JavaScript1.1">
+            function getPrerequisites( ) {
+               
+                               
+            }
+                       
+
+            }               
+        </script>
+ 
     </div> 
     </body>
 </html>

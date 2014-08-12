@@ -30,12 +30,17 @@
                                     <table>
                                         <tr><td><b>Full Name</b></td>       <td>${not empty Profile.fullname ? Profile.fullname :""}</td> </tr>
                                         <tr><td><b>Email</b></td>     <td>${not empty Profile.email ? Profile.email:""}</td></tr>
+                                        <tr><td><b>Username</b></td>      <td>${not empty Profile.username ? Profile.username : ""}</td> </tr>
                                         <tr><td><b>User Role</b></td>      <td>${not empty Profile.AUTHORITY? Profile.AUTHORITY : ""}</td> </tr>
                                         <tr><td><b>Date Of Birth</b></td> <td>${not empty Profile.dateOfBirth ? Profile.dateOfBirth : ""}</td> </tr>
-                                        <tr><td><b>Joined Date</b></td> <td>${not empty Profile.joinDate ? Profile.joinDate : ""}</td><td>(format yyyy-mm-dd)</td> </tr>
+                                        <tr><td><b>Joined Date</b></td> <td>${not empty Profile.joinDate ? Profile.joinDate : ""}</td><td></td> </tr>
 
                                             <tr><td><b>Contact Number</b></td>  <td>${not empty Profile.contactNum ? Profile.contactNum : ""}</td> </tr>
-
+                                            
+                                            <c:if test="${not empty Profile.creditCard}">
+                                            <tr><td><b>Credit Card Number</b></td> <td>${not empty Profile.creditCard.cardNumber ? Profile.creditCard.cardNumber : ""}</td></tr>
+                                            <!-- <tr><td><b>Expiry Date:</b></td> <td>${not empty Profile.creditCard.expiryDate ? Profile.creditCard.expiryDate : ""}</td></tr> -->
+                                            </c:if>
                                         <tr><td><b>Street</b></td> <td>${not empty Profile.street ? Profile.street : ""}</td> </tr>
                                         <tr><td><b>City</b></td>   <td>${not empty Profile.city ? Profile.city : ""}</td> </tr>
                                         <tr><td><b>State</b></td>  <td>${not empty Profile.state ? Profile.state : ""}</td> </tr>
@@ -67,7 +72,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                   <label for="expirydate">Expiry date</label>
-                                                                  <input type="text" class="form-control" id="expirydate"  name="expirydate" placeholder="Enter expiry date">
+                                                                  <input type="text" class="form-control" id="expirydate"  name="expirydate" placeholder="Enter expiry date"><div>Format: MM/YYYY</div>
                                                                 </div>                                                           
                                                            </form>
                                                   </div>

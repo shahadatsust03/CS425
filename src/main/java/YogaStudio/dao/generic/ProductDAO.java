@@ -41,6 +41,12 @@ public class ProductDAO {
         return q.list();
     }
 
+   public List<ProductEntity> getAll(int start, int limit) {
+        Query q = sf.getCurrentSession().createQuery("from ProductEntity");
+        q.setFirstResult(start);
+        q.setMaxResults(limit);
+        return q.list();
+    }
     public boolean add(ProductEntity product) {
         try{
            sf.getCurrentSession().saveOrUpdate (product);

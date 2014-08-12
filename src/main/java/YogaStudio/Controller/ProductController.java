@@ -14,6 +14,7 @@ import YogaStudio.domain.UserEntity;
 import YogaStudio.service.FileService;
 import YogaStudio.service.ProductService;
 import YogaStudio.service.UserService;
+import YogaStudio.util.Util;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -47,7 +48,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -85,12 +88,13 @@ public class ProductController {
         return "product/addProduct";
     }
     
-    @RequestMapping(value = {"/product/save","/user/product/save"}, method = RequestMethod.POST)
-    public RedirectView saveProduct(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
-         RedirectView view = new RedirectView();
-         String  message =  addUpdateProduct(request,view);    
-         redirectAttributes.addFlashAttribute("message", message);
-         return view;//"redirect:/";
+     @RequestMapping(value = {"/product/save","/user/product/save"}, method = RequestMethod.POST)
+    public RedirectView saveProduct(HttpServletRequest request, @RequestParam("file") MultipartFile file,
+            final RedirectAttributes redirectAttributes) {
+            RedirectView view = new RedirectView();
+            String  message =  addUpdateProduct(request,view,file);    
+            redirectAttributes.addFlashAttribute("message", message);
+            return view;//"redirect:/";
     }
     
     @RequestMapping(value = {"/product/save/{id}","/user/product/save/{id}"}, method = RequestMethod.POST)
@@ -273,8 +277,56 @@ public class ProductController {
         view.addObject("products", products);
         return  view;
      }
-     
-    //show product image
+    //private method to add add and update users
+    private String addUpdateProduct(HttpServletRequest request, RedirectView view ,MultipartFile file){
+              List message = new ArrayList();
+              String name = request.getParameter("name"),
+                     description = request.getParameter("descritpion"),
+                     price = request.getParameter("price"),
+                     numberOfProducts = request.getParameter("numberOfProducts");
+               boolean saved = false;
+               
+                 if(name.isEmpty())
+                     message.add("Product name is required");
+                 if(price.isEmpty())
+                     message.add("Price is required");
+                 if(numberOfProducts.isEmpty())
+                     message.add("Number of products is required");
+                  // servletContext.
+                 if(message.isEmpty()){
+                    String uploadedPath = Util.uploadImage(file,System.getProperty("catalina.home"));
+                    if(uploadedPath != null){
+                        saved = productService.add(name,
+                                                       description,
+                                                       Integer.parseInt(numberOfProducts),
+                                                       Double.parseDouble(price),
+                                                       uploadedPath);
+                    }
+                     else
+                    {
+                      saved = productService.add(name,
+                                                       description,
+                                                       Integer.parseInt(numberOfProducts),
+                                                       Double.parseDouble(price));
+                     }
+                   
+                    
+                     if(saved){
+                       message.add("Successfully saved");
+                       view.setUrl(request.getContextPath()+"/products");
+                       }
+                     else{
+                       message.add("Product unsuccessful");
+                       view.setUrl("add");
+                     }
+                   }
+                 else{
+                     view.setUrl("add");
+                 }
+             return message.toString();
+    }   
+    
+    //show product file
      @RequestMapping(value = "/products/image/{id}", method = RequestMethod.GET)
      public void productImage(@PathVariable Long id,
             HttpServletResponse response) throws ServletException, IOException {

@@ -25,9 +25,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="faculty/add">Add Faculty</a></li>           
-            <li class="divider"></li>
-            <li><a href="#">Remove</a></li>
-            <li class="divider"></li>
+            <li class="divider"></li>            
           </ul>
           </sec:authorize>
         </li>

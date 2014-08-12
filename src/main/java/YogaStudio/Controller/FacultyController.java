@@ -59,7 +59,8 @@ public class FacultyController {
     private ClassService classService;
     @Autowired
     private WaiverService waiverService;
-
+    @Autowired
+    private UserService userService;
     @Autowired
     private CustomerService customerService;
 
@@ -69,19 +70,19 @@ public class FacultyController {
     @Autowired
     private AdvisorService advisorService;
     
-    @Autowired
-    private UserService userService;
     
     @RequestMapping(value = {"/faculty", "/faculty/faculty"}, method = RequestMethod.GET)
     public ModelAndView getAllFaculty(HttpServletRequest request) {
         List<FacultyEntity> facultys = facultyService.getAllFaculty();
+        List<SectionEntity> sections = sectionService.getAllSections();
+        
         ModelAndView view = new ModelAndView("/faculty/faculty");
         view.addObject("facultys", facultys);
+        view.addObject("sections", sections);        
         view.addObject("pageTitle", "Faculty");
         return view;
     }
 
-        
     @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
     public String getFaculty(@PathVariable Long id, Model model) {
         model.addAttribute("faculty", facultyService.getFaculty(id));
@@ -95,17 +96,16 @@ public class FacultyController {
         return "faculty/editFaculty";
     }
 
-    @RequestMapping(value = {"/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
-    public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model)
-    {       
+    @RequestMapping(value = {"/assignFaculty/{id}/{value}","/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
+    public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model) {
         FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
         SectionEntity section = sectionService.getSection(Long.parseLong(value));
         faculty.addSection(section);
         facultyService.add(faculty);
         model.addAttribute("Message", "Successfull");
-         
-        return "faculty/faculty";        
-    } 
+
+        return "faculty/faculty";
+    }
 
     @RequestMapping(value = {"/removeFaculty/{id}", "/YogaStudio/faculty/removeFaculty/{id}", "/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
     public RedirectView removeFaculty(HttpServletRequest request, @PathVariable Long id, final RedirectAttributes redirectAttributes) {
@@ -125,7 +125,7 @@ public class FacultyController {
         String message = "";
         redirectAttributes.addFlashAttribute("message", message);
         return "faculty/addFaculty";
-        }
+    }
 
     @RequestMapping(value = {"faculty/save", "/userfaculty/save"}, method = RequestMethod.POST)
     public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
@@ -188,20 +188,39 @@ public class FacultyController {
         return message.toString();
     }
 
-    @RequestMapping(value = "/waiver/viewWaiversByFA/{id}", method = RequestMethod.GET)
-    public ModelAndView viewWaivers(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
-        FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
-        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
+    @RequestMapping(value = "/waiver/viewWaiversByFA", method = RequestMethod.GET)
+    public ModelAndView viewWaivers(HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object object = auth.getPrincipal();
+        String password = ((UserDetails) object).getPassword();
+        System.out.println("Faculty :" + name + "  Password:" + password);
+        UserEntity user = userService.findUser("faculty", "faculty");
+        FacultyEntity faculty = facultyService.getFaculty(user.getId());
+        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(user.getId());
         ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
         view.addObject("waivers", waivers);
         view.addObject("faculty", faculty.getId());
+        // view.addObject("pageTitle", "Waivers");
+        //String message = "Waiver Request:";
+        //view.addFlashAttribute("message", message);
+        return view;
+    }
+
+    @RequestMapping(value = "/waiver/viewWaiversByFA/{id}", method = RequestMethod.GET)
+    public ModelAndView viewWaiversByFA(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
+        // FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
+        List<WaiverEntity> waivers = waiverService.getWaiversByFaId(Long.valueOf(id));
+        ModelAndView view = new ModelAndView("/waiver/viewWaiversByFA");
+        view.addObject("waivers", waivers);
+        view.addObject("faculty", Long.valueOf(id));
         // view.addObject("pageTitle", "Waivers");
         String message = "Waiver Request:";
         redirectAttributes.addFlashAttribute("message", message);
         return view;
     }
 
-    @RequestMapping(value = "/waiver/waiverDetails/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/waiver/waiverDetails/{id}","/waiverDetails/{id}"}, method = RequestMethod.GET)
     public ModelAndView waiverDetails(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         //FacultyEntity faculty = facultyService.getFaculty(Long.valueOf(id));
         WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
@@ -213,13 +232,26 @@ public class FacultyController {
         return view;
     }
 
-    @RequestMapping(value = "/waiver/respondOnWaiver/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = {"/waiver/respondOnWaiver/{id}","/respondOnWaiver/{id}"}, method = RequestMethod.POST)
     public RedirectView respondOnWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         //if "name" value equals approve redirect to viewWaivers by updating status
         //else show reject popup with comments and redirect after submitting and updating to DB to viewWaivers
+         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String name = auth.getName();
+            Object object = auth.getPrincipal();
+
+            String password = ((UserDetails) object).getPassword();
+            System.out.println("Faculty :" + name + "  Password:" + password);
+        UserEntity faculty = userService.findUser("faculty", "faculty");
+        //UserEntity user = userService.findUser("devika", "devika");
+        System.out.println("Faculty Found:" + faculty);
         RedirectView view = new RedirectView();
         String message = "Successfully updated Waiver status.";
         System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
+        if (faculty == null) {
+            message = "Failed to Update Waiver, Faculty is not valid.";
+            return view;
+        }
         // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
         String response = request.getParameter("response");
         boolean status = false;
@@ -231,7 +263,7 @@ public class FacultyController {
         if (status == false) {
             message = "!!! Failed updating the waiver.";
         }
-        view.setUrl(request.getContextPath() + "/waiver/viewWaiversByFA");
+        view.setUrl(request.getContextPath() + "/waiver/viewWaiversByFA/" + faculty.getId());
         redirectAttributes.addFlashAttribute("message", message);
         return view;//"redirect:/";       
         //redirectAttributes.addFlashAttribute("message", "Profile not found.");

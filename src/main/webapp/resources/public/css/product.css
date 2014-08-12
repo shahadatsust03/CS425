@@ -30,3 +30,12 @@ transform: translate(0,0);
 ul.gallery li .desc {
 margin: 15px;
 }
+
+.mini-product td{
+    border:none;
+    text-align: left;
+}
+
+.mini-product tr td{
+    background: #f5f5f5;
+}

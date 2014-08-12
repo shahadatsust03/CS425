@@ -15,7 +15,7 @@
    
        <form class="navbar-form navbar-left" role="search" id="productSearch" action="products/query" onsubmit="$(this).search('#productSearch','#productsList');return false;">
          <div class="form-group">
-          <input type="text" class="form-control" name="product" placeholder="Search">
+          <input type="text" class="form-control" name="product" placeholder="Search" />
          </div>
 
         <button type="submit" class="btn btn-primary btn-sm" >Search</button>
@@ -23,7 +23,9 @@
          <sec:authorize access="hasRole('ROLE_ADMIN')">
             <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <span class="caret"></span></a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          <span class="glyphicon glyphicon-cog"></span>
+                          Manage <span class="caret"></span></a>
                       <ul class="dropdown-menu" role="menu">
                         <li><a href="product/add">Add</a></li>
                         <li class="divider"></li>
@@ -34,7 +36,7 @@
                       </ul>
                     </li>
               </ul>
-         </sec:authorize>>
+         </sec:authorize>
      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
