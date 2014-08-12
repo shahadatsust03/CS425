@@ -12,6 +12,7 @@ import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
 import YogaStudio.domain.UserEntity;
 import YogaStudio.util.*;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -107,5 +108,9 @@ public class UserService {
         String password = Util.generatePassword();// auto generate password;//
         userentity.setPassword(password);
         return  userDao.updateUser(userentity);
+    }
+    
+    public boolean addCreditCard(UserEntity userentity, Long cardNumber, Date expiryDate){
+     return userDao.addCreditCard(userentity,cardNumber,expiryDate);
     }
 }

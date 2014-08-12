@@ -7,6 +7,7 @@
 <script src="${pageContext.request.contextPath}/resources/public/jquery/jquery-1.11.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/public/bootstrap-3.2.0/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/public/bootstrap-3.2.0/js/alert.js"></script>
+<script src="${pageContext.request.contextPath}/resources/public/bootstrap-3.2.0/js/carousel.js"></script>
 <script src="${pageContext.request.contextPath}/resources/public/js/common.js"></script>
 <script src="${pageContext.request.contextPath}/resources/public/js/simpleCart.js"></script>
 <script src="${pageContext.request.contextPath}/resources/public/js/bootstrap.file-input.js"></script>

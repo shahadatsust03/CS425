@@ -18,23 +18,29 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
                 <div class="container">
-                    <div class="panel panel-default">
-                        
-                        <form action="../../product/save/${product.id}" method="post">
-                            <div>
-                            <br/>Product Name:<input type="text" name="name" value="${product.name}">
-                            </div>
-                            <div><br/>Description:<input type="text" name="description" value="${product.description}">                             
-                            </div>
-                            <div><br/>Description:<input type="text" name="price" value="${product.price}"> 
-                            </div>
-                            <div><br/>Units: <input type="text" name="numberOfProducts" value="${product.numberOfProducts}"> 
-                            </div>
-                            </div>
-                           
-                            <div><br/><input type="submit" value="Submit">
-                        </form>
-                    </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Edit Product</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form action="../../product/save/${product.id}" method="post">
+                               <div>
+                               <br/>Product Name:<input type="text" name="name" value="${product.name}">
+                               </div>
+                               <div>
+                                   <br/>Description:<input type="text" name="description" value="${product.description}">                             
+                               </div>
+                               <div>
+                                   <br/>Description:<input type="text" name="price" value="${product.price}"> 
+                               </div>
+                               <div>
+                                   <br/>Units: <input type="text" name="numberOfProducts" value="${product.numberOfProducts}"> 
+                               </div>
+
+                              <br/><input type="submit" value="Submit">
+                           </form>
+                        </div>
+                     </div>
                 </div>
     </div> 
     </body>

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -368,7 +369,6 @@ public class UserController {
         String username = auth.getName();          
         Object object = auth.getPrincipal();   
         UserDetails userDetails = (UserDetails)object; //
-        String password = userDetails.getPassword(); //
         //TODO user by username and password
         UserEntity user = userService.findCustomerBy("username",username);
         if(user !=null)
@@ -412,4 +412,65 @@ public class UserController {
             return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
     }
 
+    @RequestMapping(value="/user/savecreditcard", method=RequestMethod.POST, produces="text/plain")
+    @ResponseBody
+    public String addCreditCard(HttpServletRequest request) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    String json = "";
+                    HashMap response = new HashMap();
+                           try{
+                              Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                              String username = auth.getName();          
+                              Object object = auth.getPrincipal();   
+                              UserDetails userDetails = (UserDetails)object; //
+                              //TODO user by username and password
+                              UserEntity user = userService.findCustomerBy("username",username);
+                              if(user != null){
+                                  boolean valid = true;
+                                  String cardnumber  = request.getParameter("cardnumber");
+                                  String expirydate =  request.getParameter("expirydate");
+                                  //validate card number
+                                  if(!valiateParameter(cardnumber)){
+                                      valid = false;
+                                   }
+                                  //validate expiry date
+                                  if(!valiateParameter(expirydate)){
+                                      valid = false;
+                                  }
+                                  //validation failed
+                                  if(valid){
+                                     SimpleDateFormat formatter = new SimpleDateFormat("MMM/yyyy");
+                                     Date expDate = formatter.parse(expirydate);
+                                     boolean updated = userService.addCreditCard(user,Long.parseLong(cardnumber), expDate);
+                                     response.put("success",updated);
+                                     response.put("message", (updated)? "Credit card successfully added": "Sorry,unable to add credit card");
+                                  }
+                                  else{
+                                     response.put("success",false);
+                                     response.put("message","Entries are not valid!");
+                                  }
+                              }
+                              else{
+                               response.put("success", false);
+                               response.put("message", "Sorry , you dont have an account");
+                              }
+            }
+            catch(Exception e){
+              response.put("success", false);
+            }
+     
+            try {
+                //convert map to JSON string
+                json = mapper.writeValueAsString( response);
+            } catch (IOException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
+    }
+    
+    private boolean valiateParameter(String param){
+        
+       return false;
+    }
 }
