@@ -52,5 +52,13 @@ public class CustomerService {
      public CustomerEntity get(Long customerId){
         return customerdao.get(customerId);
     }
+
+    public List<CustomerEntity> getAllCustomer() {
+        return customerdao.getAll();
+    }
+
+    public void removeCustomer(Long id) {
+        customerdao.delete(id);
+    }
     
 }

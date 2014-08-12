@@ -37,7 +37,16 @@
                              
                              <li>
                                  <a href="${pageContext.request.contextPath}/faculty">Faculty</a>                               
+                             </li>
+                             <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                             <li>
+                                 <a href="${pageContext.request.contextPath}/faculty">Faculty</a>                               
                              </li>  
+                             <li>
+                                 <a href="${pageContext.request.contextPath}/customers/customer">Customers</a>                               
+                             </li>
+                             </sec:authorize>
+                               
                             
                             </c:if>
                              <c:if test="${pageContext.request.userPrincipal.name == null}">

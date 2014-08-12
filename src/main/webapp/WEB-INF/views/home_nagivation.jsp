@@ -4,6 +4,8 @@
     Author     : eTunkara
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
             <div class="navbar-header">
@@ -19,12 +21,14 @@
             </div>
             <div class="collapse navbar-collapse appiNav">
                     <ul class="nav navbar-nav">
+                        <c:if test="${pageContext.request.userPrincipal.name == null}">                            
                         <li><a href="${pageContext.request.contextPath}/">Home</a></li> 
+                        </c:if>
                         <li><a href="${pageContext.request.contextPath}/classes">Classes</a></li>
                             <sec:authorize ifAnyGranted="ROLE_ADMIN">
                                 <li><a href="${pageContext.request.contextPath}/sections">Sections</a></li>
                                 
-                                <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>                                
+                                <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>  
                             </sec:authorize>
               
                              <c:if test="${pageContext.request.userPrincipal.name != null}">                            
@@ -35,10 +39,15 @@
                             </c:if>
                                 <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
                              <c:if test="${pageContext.request.userPrincipal.name != null}">
-                             
+                             <sec:authorize ifAnyGranted="ROLE_ADMIN">
                              <li>
                                  <a href="${pageContext.request.contextPath}/faculty">Faculty</a>                               
                              </li>  
+                             <li>
+                                 <a href="${pageContext.request.contextPath}/customers/customer">Customers</a>                               
+                             </li>
+                             </sec:authorize>
+                             
                             
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name == null}">
