@@ -47,7 +47,6 @@ public class AdvisorService {
         
         FacultyEntity faculty = facultyDao.getNewAdvisor();
         CustomerEntity cs = customerDao.get(customerId);
-        System.out.println("customer: " + cs);
         faculty.addAdvisee(cs);
         facultyDao.update(faculty);        
     }
