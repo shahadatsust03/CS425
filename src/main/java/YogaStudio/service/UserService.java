@@ -59,16 +59,30 @@ public class UserService {
     
     public boolean add(String fullname, 
                        String email,
-                       String userName, 
-                       String authority,
+                       String username, 
+                       Date dateOfBirth,
                        String street,
                        String city,
                        String country,
-                       String zipcode,
-                       Long contactNum) 
+                       String state,
+                       Long zipcode,
+                       Long contactNum,
+                       String authority) 
          {    
         String password = Util.generatePassword();// auto generate password;//
-        UserEntity user = new CustomerEntity(userName,password,fullname,email);
+  
+        UserEntity user = new CustomerEntity(username, 
+                                             password, 
+                                             fullname, 
+                                             email,
+                                             authority, 
+                                             dateOfBirth, 
+                                             contactNum, 
+                                             street,  
+                                             city, 
+                                             state,
+                                             country, 
+                                             zipcode);
         //set the user authority
         user.setAUTHORITY(authority);
         //enable the user account

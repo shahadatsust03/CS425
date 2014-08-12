@@ -42,21 +42,17 @@
                                                     <h5 style="margin-bottom:0px;margin-top:0px">Log in</h5>
                                                 </a>
                                             </li>
-                                             <li>
-                                              <a href="#register" role="tab" data-toggle="tab">
-                                                  <h5 style="margin-bottom:0px;margin-top:0px">Register</h5>
-                                               </a>
-                                             </li>      
+         
                                           </ul>
 
-                                          <!-- Tab panes -->
+                                         <!-- Tab panes -->
                                           <div class="tab-content">
                                               <div class="tab-pane active" id="login" style="padding:20px;text-align: left;">
                                                     <%@include file="user/login_form.jsp" %>
                                               </div>
-                                              <div class="tab-pane" id="register" style="padding:20px;text-align: left;">
-                                                   <%@include file="user/register_form.jsp" %>
+                                              <!--<div class="tab-pane" id="register" style="padding:20px;text-align: left;">
                                               </div>
+                                              -->
                                           </div>
                                     </p>
                                   

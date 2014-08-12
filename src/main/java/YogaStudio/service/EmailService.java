@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package YogaStudio.Controller;
+package YogaStudio.service;
 
 import java.util.Properties;
 import javax.mail.Message;
@@ -21,13 +21,13 @@ import org.springframework.stereotype.Controller;
  * @author Shahadat
  */
 
-public class EmailController {
+public class EmailService {
     
     
     final String username = "gpa.application@gmail.com";
     final String password = "gpa.application1";
 
-    public EmailController() {
+    public EmailService() {
 
     }
 

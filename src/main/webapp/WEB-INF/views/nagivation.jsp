@@ -40,8 +40,11 @@
                              </li>  
                             
                             </c:if>
-                            <c:if test="${pageContext.request.userPrincipal.name == null}">
-                              <li><a href="#testimonialsWrap">Login</a></li>
+                             <c:if test="${pageContext.request.userPrincipal.name == null}">
+                              <li><a href="#" id="registerCustomer" onclick="function register(){return false;}" data-toggle="modal" data-target="#regisration-modal">
+                                      Sign up</a>
+                              </li>
+                            
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name != null}">
                               <c:url value="${pageContext.request.contextPath}/j_spring_security_logout" var="logoutUrl" />
@@ -72,3 +75,22 @@
             <h4 style="color:#fff;margin:0;padding:0">${pageTitle}</h4>
       </div>
 </div>
+<!-- registration modal -->
+                                <div class="modal fade" id="regisration-modal" tabindex="-1" role="dialog" aria-labelledby="registrationLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                          <h4 class="modal-title" id="registrationLabel">Sign up</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="registration-model-msg"></div>
+                                              <%@include file="user/register_form.jsp" %>    
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-primary" onclick="$(this).registerUser('#register-customer-form')">Submit</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>

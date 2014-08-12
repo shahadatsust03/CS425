@@ -7,7 +7,6 @@
 package YogaStudio.service;
 
 
-import YogaStudio.Controller.EmailController;
 import YogaStudio.dao.generic.ClassDAO;
 import YogaStudio.dao.generic.CustomerDAO;
 import YogaStudio.dao.generic.EnrollmentDAO;
