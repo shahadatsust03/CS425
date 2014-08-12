@@ -29,6 +29,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,7 +58,8 @@ public class FacultyController {
     private ClassService classService;
     @Autowired
     private WaiverService waiverService;
-
+    @Autowired
+    private UserService userService;
     @Autowired
     private CustomerService customerService;
 
@@ -71,7 +75,6 @@ public class FacultyController {
         return view;
     }
 
-        
     @RequestMapping(value = {"/faculty/{id}", "/user/faculty/{id}"}, method = RequestMethod.GET)
     public String getFaculty(@PathVariable Long id, Model model) {
         model.addAttribute("faculty", facultyService.getFaculty(id));
@@ -86,16 +89,15 @@ public class FacultyController {
     }
 
     @RequestMapping(value = {"/faculty/assignFaculty/{id}/{value}", "/user/faculty/assignFaculty/{id}/{value}"}, method = RequestMethod.GET)
-    public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model)
-    {       
+    public String assignFaculty(@PathVariable("id") String id, @PathVariable("value") String value, Model model) {
         FacultyEntity faculty = facultyService.getFaculty(Long.parseLong(id));
         SectionEntity section = sectionService.getSection(Long.parseLong(value));
         faculty.addSection(section);
         facultyService.add(faculty);
         model.addAttribute("Message", "Successfull");
-         
-        return "faculty/faculty";        
-    } 
+
+        return "faculty/faculty";
+    }
 
     @RequestMapping(value = {"/removeFaculty/{id}", "/YogaStudio/faculty/removeFaculty/{id}", "/faculty/removeFaculty/{id}"}, method = RequestMethod.GET)
     public RedirectView removeFaculty(HttpServletRequest request, @PathVariable Long id, final RedirectAttributes redirectAttributes) {
@@ -115,7 +117,7 @@ public class FacultyController {
         String message = "";
         redirectAttributes.addFlashAttribute("message", message);
         return "faculty/addFaculty";
-        }
+    }
 
     @RequestMapping(value = {"faculty/save", "/userfaculty/save"}, method = RequestMethod.POST)
     public RedirectView register(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
@@ -207,21 +209,34 @@ public class FacultyController {
     public RedirectView respondOnWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         //if "name" value equals approve redirect to viewWaivers by updating status
         //else show reject popup with comments and redirect after submitting and updating to DB to viewWaivers
+//         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String name = auth.getName();
+//            Object object = auth.getPrincipal();
+//
+//            String password = ((UserDetails) object).getPassword();
+//            System.out.println("Faculty :" + name + "  Password:" + password);
+        UserEntity faculty = userService.findUser("faculty", "faculty");
+        //UserEntity user = userService.findUser("devika", "devika");
+        System.out.println("Faculty Found:" + faculty);
         RedirectView view = new RedirectView();
-        String message = "Successfully updated Waiver status.";
-        System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
-        // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
-        String response = request.getParameter("response");
-        boolean status = false;
-        if (response.contains("Approve")) {
-            status = waiverService.approveWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
-        } else if (response.contains("Reject")) {
-            status = waiverService.rejectWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
-        }
-        if (status == false) {
-            message = "!!! Failed updating the waiver.";
-        }
-        view.setUrl(request.getContextPath() + "/waiver/viewWaiversByFA");
+            String message = "Successfully updated Waiver status.";
+            System.out.println("Waiver Id:" + Long.valueOf(id) + "  name:" + request.getParameter("response"));
+        if (faculty == null) {
+            message="Failed to Update Waiver, Faculty is not valid.";
+            return view;
+        }                        
+            // WaiverEntity waiver = waiverService.getWaiver(Long.valueOf(id));
+            String response = request.getParameter("response");
+            boolean status = false;
+            if (response.contains("Approve")) {
+                status = waiverService.approveWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+            } else if (response.contains("Reject")) {
+                status = waiverService.rejectWaiverRequest(Long.valueOf(id), request.getParameter("comments"));
+            }
+            if (status == false) {
+                message = "!!! Failed updating the waiver.";
+            }        
+        view.setUrl(request.getContextPath() + "/waiver/viewWaiversByFA/" + faculty.getId());
         redirectAttributes.addFlashAttribute("message", message);
         return view;//"redirect:/";       
         //redirectAttributes.addFlashAttribute("message", "Profile not found.");

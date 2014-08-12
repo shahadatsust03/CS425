@@ -17,6 +17,9 @@
         <div id="featureWrap">   
 
             <div class="container">
+                <c:if test="${not empty message}">
+                        <b> ${message}</b>
+                    </c:if>
                 <h1>Pending Waivers:</h1>
                <!-- <form action="../../waiver/waiverDetails/${waiver.id}" method="post">-->
                 <table class="table table-striped" align="center">    
@@ -30,7 +33,7 @@
                     <td></td>
                     <c:forEach items="${waivers}" var="waiver">
                         <tr>      
-                            <td><a href="waiverDetails/${waiver.id}"/>${waiver.yogaClass.className}</td>
+                            <td><a href="../waiverDetails/${waiver.id}"/>${waiver.yogaClass.className}</td>
                             <td>${waiver.reason}</td>
                             <td>${waiver.submissionDate}</td>
                             <td>${waiver.faculty.fullname}</td>
