@@ -74,6 +74,7 @@
                            <div class="form-group">
                              <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton" value="${section.descripton}"/>
                            </div>
+                           <input type="hidden" name="sectionID" id="sectionID" value="${section.id}">
                            <c:if test="${empty classID}">
                            <input type="hidden" name="class1" id="class1" value="${section.classEntity.id}">
                            <div class="form-group" >

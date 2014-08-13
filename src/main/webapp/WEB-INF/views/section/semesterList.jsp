@@ -8,7 +8,7 @@
     <div>
         
        <table class="table table-striped">
-           <p>Class List</p>
+           <p>Semester List</p>
            <td>Select</td>
                      <td>Name</td>
                      <td>Start date</td>
