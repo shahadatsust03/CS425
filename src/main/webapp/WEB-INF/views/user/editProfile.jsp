@@ -24,41 +24,41 @@
                                     var vPassword = trim(document.getElementById('password').value);
                                     var vEmail = trim(document.getElementById('email').value);
                                     var vContactNum = trim(document.getElementById('contactNum').value)
-
+                                    alert("enter for validation.Name:"+vFullname);
                                     if (vFullname == "")
                             {
                             alert("Full Name Field is Empty");
-                                    //document.frm.vFullname.focus();
+                                    
                                     return false;
                             }
                             else if (vPassword == "" || vPassword.length<6)
                             {
                             alert("Password Field is either Empty or not strong. Minimum 8 digits allowed.");
-                                    //document.frm.vPassword.focus();
+                                    
                                     return false;
                             }
                             else if (vEmail = "")
                             {
                             alert("Email Field is Empty");
-                                    //document.frm.vEmail.focus();
+                                    
                                     return false;
                             }
                             else if (vContactNum = "")
                             {
                             alert("Contact Number Field is Empty");
-                                    //document.frm.vContactNum.focus();
+                                    
                                     return false;
                             }
                             else if (isAlpha(vFullname) == false)
                             {
                             alert("Full Name Field is not alpha character")
-                                    //document.frm.vFullname.focus();
+                                    
                                     return false;
                             }
                             else if (isDigits(vContactNum) == false)
                             {
                             alert("Contact Number Field is not numeric")
-                                    //document.frm.vContactNum.focus();
+                                    
                                     return false;
                             }
                             else if (checkEmail(vEmail) == false)
@@ -161,7 +161,7 @@
                             Profile Not Found.
                         </c:if>
                         <c:if test="${not empty Profile}">
-                            <form name="frm" onsubmit="return validate();" role="form" action="../../user/editProfile/${Profile.id}" method="post">
+                            <form name="frm" onsubmit="return validate()" role="form" action="../../user/editProfile/${Profile.id}" method="post">
                                 <table>
                                     <tr><td><b>Full Name:</b></td><td><input type="text" name="fullname" value="${not empty Profile.fullname ? Profile.fullname :""}"></td></tr>
 
