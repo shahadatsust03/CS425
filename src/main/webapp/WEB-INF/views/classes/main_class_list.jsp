@@ -37,24 +37,41 @@
                          </div>
                          <div><c:if test="${not empty classs.sections}">Sections:</c:if> 
                          <c:if test="${not empty classs.sections}">
-                             <c:forEach items="${classs.sections}" var="section">                                 
-                             <div>Section name: ${section.sectionName} &nbsp;&nbsp;</div>
-                             <div>Location: ${section.location} &nbsp;&nbsp;</div>
-                             <div>Limit: ${section.classLimit} &nbsp;&nbsp;</div>
-                             
-                                <div>Total Enrollments: ${section.getTotalEnrollment()} &nbsp;&nbsp;</div>
-                             
-                             <c:if test="${not empty section.faculty}">Faculty:
-                                <div>${section.faculty.fullname} &nbsp;&nbsp;</div></c:if>
-                             </c:forEach>
+                             <table class="table">
+                                 <thead>
+                                     <tr>
+                                         <th>Section </th>
+                                         <th>Location </th>
+                                          <th>Limit </th>
+                                         <th>Description </th>
+                                     </tr>
+                                 </thead>
+                               <c:forEach items="${classs.sections}" var="section"> 
+                                 <tr>
+                                     <td>
+                                            <div>${section.sectionName}</div>
+                                     </td>
+                                     <td>
+                                            <div>${section.location}</div>
+                                     </td>
+                                     <td>
+                                            <div>Limit: ${section.classLimit} &nbsp;&nbsp;</div>
+                                     </td>
+                                     <td>
+                                           <div>Total Enrollments: ${section.getTotalEnrollment()} &nbsp;&nbsp;</div>
+                                     </td>
+                                            <c:if test="${not empty section.faculty}">Faculty:
+                                               <div>${section.faculty.fullname} &nbsp;&nbsp;</div></c:if>
+                                            </c:forEach>
+                                        </td>
+                                     </tr>
+                             </table>
                          </c:if>
                          </div>
                          <sec:authorize access="hasRole('ROLE_ADMIN')"> 
                              <div style="margin-top:10px;">
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/editclassform/${classs.id}">Edit Class</a>
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/removeclass/${classs.id}">Remove Class</a>
-                            </div>
-                            <div style="margin-top:10px;">
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/section/add/${classs.id}">Add Section</a>
                             </div>
                        </sec:authorize>

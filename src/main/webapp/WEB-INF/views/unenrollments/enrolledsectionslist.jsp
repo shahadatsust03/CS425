@@ -6,14 +6,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div>
     <div>
-       <table class="table table-striped">    
+       <table class="table table-striped"> 
+                     <td> </td>
                      <td>Section Name</td>
                      <td>Description</td>
                      <td>Location</td>
                      <td>Class Limit</td>
                 <c:forEach items="${sections}" var="section">
-                 <tr>      
-                     <td><a href="${pageContext.request.contextPath}/unenrollmentsection/${section.id}"/>${section.sectionName}</td>
+                 <tr>  
+                     <td><a href="${pageContext.request.contextPath}/processunenrollment/${section.id}"> Unenroll </a></td>
+                     <td>${section.description} </td>
                      <td>${section.description}</td>
                      <td>${section.location}</td>
                       <td>${section.classLimit}</td>

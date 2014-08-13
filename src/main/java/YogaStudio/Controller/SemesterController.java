@@ -116,7 +116,7 @@ public class SemesterController {
         semesterService.removeSemester(id);
         return getSemesters(null);
         }catch(Exception e){
-            ModelAndView view = new ModelAndView("semesters/results");
+            ModelAndView view = new ModelAndView("semesters/errorresults");
             String message = "Remove unsuccessful! You must remove sections of this semester first";
             view.addObject("message", message);
             return view;        

@@ -12,8 +12,7 @@
     <body>
         <%@include file="../nagivation.jsp" %>       
         <div id="featureWrap">
-            <div class="container">  
-                <h3>Choose the section you want to drop(Unenroll from)! </h3>
+            <div class="container">                
                   <%@include file="enrolledsectionslist.jsp" %>
             </div>
     </div> 

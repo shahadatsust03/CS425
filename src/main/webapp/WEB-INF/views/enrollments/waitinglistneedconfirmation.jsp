@@ -19,7 +19,7 @@
         <div id="featureWrap">
             <div class="container">                   
                 <div class="panel panel-default">                    
-                    <h3> The Section is Full. Do you want to be wait-listed for ${section.sectionName} ? </h3>
+                    <font color="red" size="5"> The Section is Full. Do you want to be wait-listed for ${section.sectionName} ? </font></br>
 
                         <a href="${pageContext.request.contextPath}/addtowaitinglist/${section.id}"> <button type="button" class="btn btn-primary">Yes</button>    </a>  
                         <a href="${pageContext.request.contextPath}/enrollments"> <button type="button" class="btn btn-primary">No</button>    </a> 
