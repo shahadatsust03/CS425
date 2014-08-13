@@ -160,9 +160,16 @@ public class SectionController {
     } 
     
     @RequestMapping(value = {"section/editSection/{id}","../section/editSection/{id}","/section/editSection/{id}", "/user/section/editSection/{id}"}, method = RequestMethod.GET)
-    public String editSectionSection(@PathVariable Long id,Model model) {        
-        model.addAttribute("section", sectionService.getSection(id));
-        return "section/editSection";        
+    public ModelAndView editSectionSection(@PathVariable Long id) {        
+        ModelAndView view = new ModelAndView("section/editSection");   
+        List<ClassEntity> classes = classService.getClassList();
+        List<SemesterEntity> semesters = semesterService.getSemesterList();
+        List<ScheduleEntity> schedules = scheduleService.getAllSchedules();
+       view.addObject("faculty", sectionService.getSection(id));
+        view.addObject("classes", classes);
+        view.addObject("semesters", semesters);
+         view.addObject("schedules", schedules);
+        return view;        
     } 
      
        //private method to add add and update users

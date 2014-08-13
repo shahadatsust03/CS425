@@ -18,7 +18,7 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
             
-                <div class="container">
+                <div class="container" style="width:60%;height:20%">
                       <%@include file="section_navigation.jsp" %>
                     <div class="form-group"></div>
                           <form role="form" method="post" action="saveSchedule">                               

@@ -59,7 +59,7 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
             
-                <div class="container">
+                <div class="container" style="width:60%;height:20%">
                     
                     <%@include file="section_navigation.jsp" %>
                      
@@ -68,18 +68,15 @@
                     </c:forEach>
                           <form role="form" method="post" action="save">
                               
-                           <div class="form-group">
-                             <label for="name">Name:</label>
+                           <div class="form-group" >
                              <input type="text" class="form-control" id="name" name="name" placeholder = "Name" value="${section.sectionName}"/>
                            </div>
                            <div class="form-group">
-                             <label for="descripton">Description:</label>
                              <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton" value="${section.descripton}"/>
                            </div>
                            <c:if test="${empty classID}">
                            <input type="hidden" name="class1" id="class1" value="${section.classEntity.id}">
                            <div class="form-group" >
-                             <label for="class2">Class:</label>
                                <div class="form-group" type = "display: none">
                                     <textarea readonly class="form-control" id="class2" placeholder="Class To Assign"  name="class2" value="${section.classEntity.className}"></textarea>
                                     <a href = "javascript:void(0)" onclick = "document.getElementById('classList').style.display='block';document.getElementById('fade').style.display='block'">Add Class</a>
@@ -88,7 +85,6 @@
                             </c:if>
                            
                            <div class="form-group">
-                           <label for="semesterToAssign">Semester </label>
                              <textarea readonly class="form-control" id="semester2" placeholder="Semester To Assign"  name="semester2" value = "${section.semester.semesterName}"></textarea>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('semesterList').style.display='block';document.getElementById('fade').style.display='block'">Add semester</a>
                               <input type="hidden" id="semester1" name ="semester1" value="${section.semester.id}">
@@ -96,15 +92,12 @@
                            </div>
                                 
                            <div class="form-group">
-                             <label for="location">Location:</label>
                              <input type="text" class="form-control" id="location" placeholder="Location"  name="location" value = "${section.location}"/>
                            </div>
                             <div class="form-group">
-                             <label for="classLimit">Class Limit </label>
                              <input type="text" class="form-control" id="classLimit" placeholder="Class Limit"  name="classLimit" value = "${section.classLimit}"/>
                            </div>
                             <div class="form-group">
-                             <label for="schedules">Schedule List: </label>
                              <input readonly type="text" class="form-control" id="schedule2" placeholder="Schedule List"  name="schedule2" value = "${section.getSchedules()}"/>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('scheduleList').style.display='block';document.getElementById('fade').style.display='block'">Add Schedules</a>
                              <input type="hidden" id="schedule1" name="schedule1" value = "${section.getSchedules()}">
