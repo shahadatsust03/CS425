@@ -29,9 +29,9 @@
               
                              <c:if test="${pageContext.request.userPrincipal.name != null}">                            
                             <sec:authorize ifAnyGranted="ROLE_USER">
-                                 <li><a href="${pageContext.request.contextPath}/enrollments">Enrollment</a></li>
-                                <li><a href="${pageContext.request.contextPath}/unenrollments">Unenroll</a></li>
-                                <li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li> 
+                                 <!--<li><a href="/enrollments">Enrollment</a></li> -->
+                                <!--<li><a href="${pageContext.request.contextPath}/unenrollments">Unenroll</a></li> -->
+                                 <!--<li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li> -->
                                <!-- <li><a href="${pageContext.request.contextPath}/enrollments">View Enrollment</a></li> -->
                             </sec:authorize>
                             </c:if>
