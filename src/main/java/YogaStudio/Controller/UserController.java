@@ -62,10 +62,10 @@ public class UserController {
     @Autowired
     private ClassService classService;
     @Autowired
-    private WaiverService waiverService;    
-   @Autowired
+    private WaiverService waiverService;
+    @Autowired
     private AdvisorService advisorservice;
-     
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @RequestMapping(value = "/user/results", method = RequestMethod.POST)
@@ -85,15 +85,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
-    public RedirectView loginFailed(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
+    public RedirectView loginFailed(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         RedirectView view = new RedirectView("/", true);
-        redirectAttributes.addFlashAttribute("message","Invalid username/password. Please try Again.");
+        redirectAttributes.addFlashAttribute("message", "Invalid username/password. Please try Again.");
         return view;
     }
 
     @RequestMapping(value = "/user/customer", method = RequestMethod.GET)
     public ModelAndView getCustomerPage(HttpServletRequest request) {
-        List<ProductEntity> products = productService.getAll(0,4);
+        List<ProductEntity> products = productService.getAll(0, 4);
         List<ClassEntity> classes = classService.getClassList();
 
         ModelAndView view = new ModelAndView("/user/customer");
@@ -104,7 +104,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/administrator", method = RequestMethod.GET)
     public ModelAndView getAdministratorPage(HttpServletRequest request) {
-        List<ProductEntity> products = productService.getAll(0,4);
+        List<ProductEntity> products = productService.getAll(0, 4);
         List<ClassEntity> classes = classService.getClassList();
 
         ModelAndView view = new ModelAndView("/user/administrator");
@@ -174,20 +174,20 @@ public class UserController {
     }
 
     //controller action for user registeration
-    @RequestMapping(value = "/register", method = RequestMethod.POST, produces="text/plain")
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "text/plain")
     @ResponseBody
     public String register(HttpServletRequest request) {
-           ObjectMapper mapper = new ObjectMapper();
-           HashMap response = registerUser(request);
-           String json = ""; 
-           try {
-                //convert map to JSON string
-                json = mapper.writeValueAsString( response);
-            } catch (IOException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           
-         return json;
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap response = registerUser(request);
+        String json = "";
+        try {
+            //convert map to JSON string
+            json = mapper.writeValueAsString(response);
+        } catch (IOException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return json;
     }
 
     @RequestMapping(value = "/user/myaccount", method = RequestMethod.GET)
@@ -206,19 +206,21 @@ public class UserController {
             if (user != null) {
                 // redirectAttributes.addAttribute("Profile", user);
                 //return "user/myaccount";
-                if(render != null && render.equals("ajax"))
-                   return new ModelAndView("/user/myaccount_mini", "Profile", user);
-                else
-                   return new ModelAndView("/user/myaccount", "Profile", user);
+                if (render != null && render.equals("ajax")) {
+                    return new ModelAndView("/user/myaccount_mini", "Profile", user);
+                } else {
+                    return new ModelAndView("/user/myaccount", "Profile", user);
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         //redirectAttributes.addFlashAttribute("message", "Profile not found.");
-          if(render != null && render.equals("ajax"))
-                 return new ModelAndView("/user/myaccount_mini", "Profile", "Profile not found.");
-            else
-                 return new ModelAndView("/user/myaccount", "Profile", "Profile not found.");
+        if (render != null && render.equals("ajax")) {
+            return new ModelAndView("/user/myaccount_mini", "Profile", "Profile not found.");
+        } else {
+            return new ModelAndView("/user/myaccount", "Profile", "Profile not found.");
+        }
         //return "redirect:/";
     }
 
@@ -275,6 +277,26 @@ public class UserController {
         return message;
     }
 
+    @RequestMapping(value = "/waiver/requestWaiver", method = RequestMethod.GET)
+    public ModelAndView requestWaiverByCust(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object object = auth.getPrincipal();
+        String password = ((UserDetails) object).getPassword();
+        System.out.println("Customer :" + name + "  Password:" + password);
+        UserEntity customer = userService.findUser(name);
+        CustomerEntity user = customerService.get(customer.getId());
+        //CustomerEntity user = customerService.get(Long.valueOf(id));
+        List<ClassEntity> classes = classService.getClassList();
+        ModelAndView view = new ModelAndView("/waiver/requestWaiver");
+        view.addObject("classes", classes);
+        view.addObject("user", user);
+        // view.addObject("pageTitle", "Waivers");
+        String message = "Waiver Request:";
+        redirectAttributes.addFlashAttribute("message", message);
+        return view;
+    }
+
     @RequestMapping(value = "/waiver/requestWaiver/{id}", method = RequestMethod.GET)
     public ModelAndView requestWaiver(HttpServletRequest request, @PathVariable int id, final RedirectAttributes redirectAttributes) {
         CustomerEntity user = customerService.get(Long.valueOf(id));
@@ -303,64 +325,63 @@ public class UserController {
     private HashMap registerUser(HttpServletRequest request) {
         HashMap response = new HashMap();
         List message = new ArrayList();
-        try{
-                String firstname = request.getParameter("firstName"),
-                        lastname = request.getParameter("lastName"),
-                        email = request.getParameter("email"),
-                        username = request.getParameter("username"),
-                        street =  request.getParameter("street"),
-                        city =  request.getParameter("city"),
-                        country =  request.getParameter("country"),
-                        state =  request.getParameter("state"),
-                        zipcode =  request.getParameter("zipcode"),
-                        contactnumber =  request.getParameter("contactNum");
+        try {
+            String firstname = request.getParameter("firstName"),
+                    lastname = request.getParameter("lastName"),
+                    email = request.getParameter("email"),
+                    username = request.getParameter("username"),
+                    street = request.getParameter("street"),
+                    city = request.getParameter("city"),
+                    country = request.getParameter("country"),
+                    state = request.getParameter("state"),
+                    zipcode = request.getParameter("zipcode"),
+                    contactnumber = request.getParameter("contactNum");
 
-                Date dateOfBirth = new Date();
+            Date dateOfBirth = new Date();
 
-                if (firstname.isEmpty()) {
-                    message.add("First name is required");
-                }
-                if (lastname.isEmpty()) {
-                    message.add("Last name is required");
-                }
-                if (email.isEmpty()) {
-                    message.add("Email is required");
-                }
-                if (username.isEmpty()) {
-                    message.add("Username is required");
-                }
+            if (firstname.isEmpty()) {
+                message.add("First name is required");
+            }
+            if (lastname.isEmpty()) {
+                message.add("Last name is required");
+            }
+            if (email.isEmpty()) {
+                message.add("Email is required");
+            }
+            if (username.isEmpty()) {
+                message.add("Username is required");
+            }
                 //if(dateOfBirth.)
-                
-                if (message.isEmpty()) {
-                    String authority = request.getParameter("authority");
-                    //set the role customer by default
-                    authority = (authority == null) ? "ROLE_USER" : authority;
-                    UserEntity user  = userService.add(username, 
-                                                    email, 
-                                                    username,
-                                                    dateOfBirth, 
-                                                    street, 
-                                                    city, 
-                                                    country,
-                                                    state, 
-                                                    Long.valueOf(zipcode),
-                                                    Long.valueOf(contactnumber),
-                                                    authority);
 
-                    if (user != null) {
-                        advisorservice.assignAdvisor(user.getId());
-                        message.add("Registration successful saved");
-                        response.put("success",true);
-                    } else {
-                        message.add("Registration unsuccessful");
-                        response.put("success",false);
-                    }
+            if (message.isEmpty()) {
+                String authority = request.getParameter("authority");
+                //set the role customer by default
+                authority = (authority == null) ? "ROLE_USER" : authority;
+                UserEntity user = userService.add(username,
+                        email,
+                        username,
+                        dateOfBirth,
+                        street,
+                        city,
+                        country,
+                        state,
+                        Long.valueOf(zipcode),
+                        Long.valueOf(contactnumber),
+                        authority);
+
+                if (user != null) {
+                    advisorservice.assignAdvisor(user.getId());
+                    message.add("Registration successful saved");
+                    response.put("success", true);
+                } else {
+                    message.add("Registration unsuccessful");
+                    response.put("success", false);
                 }
-        }
-        catch(Exception e){
+            }
+        } catch (Exception e) {
             message.add("Registration unsuccessful");
         }
-        response.put("message",message.toString());
+        response.put("message", message.toString());
         return response;
     }
 
@@ -391,7 +412,7 @@ public class UserController {
             } else {
                 message = message + "Request for waiver is already submitted.";
             }
-            view.setUrl(request.getContextPath() + "/waiver/viewWaivers/"+id);
+            view.setUrl(request.getContextPath() + "/waiver/viewWaivers/" + id);
         }
         return message;
     }
@@ -402,8 +423,8 @@ public class UserController {
         CustomerEntity cust = customerService.get(Long.valueOf(id));
         List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);
         //List<WaiverEntity> waivers = new ArrayList<WaiverEntity>();
-       // if(cust!=null)
-       // waivers = cust.getWaivers();
+        // if(cust!=null)
+        // waivers = cust.getWaivers();
         ModelAndView view = new ModelAndView("/waiver/viewWaivers");
         view.addObject("waivers", waivers);
         view.addObject("pageTitle", "Waivers");
@@ -415,17 +436,18 @@ public class UserController {
 //        return new ModelAndView("/user/requestWaiver", "user", "not found");  
         return view;
     }
-    
+
     @RequestMapping(value = "/waiver/viewWaivers", method = RequestMethod.GET)
-    public ModelAndView viewWaiversByCust(HttpServletRequest request) {        
-         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String name = auth.getName();
-            Object object = auth.getPrincipal();
-            String password = ((UserDetails) object).getPassword();
-            System.out.println("Customer :" + name + "  Password:" + password);
-            UserEntity customer = userService.findUser("devika", "devika");
+    public ModelAndView viewWaiversByCust(HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Object object = auth.getPrincipal();
+        String password = ((UserDetails) object).getPassword();
+        System.out.println("Customer :" + name + "  Password:" + password);
+//            UserEntity customer = userService.findUser("devika", "devika");
+        UserEntity customer = userService.findUser(name);
         CustomerEntity cust = customerService.get(customer.getId());
-        List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);        
+        List<WaiverEntity> waivers = waiverService.getWaiversByCust(cust);
         ModelAndView view = new ModelAndView("/waiver/viewWaivers");
         view.addObject("waivers", waivers);
         view.addObject("pageTitle", "Waivers");
@@ -433,154 +455,149 @@ public class UserController {
         //redirectAttributes.addFlashAttribute("message", message);
         return view;
     }
-    
+
     //view customer orders     
-   @RequestMapping(value = "/user/orders", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/orders", method = RequestMethod.GET)
     public String viewUserOrders(Model model) {
-       // model.addAttribute("product", productService.get(id));
+        // model.addAttribute("product", productService.get(id));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();          
-        Object object = auth.getPrincipal();   
-        UserDetails userDetails = (UserDetails)object; //
+        String username = auth.getName();
+        Object object = auth.getPrincipal();
+        UserDetails userDetails = (UserDetails) object; //
         //TODO user by username and password
-        UserEntity user = userService.findCustomerBy("username",username);
-        if(user !=null)
-        {
-         model.addAttribute("orders", productService.getUserOrders((CustomerEntity) user));
+        UserEntity user = userService.findCustomerBy("username", username);
+        if (user != null) {
+            model.addAttribute("orders", productService.getUserOrders((CustomerEntity) user));
         }
         return "product/customerOrders";
     }
-    
-    @RequestMapping(value="/requestpassword", method=RequestMethod.POST, produces="text/plain")
+
+    @RequestMapping(value = "/requestpassword", method = RequestMethod.POST, produces = "text/plain")
     @ResponseBody
     public String requestPassword(HttpServletRequest request) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    String json = "";
-                    HashMap response = new HashMap();
-                           try{
-                              String email  = request.getParameter("email");
-                              UserEntity user = userService.findUserBy("email", email);
-                              if(user != null){
-                                  boolean updated = userService.updatePassword(user);
-                                  response.put("success",updated);
-                                  response.put("message",
-                                              (updated)? "Password successfully reset,please check your inbox": "Sorry,we are unable to reset your password");
-                              }
-                              else{
-                               response.put("success", false);
-                               response.put("message", "Sorry ,no user with such with that email");
-                              }
+        ObjectMapper mapper = new ObjectMapper();
+        String json = "";
+        HashMap response = new HashMap();
+        try {
+            String email = request.getParameter("email");
+            UserEntity user = userService.findUserBy("email", email);
+            if (user != null) {
+                boolean updated = userService.updatePassword(user);
+                response.put("success", updated);
+                response.put("message",
+                        (updated) ? "Password successfully reset,please check your inbox" : "Sorry,we are unable to reset your password");
+            } else {
+                response.put("success", false);
+                response.put("message", "Sorry ,no user with such with that email");
             }
-            catch(Exception e){
-              response.put("success", false);
-            }
-     
-            try {
-                //convert map to JSON string
-                json = mapper.writeValueAsString( response);
-            } catch (IOException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
+        } catch (Exception e) {
+            response.put("success", false);
+        }
+
+        try {
+            //convert map to JSON string
+            json = mapper.writeValueAsString(response);
+        } catch (IOException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
     }
 
-    @RequestMapping(value="/user/savecreditcard", method=RequestMethod.POST, produces="text/plain")
+    @RequestMapping(value = "/user/savecreditcard", method = RequestMethod.POST, produces = "text/plain")
     @ResponseBody
     public String addCreditCard(HttpServletRequest request) {
-                    ObjectMapper mapper = new ObjectMapper();
-                    String json = "";
-                    HashMap response = new HashMap();
-                           try{
-                              Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                              String username = auth.getName();          
-                              Object object = auth.getPrincipal();   
-                              UserDetails userDetails = (UserDetails)object; //
-                              //TODO user by username and password
-                              UserEntity user = userService.findCustomerBy("username",username);
-                              if(user != null){
-                                  boolean valid = true;
-                                  String cardnumber  = request.getParameter("cardnumber");
-                                  String expirydate =  request.getParameter("expirydate");
-                                  //validate card number
-                                  if(!valiateParameter(cardnumber)){
-                                      valid = false;
-                                   }
-                                  //validate expiry date
-                                  if(!valiateParameter(expirydate)){
-                                      valid = false;
-                                  }
-                                  //validation failed
-                                  if(valid){
-                                     //date format 
-                                      DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                                      Date expDate = DateUtils.parseDate(expirydate,"MM/yyyy"); 
-                                     //formattedDate = formatter.format(today); 
+        ObjectMapper mapper = new ObjectMapper();
+        String json = "";
+        HashMap response = new HashMap();
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            Object object = auth.getPrincipal();
+            UserDetails userDetails = (UserDetails) object; //
+            //TODO user by username and password
+            UserEntity user = userService.findCustomerBy("username", username);
+            if (user != null) {
+                boolean valid = true;
+                String cardnumber = request.getParameter("cardnumber");
+                String expirydate = request.getParameter("expirydate");
+                //validate card number
+                if (!valiateParameter(cardnumber)) {
+                    valid = false;
+                }
+                //validate expiry date
+                if (!valiateParameter(expirydate)) {
+                    valid = false;
+                }
+                //validation failed
+                if (valid) {
+                    //date format 
+                    DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                    Date expDate = DateUtils.parseDate(expirydate, "MM/yyyy");
+                    //formattedDate = formatter.format(today); 
 
-                                     boolean updated = userService.addCreditCard(user,Long.parseLong(cardnumber), expDate);
-                                     response.put("success",updated);
-                                     response.put("message", (updated)? "Credit card successfully added": "Sorry,unable to add credit card");
-                                  }
-                                  else{
-                                     response.put("success",false);
-                                     response.put("message","Entries are not valid!");
-                                  }
-                              }
-                              else{
-                               response.put("success", false);
-                               response.put("message", "Sorry , you dont have an account");
-                              }
+                    boolean updated = userService.addCreditCard(user, Long.parseLong(cardnumber), expDate);
+                    response.put("success", updated);
+                    response.put("message", (updated) ? "Credit card successfully added" : "Sorry,unable to add credit card");
+                } else {
+                    response.put("success", false);
+                    response.put("message", "Entries are not valid!");
+                }
+            } else {
+                response.put("success", false);
+                response.put("message", "Sorry , you dont have an account");
             }
-            catch(Exception e){
-              response.put("success", false);
-            }
-     
-            try {
-                //convert map to JSON string
-                json = mapper.writeValueAsString( response);
-            } catch (IOException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
+        } catch (Exception e) {
+            response.put("success", false);
+        }
+
+        try {
+            //convert map to JSON string
+            json = mapper.writeValueAsString(response);
+        } catch (IOException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
     }
-    
+
     //remove credit card
-    @RequestMapping(value="/user/removecard", method=RequestMethod.POST)
-    public String removeCreditCard(HttpServletRequest request,Model model) {
-            boolean success = false; 
-            String render = request.getParameter("render");
-            String message = "";
-            UserEntity user = null;
-            try{
-                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                    String username = auth.getName();            
-                    user = userService.findCustomerBy("username",username);
-                    if(user != null){
-                       success = userService.removeCreditCard(user);
-                     }
-                    
-                    if(success)
-                        model.addAttribute("message","Card successfully removed!");
-                    else
-                        model.addAttribute("message","Sorry,failed to remove card!");
+    @RequestMapping(value = "/user/removecard", method = RequestMethod.POST)
+    public String removeCreditCard(HttpServletRequest request, Model model) {
+        boolean success = false;
+        String render = request.getParameter("render");
+        String message = "";
+        UserEntity user = null;
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            user = userService.findCustomerBy("username", username);
+            if (user != null) {
+                success = userService.removeCreditCard(user);
+            }
 
+            if (success) {
+                model.addAttribute("message", "Card successfully removed!");
+            } else {
+                model.addAttribute("message", "Sorry,failed to remove card!");
             }
-            catch(Exception e){
-                model.addAttribute("message","Failed to remove credit card!");
-            }
-             
-            model.addAttribute("message", message);
-            model.addAttribute("Profile", user);
-            
-            if(render != null && render.equals("ajax"))
-               return "/user/myaccount_mini";
-            else 
-               return "/user/myaccount";
+
+        } catch (Exception e) {
+            model.addAttribute("message", "Failed to remove credit card!");
+        }
+
+        model.addAttribute("message", message);
+        model.addAttribute("Profile", user);
+
+        if (render != null && render.equals("ajax")) {
+            return "/user/myaccount_mini";
+        } else {
+            return "/user/myaccount";
+        }
     }
-    
-    private boolean valiateParameter(String param){
-         
-       return true;
+
+    private boolean valiateParameter(String param) {
+
+        return true;
     }
 }

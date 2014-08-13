@@ -20,6 +20,7 @@
         <script type="text/javascript" language="JavaScript">
                function validate()
                             {
+                                 alert("enter for validation");
                             var vFullname = trim(document.frm.fullname.value);
                                     var vPassword = trim(document.getElementById('password').value);
                                     var vEmail = trim(document.getElementById('email').value);
@@ -64,7 +65,7 @@
                             else if (checkEmail(vEmail) == false)
                             {
                             alert("Email Format is not correct")
-                                    //document.frm.vEmail.focus();
+                                    
                                     return false;
                             }
 
@@ -179,7 +180,7 @@
                                 </table>
                                 <div><br/>
                                     <a  class="btn btn-primary" type="button" href="../../user/myaccount" value="Cancel">Cancel</a>
-                                    <button  class="btn btn-primary" type="submit" value="Save Profile">Save</button>
+                                    <button  class="btn btn-primary" type="submit" onclick="return validate();" value="Save Profile">Save</button>
                             </form>
                         </div>
                     </c:if>
