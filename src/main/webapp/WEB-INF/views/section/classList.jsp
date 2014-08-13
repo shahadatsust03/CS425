@@ -18,12 +18,10 @@
                       <c:forEach items="${classes}" var="classs">
                         <tr>      
                             <div>
-                                <td><input type="radio" name="radio_id" value="${classs.id}">
-
+                                <td><input type="radio" name="radio_id" value="${classs.id}" classname="${classs.className}" >
                                     <td>${classs.className}</td>
                                 <td>${classs.description}</td>
                                 <td>${classs.fee}</td>          
-
                             </div>
 
                         </tr>

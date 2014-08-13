@@ -35,7 +35,7 @@
         width: 50%;
         height: 50%;
         padding: 16px;
-        border: 16px solid orange;
+        border: 0px solid orange;
         background-color: white;
         z-index:1002;
         overflow: auto;
@@ -68,26 +68,22 @@
                              <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton"/>
                            </div>
                             <c:if test="${empty classID}">
+                           <input type="hidden" name="class1" value="${classID}">
                            <div class="form-group" >
                              <label for="descripton">Class:</label>
                                <div class="form-group" type = "display: none">
-                                    <textarea readonly class="form-control" id="classToAssign" placeholder="Class To Assign"  name="classToAssign"></textarea>
+                                    <textarea readonly class="form-control" id="classToAssign" placeholder="Class To Assign"  name="class2"></textarea>
                                     <a href = "javascript:void(0)" onclick = "document.getElementById('classList').style.display='block';document.getElementById('fade').style.display='block'">Add Class</a>
-                               </div>
-                             
+                               </div>                             
                            </div>
                             </c:if>
-                           <c:if test="${not empty classID}">  
-                               <div class="form-group" style="display:none" >
-                             <label for="classToAssign">Class: ${classID}</label>
-                             <input type="text" name="classToAssign" value="${classID}">
-                               </div>
-     
-                           </c:if>
+                           
                            <div class="form-group">
                            <label for="semesterToAssign">Semester </label>
-                             <textarea readonly class="form-control" id="semesterToAssign" placeholder="Semester To Assign"  name="semesterToAssign"></textarea>
+                             <textarea readonly class="form-control" id="semesterToAssign" placeholder="Semester To Assign"  name="semesters"></textarea>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('semesterList').style.display='block';document.getElementById('fade').style.display='block'">Add semester</a>
+                              <input type="hidden" id="semester1" name ="semester1" value="">
+                             
                            </div>
                                 
                            <div class="form-group">
@@ -100,8 +96,10 @@
                            </div>
                             <div class="form-group">
                              <label for="schedules">Schedule List: </label>
-                             <input readonly type="text" class="form-control" id="schedules" placeholder="Schedule List"  name="schedules"/>
+                             <input readonly type="text" class="form-control" id="schedules" placeholder="Schedule List"  name="schedule2"/>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('scheduleList').style.display='block';document.getElementById('fade').style.display='block'">Add Schedules</a>
+                             <input type="hidden" id="schedule1" name="schedule1" value="">
+                             
                             </div>
    
                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
@@ -114,30 +112,23 @@
 
 
                 function doSaveClass( ) {   
-
-                   var radioboxes = document.getElementsByName("radio_id");
-                    var value = "";
-                    // loop over them all
-                    var j = 0;
-                    for (var i=0; i<radioboxes.length; i++) {
-                       // And stick the checked ones onto an array...
-                       if (radioboxes[i].checked) {
-
-                           if(j == 0)
-                            value += radioboxes[i].value ;
-
-                           else
-                               value += "," + radioboxes[i].value;
-                           j++;
-
-                       }
-                    }               
-
-                    document.getElementById('classToAssign').value = value;                
+                   var id = $('input:radio[name=radio_id]:checked').val();
+                 
+                   var name = $('input:radio[name=radio_id]:checked').attr("classname");
+                   
+                    document.getElementById('class1').value = id;
+                    document.getElementById('class1').value = name;
 
                 }               
        
                 function doSaveSemester( ) {
+                    
+                     var id = $('input:radio[name=semester_id]:checked').val();
+                 
+                   var name = $('input:radio[name=semester_id]:checked').attr("classname");
+                   
+                    document.getElementById('class1').value = id;
+                    document.getElementById('class1').value = name;
                         var radioboxes = document.getElementsByName("semester_id");
                          var value = "";
                          // loop over them all

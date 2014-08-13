@@ -35,7 +35,7 @@
         width: 50%;
         height: 50%;
         padding: 16px;
-        border: 16px solid orange;
+        border: 2px solid orange;
         background-color: white;
         z-index:1002;
         overflow: auto;

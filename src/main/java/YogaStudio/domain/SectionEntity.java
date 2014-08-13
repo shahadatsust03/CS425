@@ -55,7 +55,7 @@ public class SectionEntity {
     }
     
     
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     List<ScheduleEntity> scheduleList = new ArrayList<ScheduleEntity>();
      
     @ManyToOne(cascade={CascadeType.PERSIST})

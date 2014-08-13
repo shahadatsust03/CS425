@@ -44,71 +44,7 @@
             <script language="JavaScript">
 
 
-                function doSaveClass( ) {   
-
-                   var radioboxes = document.getElementsByName("radio_id");
-                    var value = "";
-                    // loop over them all
-                    var j = 0;
-                    for (var i=0; i<radioboxes.length; i++) {
-                       // And stick the checked ones onto an array...
-                       if (radioboxes[i].checked) {
-
-                           if(j == 0)
-                            value += radioboxes[i].value ;
-
-                           else
-                               value += "," + radioboxes[i].value;
-                           j++;
-
-                       }
-                    }               
-
-                    document.getElementById('classToAssign').value = value;                
-
-                }               
-       
-                function doSaveSemester( ) {
-                        var radioboxes = document.getElementsByName("semester_id");
-                         var value = "";
-                         // loop over them all
-                         var j = 0;
-                         for (var i=0; i<radioboxes.length; i++) {
-                            // And stick the checked ones onto an array...
-                            if (radioboxes[i].checked) {
-
-                                if(j == 0)
-                                 value += radioboxes[i].value ;
-
-                                else
-                                    value += "," + radioboxes[i].value;
-                                j++;
-
-                            }
-                         }
-                         document.getElementById('semesterToAssign').value = value;  
-                     }               
-                     
-                     function doSaveSchedule( ) {
-                        var radioboxes = document.getElementsByName("schedule_id");
-                         var value = "";
-                         // loop over them all
-                         var j = 0;
-                         for (var i=0; i<radioboxes.length; i++) {
-                            // And stick the checked ones onto an array...
-                            if (radioboxes[i].checked) {
-
-                                if(j == 0)
-                                 value += radioboxes[i].value ;
-
-                                else
-                                    value += "," + radioboxes[i].value;
-                                j++;
-
-                            }
-                         }
-                         document.getElementById('schedules').value = value;  
-                     }               
+         
                 </script>
     </div> 
     </body>

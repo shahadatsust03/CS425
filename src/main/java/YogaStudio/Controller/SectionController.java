@@ -116,7 +116,7 @@ public class SectionController {
            }catch(Exception ex){
                 redirectAttributes.addFlashAttribute("message", ex.toString());
            }
-         return new RedirectView("/classes", true);
+         return new RedirectView("/section/section", true);
     }
     
     @RequestMapping(value = {"section/add/section/saveSchedule","section/saveSchedule","../section/saveSchedule","/section/saveSchedule","/user/section/saveSchedule"}, method = RequestMethod.POST)
@@ -169,11 +169,11 @@ public class SectionController {
               List message = new ArrayList();
               String name = request.getParameter("name"),
                      description = request.getParameter("descripton"),
-                      classToAssign = request.getParameter("classToAssign"),
-                      semesterToAssign = request.getParameter("semesterToAssign"),
+                      classToAssign = request.getParameter("class1"),
+                      semesterToAssign = request.getParameter("semester1"),
                       location = request.getParameter("location"),
                       classLimit = request.getParameter("classLimit"),
-                      schedules = request.getParameter("schedules")
+                      schedules = request.getParameter("schedule1")
                      ;                    
                      
                  if(name.isEmpty())

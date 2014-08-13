@@ -54,16 +54,21 @@
                               </li>
                             
                             </c:if>
-                            <c:if test="${pageContext.request.userPrincipal.name != null}">
-                              <c:url value="${pageContext.request.contextPath}/j_spring_security_logout" var="logoutUrl" />
-                              <li><a href="${logoutUrl}">Logout</a></li>
-                            </c:if>
-                            <c:if test="${pageContext.request.userPrincipal.name != null}">
-                              <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
-                            </c:if>
+                            
+                            
                               <sec:authorize access="!hasRole('ROLE_ADMIN')">
                                 <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
                                 <li>
+                                </sec:authorize>
+                                <li><a href="${pageContext.request.contextPath}/contact">Contact Us</a></li>
+                                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                              <c:if test="${pageContext.request.userPrincipal.name != null}">
+                              <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
+                            </c:if>
+                                <c:url value="${pageContext.request.contextPath}/j_spring_security_logout" var="logoutUrl" />
+                              <li><a href="${logoutUrl}">Logout</a></li>
+                            </c:if>
+                                <sec:authorize access="!hasRole('ROLE_ADMIN')">                                
                                   <a href="${pageContext.request.contextPath}/products/cart" >
                                     <span class="badge pull-right" id="myCart">0</span>
                                     <span class="glyphicon glyphicon-shopping-cart"></span>

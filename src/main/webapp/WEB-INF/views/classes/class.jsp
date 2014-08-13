@@ -13,6 +13,9 @@
         <%@include file="../nagivation.jsp" %>        
         <div id="featureWrap">
             <div class="container">
+                  <c:if test="not null $message">
+                      $message
+                  </c:if>
                   <%@include file="class_navigation.jsp" %>
                   <%@include file="main_class_list.jsp" %>
                   
