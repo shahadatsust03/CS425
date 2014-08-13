@@ -161,7 +161,7 @@ public class SectionController {
     
     @RequestMapping(value = {"section/editSection/{id}","../section/editSection/{id}","/section/editSection/{id}", "/user/section/editSection/{id}"}, method = RequestMethod.GET)
     public String editSectionSection(@PathVariable Long id,Model model) {        
-        model.addAttribute("faculty", sectionService.getSection(id));
+        model.addAttribute("section", sectionService.getSection(id));
         return "section/editSection";        
     } 
      

@@ -35,10 +35,18 @@
         width: 50%;
         height: 50%;
         padding: 16px;
-        border: 2px solid orange;
+        border: 0px solid orange;
         background-color: white;
         z-index:1002;
         overflow: auto;
+    }
+    
+    .innerbox
+    {
+     width:60%; /* or whatever width you want. */
+     height:60%; /* or whatever width you want. */     
+     max-width:60%; /* or whatever width you want. */
+     max-height: 60%; /* or whatever width you want. */     
     }
 </style>
         
@@ -52,11 +60,14 @@
             <div id="featureWrap">
             
                 <div class="container">
+                    
+                    <%@include file="section_navigation.jsp" %>
+                     
                      <c:forEach items="${message}" var="msg">
                         <td>${msg}</td>
                     </c:forEach>
                           <form role="form" method="post" action="save">
-                               
+                              
                            <div class="form-group">
                              <label for="name">Name:</label>
                              <input type="text" class="form-control" id="name" name="name" placeholder = "Name" value="${section.sectionName}"/>
@@ -65,17 +76,23 @@
                              <label for="descripton">Description:</label>
                              <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton" value="${section.descripton}"/>
                            </div>
-                          
-                           <div class="form-group">
-                             <label for="classToAssign">Class: </label>
-                             <textarea readonly class="form-control" id="classToAssign" placeholder="Class To Assign"  name="classToAssign" value = "${section.classEntity.className}"></textarea>
-                             <a href = "javascript:void(0)" onclick = "document.getElementById('classList').style.display='block';document.getElementById('fade').style.display='block'">Add Class</a>
+                           <c:if test="${empty classID}">
+                           <input type="hidden" name="class1" id="class1" value="${section.classEntity.id}">
+                           <div class="form-group" >
+                             <label for="class2">Class:</label>
+                               <div class="form-group" type = "display: none">
+                                    <textarea readonly class="form-control" id="class2" placeholder="Class To Assign"  name="class2" value="${section.classEntity.className}"></textarea>
+                                    <a href = "javascript:void(0)" onclick = "document.getElementById('classList').style.display='block';document.getElementById('fade').style.display='block'">Add Class</a>
+                               </div>                             
                            </div>
-                          
+                            </c:if>
+                           
                            <div class="form-group">
                            <label for="semesterToAssign">Semester </label>
-                             <textarea readonly class="form-control" id="semesterToAssign" placeholder="Semester To Assign"  name="semesterToAssign" value = "${section.semester.semesterName}"></textarea>
+                             <textarea readonly class="form-control" id="semester2" placeholder="Semester To Assign"  name="semester2" value = "${section.semester.semesterName}"></textarea>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('semesterList').style.display='block';document.getElementById('fade').style.display='block'">Add semester</a>
+                              <input type="hidden" id="semester1" name ="semester1" value="${section.semester.id}">
+                             
                            </div>
                                 
                            <div class="form-group">
@@ -88,8 +105,10 @@
                            </div>
                             <div class="form-group">
                              <label for="schedules">Schedule List: </label>
-                             <input readonly type="text" class="form-control" id="schedules" placeholder="Schedule List"  name="schedules" value = "${section.getSchedules()}"/>
+                             <input readonly type="text" class="form-control" id="schedule2" placeholder="Schedule List"  name="schedule2" value = "${section.getSchedules()}"/>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('scheduleList').style.display='block';document.getElementById('fade').style.display='block'">Add Schedules</a>
+                             <input type="hidden" id="schedule1" name="schedule1" value = "${section.getSchedules()}">
+                             
                             </div>
    
                            <input type="hidden" name="<c:out value="${_csrf.parameterName}"/>" value="<c:out value="${_csrf.token}"/>"/>
@@ -102,52 +121,27 @@
 
 
                 function doSaveClass( ) {   
-
-                   var radioboxes = document.getElementsByName("radio_id");
-                    var value = "";
-                    // loop over them all
-                    var j = 0;
-                    for (var i=0; i<radioboxes.length; i++) {
-                       // And stick the checked ones onto an array...
-                       if (radioboxes[i].checked) {
-
-                           if(j == 0)
-                            value += radioboxes[i].value ;
-
-                           else
-                               value += "," + radioboxes[i].value;
-                           j++;
-
-                       }
-                    }               
-
-                    document.getElementById('classToAssign').value = value;                
+                    var id = $('input:radio[name=radio_id]:checked').val();                 
+                    var name = $('input:radio[name=radio_id]:checked').attr("classname");
+                    
+                    document.getElementById('class1').value = id;
+                    document.getElementById('class2').value = name;
+                    
 
                 }               
        
                 function doSaveSemester( ) {
-                        var radioboxes = document.getElementsByName("semester_id");
-                         var value = "";
-                         // loop over them all
-                         var j = 0;
-                         for (var i=0; i<radioboxes.length; i++) {
-                            // And stick the checked ones onto an array...
-                            if (radioboxes[i].checked) {
-
-                                if(j == 0)
-                                 value += radioboxes[i].value ;
-
-                                else
-                                    value += "," + radioboxes[i].value;
-                                j++;
-
-                            }
-                         }
-                         document.getElementById('semesterToAssign').value = value;  
-                     }               
+                    
+                   var id = $('input:radio[name=semester_id]:checked').val();                 
+                    var name = $('input:radio[name=semester_id]:checked').attr("semestername");
+                    document.getElementById('semester1').value = id;
+                    document.getElementById('semester2').value = name;                    
+                }               
                      
                      function doSaveSchedule( ) {
                         var radioboxes = document.getElementsByName("schedule_id");
+//                        var id = $('input:checkbox[name=schedule_id]:checked').val();                 
+//                        alert(id);
                          var value = "";
                          // loop over them all
                          var j = 0;
@@ -164,7 +158,9 @@
 
                             }
                          }
-                         document.getElementById('schedules').value = value;  
+                         document.getElementById('schedule2').value = value;
+                         document.getElementById('schedule1').value = value;
+                         
                      }               
                 </script>
     </div> 
