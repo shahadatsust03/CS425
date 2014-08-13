@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -55,7 +56,7 @@ public class SectionEntity {
     }
     
     
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     List<ScheduleEntity> scheduleList = new ArrayList<ScheduleEntity>();
      
     @ManyToOne(cascade={CascadeType.PERSIST})
@@ -92,9 +93,19 @@ public class SectionEntity {
     
     @OneToMany(mappedBy="section",cascade={CascadeType.ALL})
     List<EnrollmentEntity> enrollments = new ArrayList<EnrollmentEntity>();
-    public int getTotalEnrollment(){
+        public int getTotalEnrollment(){
+        int totalEnrollment = 0;
+        Iterator<EnrollmentEntity> iterator = enrollments.iterator();
+        while(iterator.hasNext()){
+            EnrollmentEntity enrollmentEntity = iterator.next();
+            if(enrollmentEntity.getStatus() == 0)
+                totalEnrollment++;
+            return totalEnrollment;
+            
+        }
         return enrollments.size();
     }
+        
     public void addEnrollments(EnrollmentEntity enrollment){
         enrollment.setSection(this);
         enrollments.add(enrollment);

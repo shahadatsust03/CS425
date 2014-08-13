@@ -37,24 +37,24 @@
                 <form role="form" method="post" action="${pageContext.request.contextPath}/updatesemester">
                     <div class="form-group">
                         <label for="name">Name:</label>                         
-                        <input typ="text" class="form-control" id="semesterName" name="semesterName" placeholder = "${semester.semesterName}" value="${semester.semesterName}"/>
+                        <input type="text" class="form-control" id="semesterName" name="semesterName" placeholder = "${semester.semesterName}" value="${semester.semesterName}"/>
                     </div>
 
                     <div class="form-group">
                         <label for="startDate">Start Date :</label>
-                        <fmt:parseDate var="parsedStartDate" type="date" value="${semester.startDate}" pattern="MM/dd/yyyy"/>
+                        <fmt:parseDate var="parsedStartDate" type="date" value="${semester.startDate}" pattern="yyyy-MM-dd"/>
                         <fmt:formatDate var="formatedStartDate" type="date" value="${parsedStartDate}" pattern="yyyy-MM-dd"/>                                      
                         <input type="text" class="form-control" id="startDate" name="startDate" placeholder="${formatedStartDate}"  value="${formatedStartDate}"/>
                     </div>
                     <div class="form-group">
                         <label for="endDate">End Date : </label>
-                        <fmt:parseDate var="parsedEndDate" type="date" value="${semester.endDate}" pattern="MM/dd/yyyy"/>
+                        <fmt:parseDate var="parsedEndDate" type="date" value="${semester.endDate}" pattern="yyy-MM-dd"/>
                         <fmt:formatDate var="formatedEndDate" type="date" value="${parsedEndDate}" pattern="yyyy-MM-dd"/> 
                         <input type="text" class="form-control" id="endDate" name="endDate" placeholder="${formatedEndDate}"  value="${formatedEndDate}"/>
                     </div>                           
                     <input type="hidden" name="id" value="${semester.id}" />
 
-                    <a type="button" href="${pageContext.request.contextPath}/semesters" class="btn btn-primary">Cancel</a>
+                    <a href="${pageContext.request.contextPath}/semesters" class="btn btn-primary">Cancel</a>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
             </div>

@@ -16,6 +16,20 @@
         });
    });
 
+   //load customer pages
+   linkClicked("#userEnrollments",function(url){
+        console.debug(url);
+         $.get( url, function( data ) {
+         $("#userAccountContainer").html(data);
+        });
+   });
+   
+    linkClicked("#userProfile",function(url){
+        console.debug(url);
+         $.get( url, function( data ) {
+         $("#userAccountContainer").html(data);
+        });
+   });
     function linkClicked(id,callBack){
          $(id).click(function(){
                 // do something
@@ -201,5 +215,12 @@
             */
          return false;
          };
+         
+         $.fn.loadCustomerPage = function(id){
+             
+             console.log("loading customer page" ,id);
+             console.log("page");
+             
+         }
  });
             

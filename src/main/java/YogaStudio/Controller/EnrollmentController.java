@@ -311,18 +311,26 @@ public class EnrollmentController {
         return view;
 
     }
-
+    
     @RequestMapping(value = {"/unenrollments", "/user/unenrollments"}, method = RequestMethod.GET)
     public ModelAndView getEnrolledSections(HttpServletRequest request) {
         try {
+            String render = request.getParameter("render");
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
             UserEntity user = userService.findUser(name);
 
             CustomerEntity customerEntity = customerService.getCustomer(user.getId());
             List<SectionEntity> sections = enrollmentService.getEnrolledSections(customerEntity.getId());
-
-            ModelAndView view = new ModelAndView("unenrollments/enrolledsections");
+               
+            ModelAndView view = null ;// new ModelAndView();
+            if(render != null && render.equals("ajax")){
+                view = new ModelAndView("unenrollments/enrolledsectionslist");
+            }
+            else{
+                view =  new ModelAndView("unenrollments/enrolledsections");
+            }
+             
             view.addObject("sections", sections);
             return view;
 
@@ -441,6 +449,5 @@ public class EnrollmentController {
 //        return new ModelAndView("/user/requestWaiver", "user", "not found");  
         return view;
     }
-   
 
 }
