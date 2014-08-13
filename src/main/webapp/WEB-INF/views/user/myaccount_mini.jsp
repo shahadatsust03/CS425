@@ -16,11 +16,23 @@
                 <tr><td><b>Country</b></td> <td>${not empty Profile.country ? Profile.country : ""}</td> </tr>
             </table>
         </div>   
-
+    <sec:authorize access="!hasRole('ROLE_ADMIN')">   
         <ul class="list-group">
             <li class="list-group-item">
-                <h4 class="list-group-item-heading">Billing information</h4>
-
+                <div>
+                    <div style="display:inline-block">
+                       <h4 class="list-group-item-heading">Billing information</h4>
+                    </div>
+                    <div  style="display:inline-block;margin-left: 30px">
+                        <c:if test="${empty Profile.getCreditCard().getCardNumber()}">                  
+                               <button class="btn btn-small btn-primary  btn-xs" type="button"
+                                      onclick="function register(){return false;}" data-toggle="modal" data-target="#creditcard-modal"
+                                      >
+                                 Add credit card
+                               </button>                                       
+                         </c:if> 
+                    </div>
+                </div>
                 <!--show user credit cards -->
                 <div>
 
@@ -34,7 +46,8 @@
                             </td>
                             <td>
                                 <c:if test="${not empty Profile.getCreditCard().getCardNumber()}">                  
-                                    <button class="btn btn-small btn-primary  btn-xs" type="button" onclick="" >
+                                    <button class="btn btn-small btn-primary  btn-xs" type="button" 
+                                            onclick="$(this).removeCard()" >
                                         Remove credit card
                                     </button>                                       
                                 </c:if>     
@@ -42,36 +55,9 @@
                         </tr>
                     </table>
                 </div>
-                <!--credit card model -->
-                <div class="modal fade" id="creditcard-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title" id="myModalLabel">New Credit card</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div id="credit-card-model-msg"> </div>
-                                <form id="newCreditCard" role="form" action="${pageContext.request.contextPath}/user/savecreditcard">
-                                    <div class="form-group">
-                                        <label for="cardnumber">Card number</label>
-                                        <input type="text" class="form-control" id="cardnumber" name="cardnumber" placeholder="Enter card number">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="expirydate">Expiry date</label>
-                                        <input type="text" class="form-control" id="expirydate"  name="expirydate" placeholder="Enter expiry date"><div>Format: MM/YYYY</div>
-                                    </div>                                                           
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="$(this).saveCreditCard('#newCreditCard')">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             </li>
         </ul>
-
+    </sec:authorize>
     </div>
 </c:if>

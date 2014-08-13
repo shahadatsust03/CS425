@@ -17,6 +17,16 @@
          <div class="form-group">
           <input type="text" class="form-control" name="product" placeholder="Search" />
          </div>
+           
+           <div class="btn-group">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Price <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">$20 - $50</a></li>
+                  <li><a href="#">$50 - $100</a></li>
+                  <li><a href="#">Item III</a></li>
+                </ul>
+           </div>
+  
 
         <button type="submit" class="btn btn-primary btn-sm" >Search</button>
         </form>

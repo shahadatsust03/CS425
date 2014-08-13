@@ -6,6 +6,7 @@
 
 package YogaStudio.dao.generic;
 
+import YogaStudio.domain.CreditCardEntity;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.OrderEntity;
 import YogaStudio.domain.PaymentEntity;
@@ -14,8 +15,10 @@ import YogaStudio.domain.ProductOrderEntity;
 import YogaStudio.domain.UserEntity;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -89,11 +92,14 @@ public class ProductDAO {
    //search
    public List<ProductEntity> search(String fieldName,String value){
        List list = null;
-       try{
-         String query = "from ProductEntity p where p.fieldname like :fieldvalue ".replace("fieldname", fieldName);
-         Query result= sf.getCurrentSession().createQuery(query);
-         result.setParameter("fieldvalue", value);
-         list = result.list();
+       try{               
+           Criteria criteria = sf.getCurrentSession().createCriteria(ProductEntity.class);
+
+	if(value!=null){
+          criteria.add(Restrictions.ilike(fieldName, "%" +value+ "%"));
+	}
+        
+	list  = criteria.list();
        }
        catch(Exception e){
          System.out.print("Error finding product : "+e.getMessage());
@@ -102,7 +108,7 @@ public class ProductDAO {
    }
    
    
-   public boolean addProductOrders(List<ProductOrderEntity> productOrders ,UserEntity user) {
+   public boolean addProductOrders(List<ProductOrderEntity> productOrders ,UserEntity user, boolean checkOut) {
         try{
              double totalAmount = 0;
              int totalQuantity = 0;
@@ -127,9 +133,25 @@ public class ProductDAO {
               order.setDateOfOrder(new Date());
               order.setTotalQuantity(totalQuantity);
               
-              //Create the  payment 
-              PaymentEntity payment = new PaymentEntity(totalAmount);
-              order.addPayments(payment);
+              //Create the  payment it is checkout is true 
+              if(checkOut)
+              {
+               //determine if user has credit card before payment if process
+                CreditCardEntity card = user.getCreditCard();
+                if(card != null){
+                   PaymentEntity payment = new PaymentEntity(totalAmount);
+                   payment.setCreditcard(card);
+                   order.addPayments(payment);
+                   //set the order status
+                   order.setStatus("PAID");
+                }
+                else{
+                  return false;
+                }
+              }
+              else{
+                order.setStatus("UNPAID");
+              }
               
               sf.getCurrentSession().saveOrUpdate(order);
              

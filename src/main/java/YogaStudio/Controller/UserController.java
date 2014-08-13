@@ -192,6 +192,7 @@ public class UserController {
 
     @RequestMapping(value = "/user/myaccount", method = RequestMethod.GET)
     public ModelAndView viewProfile(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+        String render = request.getParameter("render");
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
@@ -205,13 +206,19 @@ public class UserController {
             if (user != null) {
                 // redirectAttributes.addAttribute("Profile", user);
                 //return "user/myaccount";
-                return new ModelAndView("/user/myaccount", "Profile", user);
+                if(render != null && render.equals("ajax"))
+                   return new ModelAndView("/user/myaccount_mini", "Profile", user);
+                else
+                   return new ModelAndView("/user/myaccount", "Profile", user);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         //redirectAttributes.addFlashAttribute("message", "Profile not found.");
-        return new ModelAndView("/user/myaccount", "Profile", "not found");
+          if(render != null && render.equals("ajax"))
+                 return new ModelAndView("/user/myaccount_mini", "Profile", "Profile not found.");
+            else
+                 return new ModelAndView("/user/myaccount", "Profile", "Profile not found.");
         //return "redirect:/";
     }
 
@@ -536,6 +543,40 @@ public class UserController {
             }
             
             return json;//"[{\"success\": false, \"message\": \"your request failed\"}]";
+    }
+    
+    //remove credit card
+    @RequestMapping(value="/user/removecard", method=RequestMethod.POST)
+    public String removeCreditCard(HttpServletRequest request,Model model) {
+            boolean success = false; 
+            String render = request.getParameter("render");
+            String message = "";
+            UserEntity user = null;
+            try{
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    String username = auth.getName();            
+                    user = userService.findCustomerBy("username",username);
+                    if(user != null){
+                       success = userService.removeCreditCard(user);
+                     }
+                    
+                    if(success)
+                        model.addAttribute("message","Card successfully removed!");
+                    else
+                        model.addAttribute("message","Sorry,failed to remove card!");
+
+            }
+            catch(Exception e){
+                model.addAttribute("message","Failed to remove credit card!");
+            }
+             
+            model.addAttribute("message", message);
+            model.addAttribute("Profile", user);
+            
+            if(render != null && render.equals("ajax"))
+               return "/user/myaccount_mini";
+            else 
+               return "/user/myaccount";
     }
     
     private boolean valiateParameter(String param){

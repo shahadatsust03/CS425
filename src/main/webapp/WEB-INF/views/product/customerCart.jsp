@@ -25,14 +25,15 @@
                             </h4>
                         </div>
                         <div class="panel-body">
-                            <div id="cartMsg"></div>
+                            <div id="cartMsg" class="cartMsg"></div>
                             <!--Add a Div with the class "simpleCart_items" to show your shopping cart area.-->
 			     <div class="simpleCart_items" >
 		             </div>
                             <div>
                                 <!--Here's the Links to Checkout and Empty Cart-->
-				<button class="simpleCart_empty btn btn-small">empty cart</button>
-				<button class="simpleCart_checkout btn btn-small">Checkout</button>
+				<button type="button" class="simpleCart_empty btn btn-primary">Empty cart</button>
+                                <button type="button" class="simpleCart_save  btn btn-primary"> Save order</button>
+				<button type="button" class="simpleCart_checkout  btn btn-primary">Checkout order</button>
                             </div>
                          </div>
                         </div>

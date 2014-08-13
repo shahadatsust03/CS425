@@ -38,7 +38,24 @@ public class OrderEntity {
     private Date dateOfOrder;
     private int totalQuantity;
     private double totalAmount;
+    private String status;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Set<PaymentEntity> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<PaymentEntity> payments) {
+        this.payments = payments;
+    }
+    
     public OrderEntity() {
         this.totalQuantity = 0;
         this.totalAmount = 0;

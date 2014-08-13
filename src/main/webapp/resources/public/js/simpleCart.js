@@ -78,6 +78,11 @@ function cart( email ) {
 		simpleCart.empty();
 		return false;
 	};
+        
+        this.saveOrderEvent = function() {
+		simpleCart.saveOrder();
+		return false;
+	};
 	
 	/* set up the Event Listeners for the empty cart and checkout
 	 * links in the page. 
@@ -104,6 +109,18 @@ function cart( email ) {
 					element.addEventListener("click", this.emptyEvent, false );
 				} else if( element.attachEvent ) {
 				  	element.attachEvent( "onclick", this.emptyEvent );
+				}
+			}
+                        
+                        //save order
+                        x=0;
+			elements = getElementsByClassName('simpleCart_save');
+			for( x=0;x<elements.length;x++) {
+				element = elements[x];
+				if( element.addEventListener ) {
+					element.addEventListener("click", this.saveOrderEvent, false );
+				} else if( element.attachEvent ) {
+				  	element.attachEvent( "onclick", this.saveOrderEvent );
 				}
 			}
                         
@@ -254,7 +271,7 @@ function cart( email ) {
                         elements = getElementsByClassName('simpleCart_items');
                         for( x=0;x<elements.length;x++) {
                                 cartTable = elements[x];
-                                newRow = document.createElement('div');
+                                tempTable = document.createElement('table');
                                 var x=0,i=0;
                                 //delete all current rows
                                 while (cartTable.childNodes[0]) {
@@ -262,25 +279,29 @@ function cart( email ) {
                                 }
 
                                 // create the header
+                                newRow = document.createElement("tr")
                                 for( x=0;x<this.ItemColumns.length;x++) {
-                                        if( this.ItemColumns[x] != 'Options' || this.options() ) {
-                                                tempCell = document.createElement('div');
-                                                tempCell.innerHTML = this.ItemColumns[x];
+                                        if( this.ItemColumns[x].trim() != "Options" || this.options() ) {
+                                                tempCell = document.createElement('th');
+                                                if(this.ItemColumns[x].trim() != "Options")
+                                                  tempCell.innerHTML = this.ItemColumns[x];
                                                 tempCell.className = "item" + this.ItemColumns[x];
                                                 newRow.appendChild(tempCell);
+                                                console.log(this.ItemColumns[x] );
                                         }
                                 }
-                                newRow.className = "cartHeaders";
-                                cartTable.appendChild(newRow);
+                                //newRow.className = "cartHeaders"
+                              //  newRow.appendChild(tableHeader);
+                                tempTable.appendChild(newRow);
 
                                 // create a row for each item
                                 x=0;
                                 for( x=0;x<this.items.length;x++ ) {
                                         tempItem = this.items[x];
-                                        newRow = document.createElement('div');
+                                        newRow = document.createElement('tr');
                                         i=0;
                                         for(i=0;i<this.ItemColumns.length;i++) {
-                                                tempCell = document.createElement('div');
+                                                tempCell = document.createElement('td');
                                                 tempCell.className = "item" + this.ItemColumns[i];
                                                 if( this.ItemColumns[i] == 'Image' ) {
                                                         if( tempItem.getValue('image') && tempItem.getValue('image') != "" ) {
@@ -300,28 +321,36 @@ function cart( email ) {
                                                 }
                                                 newRow.appendChild(tempCell);
                                         }
-                                        newRow.className = "itemContainer"
-                                        cartTable.appendChild(newRow);
+                                        newRow.className = "itemContainer";
+                                        tempTable.appendChild(newRow);
+                                        //cartTable.appendChild(newRow);
                                 }
                                 // create totals row
-                                newRow = document.createElement('div');
-                                tempCell = document.createElement('div');
+                                newRow = document.createElement('tr');
+                                tempCell = document.createElement('td');
                                 tempCell.innerHTML = String(this.totalItems);
                                 tempCell.className = "totalItems";
                                 newRow.appendChild(tempCell);
-                                tempCell = document.createElement('div');
+                                tempCell = document.createElement('td');
                                 tempCell.innerHTML = this.returnTotalPrice();
                                 tempCell.className = "totalPrice";
                                 newRow.appendChild(tempCell);
                                 newRow.className = "totalRow";
-                                cartTable.appendChild(newRow);
+                                tempTable.appendChild(newRow);
+                                tempTable.className = "table table-striped table-hover";
+                                cartTable.appendChild(tempTable);
+                                //cartTable.appendChild(newRow);
                         }
             }
             else{
+                 var empty = '<div class="alert alert-info">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong></strong><span> Your cart is empty</span>'+
+                                       '</div>'
                 //empty products in cart
-                elements = getElementsByClassName('simpleCart_items');
+                elements = getElementsByClassName('cartMsg');
                 if(elements.length>0) {
-                   elements[0].innerHTML ="<span> Your cart is empty</span>";
+                   elements[0].innerHTML = empty;
                  }
             }
 	     return false;	
@@ -390,6 +419,30 @@ function cart( email ) {
 				
 		  }
              $(this).checkOut(itemList);
+              return false;
+	};
+        
+        // save order
+	this.saveOrder = function() { 
+		if( this.totalItems == 0 ){
+			alert("Your cart is empty!");
+			return false;
+		} 
+              
+                var itemList = [];
+	
+		for (var counter = 0; counter < this.items.length; counter++) { 
+                     var tempItem = this.items[counter];
+                     itemList.push({
+                                    quantity: tempItem.getValue('quantity'),
+                                    price: tempItem.getValue('price'),
+                                    product:{ 
+                                             id: tempItem.getValue('id')
+                                            }                                          
+                                 });			
+				
+		  }
+             $(this).saveOrder(itemList);
               return false;
 	};
 }

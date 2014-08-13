@@ -12,7 +12,7 @@
                      </td>
                      <td style="border:none">
                          <span>
-                           <img src="${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}" alt="${product.name}" style="width:80px;" />
+                           <img src="${pageContext.request.contextPath}/products/image/${product.getFirstImage().getId()}" alt="${product.name}" style="width:65px;" />
                          </span>  
                      </td>
                  </tr>

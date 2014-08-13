@@ -76,7 +76,7 @@ public class UserEntity {
     @Column(name = "ZIPCODE")
     private Long zipcode;
      
-     @OneToOne(mappedBy="user",cascade={CascadeType.ALL})
+     @OneToOne(mappedBy="user",cascade={CascadeType.ALL},orphanRemoval = true)
      @JoinColumn
      private CreditCardEntity creditCard;
     

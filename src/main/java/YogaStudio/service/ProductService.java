@@ -70,6 +70,11 @@ public class ProductService {
     {           
       return productDao.findBy(fieldName, value);
     }
+    
+    public List<ProductEntity> search(String fieldName,String value) 
+    {           
+      return productDao.search(fieldName, value);
+    }
 
     public ProductEntity get(Long id) {     
         return productDao.get(id);      
@@ -83,9 +88,19 @@ public class ProductService {
         productDao.delete(userId);   
     } 
    
+    
     public boolean addOrders(List<ProductOrderEntity> list ,UserEntity user)
-    {        
-       return productDao.addProductOrders(list,user);
+    {   
+       boolean checkOut = true;
+       return productDao.addProductOrders(list,user,checkOut);
+    }
+    
+    //save order
+    
+    public boolean saveOrder(List<ProductOrderEntity> list ,UserEntity user)
+    {   
+       boolean checkOut = false;
+       return productDao.addProductOrders(list,user,checkOut);
     }
     
     public List<OrderEntity> getUserOrders(CustomerEntity customer)

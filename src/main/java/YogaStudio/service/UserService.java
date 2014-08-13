@@ -8,6 +8,7 @@ package YogaStudio.service;
 
 
 import YogaStudio.dao.generic.UserDAO;
+import YogaStudio.domain.CreditCardEntity;
 import YogaStudio.domain.CustomerEntity;
 import YogaStudio.domain.FacultyEntity;
 import YogaStudio.domain.UserEntity;
@@ -150,5 +151,15 @@ public class UserService {
     
     public boolean addCreditCard(UserEntity userentity, Long cardNumber, Date expiryDate){
      return userDao.addCreditCard(userentity,cardNumber,expiryDate);
+    }
+    
+    //remove credit card
+    public boolean removeCreditCard(UserEntity user){
+        try{
+          return userDao.removeCreditCard(user);
+        }
+        catch(Exception e){
+           return false;
+        }
     }
 }

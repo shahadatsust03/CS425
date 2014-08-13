@@ -121,6 +121,8 @@ public class UserDAO {
         }
         return list;
     }
+    
+    
 
     public boolean userExists(String fieldName, String value) {
         try {
@@ -155,7 +157,8 @@ public class UserDAO {
          }
     }
     
-        public boolean addCreditCard(UserEntity userentity, Long cardNumber, Date expiryDate) {          
+    //add credit card
+    public boolean addCreditCard(UserEntity userentity, Long cardNumber, Date expiryDate) {          
           try{
              CreditCardEntity card = new CreditCardEntity(cardNumber,expiryDate);
              card.setUser(userentity);
@@ -165,5 +168,22 @@ public class UserDAO {
             catch(Exception e){
                 return false;
              }
+    }
+    //remove credit card
+    public boolean removeCreditCard(UserEntity user) {
+        try{
+           CreditCardEntity card = getCard(user.getCreditCard().getId());
+           card.setUser(null);
+           sf.getCurrentSession().delete(card);
+          return true;
         }
+        catch(Exception e)
+        {
+          return false;
+        }
+    }
+    //
+     public CreditCardEntity getCard(Long id) {
+        return (CreditCardEntity) sf.getCurrentSession().load(CreditCardEntity.class, id);
+    }
 }

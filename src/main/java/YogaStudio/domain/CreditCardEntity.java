@@ -37,7 +37,7 @@ public class CreditCardEntity {
     @OneToOne
     UserEntity user;
     
-    @OneToMany(mappedBy="creditcard", cascade={CascadeType.ALL})
+    @OneToMany(mappedBy="creditcard", cascade={CascadeType.ALL},orphanRemoval=true)
 //    @JoinColumn
     List<PaymentEntity> payments;
 

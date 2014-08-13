@@ -230,6 +230,61 @@ public class ProductController {
              String password= userDetails.getPassword(); //
              //TODO user by username and password
              UserEntity user = userService.findCustomerBy("username",username);
+             //check
+             if(user !=null)
+             {
+                   //check if user has credit card
+                   if(user.getCreditCard() != null){
+                        List <ProductOrderEntity> list = new ArrayList<ProductOrderEntity>(); 
+
+                        JsonFactory f = new JsonFactory();
+                        JsonParser jp = f.createJsonParser(request);
+                        jp.nextToken();
+
+                        ObjectMapper mapper = new ObjectMapper();
+                       // and then each time, advance to opening START_OBJECT
+                        while (jp.nextToken() == JsonToken.START_OBJECT) {
+                           // jp.
+                         list.add(mapper.readValue(jp, ProductOrderEntity.class));
+                       }
+
+                       boolean saved = productService.addOrders(list, user);
+                       response.put("success",saved);
+                       response.put("message",
+                                     saved? "Order checkout successful,see your orders": "Sorry, order checkout failed");
+                   }
+                   else{
+                       response.put("success",false); 
+                       response.put("message","Checkout failed,you have have a valid credit card!");
+                   }
+             }
+             else{
+                response.put("success",false);
+                response.put("message","User does not exist");
+             }
+        } catch (Exception ex) {
+            Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
+            response.put("success", false);
+            response.put("message","Sorry ,checkout unsuccessul");
+        }
+        
+        return response;
+    }
+    
+    //save orders
+    @RequestMapping(value = "/products/saveorder", method = RequestMethod.POST,headers ="Content-Type=application/json")
+    public  @ResponseBody HashMap saveOrder(@RequestBody final  String request) {
+        //TODO check if the customer has a credit card 
+        //check the balance in the credit card
+          HashMap response = new HashMap();
+        try {
+             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+             String username = auth.getName();          
+             Object object = auth.getPrincipal();   
+             UserDetails userDetails = (UserDetails)object; //
+             String password= userDetails.getPassword(); //
+             //TODO user by username and password
+             UserEntity user = userService.findCustomerBy("username",username);
              if(user !=null)
              {
                  //user is active
@@ -246,8 +301,12 @@ public class ProductController {
                      list.add(mapper.readValue(jp, ProductOrderEntity.class));
                    }
 
-                   boolean saved = productService.addOrders(list, user);
+                   boolean saved = productService.saveOrder(list, user);
                    response.put("success",saved);
+                   if(saved)
+                     response.put("message","Successfully saved");
+                   else
+                     response.put("message","Sorry, saving of your order unsuccessful");
              }
              else{
                 response.put("success",false);
@@ -256,12 +315,12 @@ public class ProductController {
         } catch (Exception ex) {
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
             response.put("success", false);
-            response.put("message","Sorry ,checkout unsuccessul");
+            response.put("message","Sorry, saving of your order unsuccessful");
         }
         
         return response;
     }
- 
+    
     //seach products
      @RequestMapping(value = "/products/query", method = RequestMethod.GET)
      public ModelAndView search(HttpServletRequest request) {
@@ -271,7 +330,7 @@ public class ProductController {
             products = productService.getAll();
         }
         else{
-            products = productService.findBy("name", name);
+            products = productService.search("name", name);
         }
         ModelAndView view = new ModelAndView("/product/main_product_list");
         view.addObject("products", products);

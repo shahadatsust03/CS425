@@ -30,6 +30,15 @@
          $("#userAccountContainer").html(data);
         });
    });
+   
+   
+    linkClicked("#userOrders",function(url){
+        console.debug(url);
+         $.get( url, function( data ) {
+         $("#userAccountContainer").html(data);
+        });
+   });
+   
     function linkClicked(id,callBack){
          $(id).click(function(){
                 // do something
@@ -56,6 +65,12 @@
               mimeType: 'application/json',
               success: function(data) { 
                       if(data.success){
+                            var message =  '<div class="alert alert-success">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong>Success!</strong> '+data.message+
+                                        '</div>';
+                                
+                         $("#cartMsg").html(message);
                           simpleCart.empty();
                       }
                       else{
@@ -72,10 +87,46 @@
                     alert("error: "+data+" status: "+status+" er:"+er);
                 }
             });
-           /*
-            * "[{\"price\":20,\"quantity\": 1,\"totalAmount\":3,\"product\":{\"id\":10}},\n\
-                      {\"price\":40,\"quantity\": 1,\"totalAmount\":5,\"product\":{\"id\":11}}]"
-            */
+
+         return false;
+         };
+         
+         //save order
+         $.fn.saveOrder = function(data) {
+           console.log("save to cart");
+           console.log(data);
+           $.ajax({
+              url: "saveorder",
+              data: JSON.stringify(data), 
+              dataType: 'json',
+              type: 'POST',
+              contentType: 'application/json',
+              mimeType: 'application/json',
+              success: function(data) { 
+                      if(data.success){
+                           var message =  '<div class="alert alert-success">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong>Success!</strong> '+data.message+
+                                        '</div>';
+                                
+                         $("#cartMsg").html(message);
+                          simpleCart.empty();
+                      }
+                      else{
+                           var alert ='<div class="alert alert-warning">'+
+                                        '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+                                        '<strong>Failed!</strong> '+data.message+
+                             '</div>';
+                                
+                          $("#cartMsg").html(alert);
+                      }
+   
+                },
+                error:function(data,status,er) { 
+                    alert("error: "+data+" status: "+status+" er:"+er);
+                }
+            });
+
          return false;
          };
          
@@ -167,13 +218,19 @@
                      console.log(data);
                       if(data.success){
                          console.log(data.message);
-                         $("#password-request").modal('hide');
+                         
                          var message =  '<div class="alert alert-success">'+
                                         '<a href="#" class="close" data-dismiss="alert">&times;</a>'+
                                         '<strong>Success!</strong> '+data.message+
                                         '</div>';
                                 
                          $("#serverResponseMsg").html(message);
+                         //refresh the
+                          var url = $("#userProfile").attr("href");
+                          $.get( url, function( data ) {
+                            $("#userAccountContainer").html(data);
+                           });
+                         $("#creditcard-modal").modal('hide');
                       }
                       else{
                           var alert ='<div class="alert alert-warning">'+
@@ -222,5 +279,23 @@
              console.log("page");
              
          }
+         
+         //remove card
+        $.fn.removeCard = function(){
+            $.ajax({
+              url: "removecard",
+              data: {render: "ajax"}, 
+              type: 'POST',
+              success: function(resp) {
+                    $("#userAccountContainer").html(resp);
+                     console.log(resp);  
+                },
+                error:function(data,status,er) { 
+                    alert("error: "+data+" status: "+status+" er:"+er);
+                }
+              });
+              
+           return false;
+        }
  });
             

@@ -14,7 +14,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#topWrap">						
+                    <a class="navbar-brand" href="${pageContext.request.contextPath}/">						
                             YOGA<span class="title">Studio</span>
                     </a>
             </div>
@@ -27,15 +27,7 @@
                                 
                                 <li><a href="${pageContext.request.contextPath}/semesters">Semesters</a></li>                                
                             </sec:authorize>
-              
-                             <c:if test="${pageContext.request.userPrincipal.name != null}">                            
-                            <sec:authorize ifAnyGranted="ROLE_USER">
-                                 <li><a href="${pageContext.request.contextPath}/enrollments">Enrollment</a></li>
-                                <li><a href="${pageContext.request.contextPath}/unenrollments">Unenroll</a></li>
-                                <li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li>
-                               <!-- <li><a href="${pageContext.request.contextPath}/viewEnrollments">View Enrollment</a></li> -->
-                            </sec:authorize>                            
-                            </c:if>
+                                
                         <c:if test="${pageContext.request.userPrincipal.name != null}">                            
                        <!-- <sec:authorize ifAnyGranted="ROLE_FACULTY">
                              <li><a href="${pageContext.request.contextPath}/waiver/viewWaiversByFA">View Waivers</a></li>    
@@ -43,11 +35,11 @@
                         </c:if>
                                 <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
                              <c:if test="${pageContext.request.userPrincipal.name != null}">
-                             
+                             <sec:authorize ifAnyGranted="ROLE_ADMIN">
                              <li>
                                  <a href="${pageContext.request.contextPath}/faculty">Faculty</a>                               
                              </li>  
-                            
+                             </sec:authorize>
                             </c:if>
                             <c:if test="${pageContext.request.userPrincipal.name == null}">
                               <li><a href="#" id="registerCustomer" onclick="function register(){return false;}" data-toggle="modal" data-target="#regisration-modal">
@@ -56,22 +48,21 @@
                             
                             </c:if>
                             
-                            <c:if test="${pageContext.request.userPrincipal.name != null}">
-                              <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
-                            </c:if>
-                              <sec:authorize access="hasRole('ROLE_USER')">
-                                <li><a href="${pageContext.request.contextPath}/user/orders">Orders</a></li>
-                              </sec:authorize>
-                                <li><a href="${pageContext.request.contextPath}/contact">Contact Us</a></li>
-                                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                              <c:if test="${pageContext.request.userPrincipal.name != null}">
+                                 <li><a href="${pageContext.request.contextPath}/user/myaccount">My account</a></li>
+                              </c:if>
+                               
+                               <c:if test="${pageContext.request.userPrincipal.name != null}">
                                     <li><a href="<c:url value="${pageContext.request.contextPath}/j_spring_security_logout"/>">Logout</a></li>
                                 </c:if>
-                                <li>
-                                  <a href="${pageContext.request.contextPath}/products/cart" >
-                                    <span class="badge pull-right" id="myCart">0</span>
-                                    <span class="glyphicon glyphicon-shopping-cart"></span>
-                                 </a>
-                              </li>  
+                                   <sec:authorize access="!hasRole('ROLE_ADMIN')">    
+                                        <li>
+                                          <a href="${pageContext.request.contextPath}/products/cart" >
+                                            <span class="badge pull-right" id="myCart">0</span>
+                                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                                         </a>
+                                      </li>  
+                                    </sec:authorize>
                         
                                <!--Add a Div with the class "simpleCart_items" to show your shopping cart area.-->
                           

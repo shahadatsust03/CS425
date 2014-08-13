@@ -1,11 +1,10 @@
 ul.gallery.col-4 li {
-width: 25%;
+width: 24.5%;
 }
 ul.gallery li {
-display: block;
+display: inline-block;
 padding: 0;
 margin: 0;
-float: left;
 }
 
 body>section {
