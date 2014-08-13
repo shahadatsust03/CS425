@@ -40,6 +40,12 @@
                              <li><a href="${pageContext.request.contextPath}/waiver/viewWaiversByFA">View Waivers</a></li>    
                                 </sec:authorize> -->
                         </c:if>
+                                
+                                 <c:if test="${pageContext.request.userPrincipal.name != null}">                            
+                        <sec:authorize ifAnyGranted="ROLE_USER">
+                             <li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li>    
+                                </sec:authorize> 
+                             </c:if>
                                 <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
                               <sec:authorize ifAnyGranted="ROLE_ADMIN">
                                  <li>

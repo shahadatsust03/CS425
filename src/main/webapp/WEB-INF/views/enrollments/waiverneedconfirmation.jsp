@@ -19,7 +19,7 @@
         <div id="featureWrap">
             <div class="container">                   
                 <div class="panel panel-default">                    
-                    <font color="red" size="5">You donnot have the prerequiste for ${class.className}. Do you want to request a waiver? </font></br>
+                    <font color="red" size="5">You donnot have the prerequiste for this class. Do you want to request a waiver? </font></br>
 
                         <a href="${pageContext.request.contextPath}/waiver/requestWaiver/${customerId}"> <button type="button" class="btn btn-primary">Yes</button>    </a>  
                         <a href="${pageContext.request.contextPath}/classes"> <button type="button" class="btn btn-primary">No</button>    </a> 
