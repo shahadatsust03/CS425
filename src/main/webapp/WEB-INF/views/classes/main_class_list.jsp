@@ -19,12 +19,8 @@
                         </a>
                       </h4>
                     </div>
-                         <c:if test="${loop.index ==0}">
-                           <div id="collapse${classs.id}" class="panel-collapse collapse in">
-                         </c:if>
-                         <c:if test="${loop.index >0}">
-                             <div id="collapse${classs.id}" class="panel-collapse collapse">
-                         </c:if>
+                     <div id="collapse${classs.id}" class='panel-collapse collapse ${loop.index ==0?"in":""}'>
+
                       <div class="panel-body">
                         <div>Description: ${classs.description}</div>
                        <div>Tution Fee: ${classs.fee}</div>
@@ -35,26 +31,58 @@
                              </c:forEach>
                          </c:if>
                          </div>
-                         <div><c:if test="${not empty classs.sections}">Sections:</c:if> 
-                         <c:if test="${not empty classs.sections}">
-                             <c:forEach items="${classs.sections}" var="section">                                 
-                             <div>Section name: ${section.sectionName} &nbsp;&nbsp;</div>
-                             <div>Location: ${section.location} &nbsp;&nbsp;</div>
-                             <div>Limit: ${section.classLimit} &nbsp;&nbsp;</div>
-                             
-                                <div>Total Enrollments: ${section.getTotalEnrollment()} &nbsp;&nbsp;</div>
-                             
-                             <c:if test="${not empty section.faculty}">Faculty:
-                                <div>${section.faculty.fullname} &nbsp;&nbsp;</div></c:if>
-                             </c:forEach>
-                         </c:if>
+                         <div>
+                                <c:if test="${not empty classs.sections}">Sections:</c:if> 
+                                <c:if test="${not empty classs.sections}">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Section </th>
+                                                <th>Location </th>
+                                                 <th>Limit </th>
+                                                <th>Description </th>
+                                                <th>Time</th>
+                                            </tr>
+                                        </thead>
+                                      <c:forEach items="${classs.sections}" var="section"> 
+                                        <tr>
+                                            <td>
+                                                   <div>${section.sectionName}</div>
+                                            </td>
+                                            <td>
+                                                   <div>${section.location}</div>
+                                            </td>
+                                            <td>
+                                                   <div>Limit: ${section.classLimit} </div>
+                                            </td>
+                                            <td>
+                                                 <div>Total Enrollments: ${section.getTotalEnrollment()} </div>
+                                                   <c:if test="${not empty section.faculty}">Faculty:
+                                                 <div>${section.faculty.fullname}</div></c:if>
+           
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tr><td> Start date:</td><td> ${section.semester.startDate}</td></tr>
+                                                    <tr><td> End date:</td><td> ${section.semester.endDate}</td></tr>
+                                                </table>
+                                            </td>
+                                            <sec:authorize ifAnyGranted="ROLE_USER">
+                                                 <td>
+                                                    <a  class="btn btn-small btn-primary  btn-xs" type="button" 
+                                                        href="${pageContext.request.contextPath}/processenrollment/${section.id}"/>Enroll </a>
+                                                </td> 
+                                            </sec:authorize>
+                                                                             
+                                            </tr>
+                                         </c:forEach>
+                                    </table>
+                                   </c:if>
                          </div>
                          <sec:authorize access="hasRole('ROLE_ADMIN')"> 
                              <div style="margin-top:10px;">
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/editclassform/${classs.id}">Edit Class</a>
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/removeclass/${classs.id}">Remove Class</a>
-                            </div>
-                            <div style="margin-top:10px;">
                               <a class="btn btn-small btn-primary  btn-xs" type="button" href="${pageContext.request.contextPath}/section/add/${classs.id}">Add Section</a>
                             </div>
                        </sec:authorize>

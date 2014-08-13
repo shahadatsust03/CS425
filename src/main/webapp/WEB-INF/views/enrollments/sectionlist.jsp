@@ -13,7 +13,7 @@
                      <td>Class Limit</td>                      
                 <c:forEach items="${sections}" var="section">
                  <tr>      
-                     <td><a href="${pageContext.request.contextPath}/enrollmentsections/${section.id}"/>${section.sectionName}</td>
+                     <td><a href="${pageContext.request.contextPath}/enrollmentsections/${section.id}"/>${section.sectionName} </a></td>
                      <td>${section.description}</td>
                      <td>${section.location}</td>
                       <td>${section.classLimit}</td>

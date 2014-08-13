@@ -46,7 +46,7 @@
                              <label for="endDate">End Date :</label>
                              <input type="date" class="form-control" id="endDate" placeholder=""  name="endDate"/>
                            </div>                        
-                           <button type="submit" class="btn btn-primary">Cancel</button>
+                           <a type="button" href="${pageContext.request.contextPath}/semesters" class="btn btn-primary">Cancel</a>
                            <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>
