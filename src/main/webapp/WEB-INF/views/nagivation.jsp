@@ -44,6 +44,7 @@
                                  <c:if test="${pageContext.request.userPrincipal.name != null}">                            
                         <sec:authorize ifAnyGranted="ROLE_USER">
                              <li><a href="${pageContext.request.contextPath}/waiver/viewWaivers">View Waivers</a></li>    
+                             <li><a href="${pageContext.request.contextPath}/viewEnrollments">View Enrollment</a></li> 
                                 </sec:authorize> 
                              </c:if>
                                 <li><a href="${pageContext.request.contextPath}/products">Products</a></li>  
