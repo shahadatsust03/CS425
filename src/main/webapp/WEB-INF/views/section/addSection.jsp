@@ -59,27 +59,24 @@
         <%@include file="../nagivation.jsp" %>
             <div id="featureWrap">
             
-                <div class="container">
+                <div class="container" style="width:60%;height:20%">
                     
                     <%@include file="section_navigation.jsp" %>
                      
                      <c:forEach items="${message}" var="msg">
                         <td>${msg}</td>
                     </c:forEach>
-                          <form role="form" method="post" action="save">
+                          <form role="form" method="post" action="save" style="margin-top:10px">
                               
                            <div class="form-group">
-                             <label for="name">Name:</label>
                              <input type="text" class="form-control" id="name" name="name" placeholder = "Name" value=''/>
                            </div>
                            <div class="form-group">
-                             <label for="descripton">Description:</label>
                              <input type="text" class="form-control" id="descripton" placeholder="Descripton"  name="descripton"/>
                            </div>
                            <c:if test="${empty classID}">
                            <input type="hidden" name="class1" id="class1" value="${classID}">
                            <div class="form-group" >
-                             <label for="descripton">Class:</label>
                                <div class="form-group" type = "display: none">
                                     <textarea readonly class="form-control" id="class2" placeholder="Class To Assign"  name="class2"></textarea>
                                     <a href = "javascript:void(0)" onclick = "document.getElementById('classList').style.display='block';document.getElementById('fade').style.display='block'">Add Class</a>
@@ -88,7 +85,6 @@
                             </c:if>
                            
                            <div class="form-group">
-                           <label for="semesterToAssign">Semester </label>
                              <textarea readonly class="form-control" id="semester2" placeholder="Semester To Assign"  name="semester2"></textarea>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('semesterList').style.display='block';document.getElementById('fade').style.display='block'">Add semester</a>
                               <input type="hidden" id="semester1" name ="semester1" value="">
@@ -96,15 +92,12 @@
                            </div>
                                 
                            <div class="form-group">
-                             <label for="location">Location:</label>
                              <input type="text" class="form-control" id="location" placeholder="Location"  name="location"/>
                            </div>
                             <div class="form-group">
-                             <label for="classLimit">Class Limit </label>
                              <input type="text" class="form-control" id="classLimit" placeholder="Class Limit"  name="classLimit"/>
                            </div>
                             <div class="form-group">
-                             <label for="schedules">Schedule List: </label>
                              <input readonly type="text" class="form-control" id="schedule2" placeholder="Schedule List"  name="schedule2"/>
                              <a href = "javascript:void(0)" onclick = "document.getElementById('scheduleList').style.display='block';document.getElementById('fade').style.display='block'">Add Schedules</a>
                              <input type="hidden" id="schedule1" name="schedule1" value="">
