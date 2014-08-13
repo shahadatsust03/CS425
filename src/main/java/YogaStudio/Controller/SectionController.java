@@ -47,6 +47,7 @@ public class SectionController {
     
     @Autowired
     private ScheduleService scheduleService; 
+    private Object message;
     
     @RequestMapping(value = {"/sections","/user/sections","sections","../sections"}, method = RequestMethod.GET)
     public ModelAndView getAllSections(HttpServletRequest request) {
@@ -109,14 +110,14 @@ public class SectionController {
     }    
      
     @RequestMapping(value = {"section/add/save","section/save","../section/save","/section/save","/user/section/save"}, method = RequestMethod.POST)
-    public RedirectView saveSection(HttpServletRequest request,final RedirectAttributes redirectAttributes) {
+    public ModelAndView saveSection(HttpServletRequest request) {
         try{
-            String  message =  addUpdateSection(request);    
-            redirectAttributes.addFlashAttribute("message", message);
+            ModelAndView view = new ModelAndView();
+            
+            String  message =  addUpdateSection(request);
            }catch(Exception ex){
-                redirectAttributes.addFlashAttribute("message", ex.toString());
            }
-         return new RedirectView("/section/section", true);
+         return new ModelAndView("/section/section","message",message);
     }
     
     @RequestMapping(value = {"section/add/section/saveSchedule","section/saveSchedule","../section/saveSchedule","/section/saveSchedule","/user/section/saveSchedule"}, method = RequestMethod.POST)

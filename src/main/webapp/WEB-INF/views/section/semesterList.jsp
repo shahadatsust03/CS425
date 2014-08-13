@@ -18,9 +18,9 @@
                       <c:forEach items="${semesters}" var="semester">
                         <tr>      
                             <div>
-                            <td><input type="radio" name="semester_id" value="${semester.id}">
+                            <td><input type="radio" name="semester_id" value="${semester.id}" semestername="${semester.semesterName}"></td>
 
-                                <td>${semester.semesterName}</td>
+                            <td>${semester.semesterName}</td>
                             <td>${semester.getstartDate()}</td>
                             <td>${semester.getendDate()}</td>          
 

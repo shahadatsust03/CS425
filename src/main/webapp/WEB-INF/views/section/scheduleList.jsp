@@ -18,7 +18,7 @@
                       <c:forEach items="${schedules}" var="schedule">
                         <tr>      
                             <div>
-                            <td><input type="checkbox" name="schedule_id" value="${schedule.id} classname="${classs.className}"">
+                            <td><input type="checkbox" name="schedule_id" value="${schedule.id}">
 
                             <td>${schedule.dayOfWeek}</td>
                             <td>${schedule.getStartTime()}</td>
